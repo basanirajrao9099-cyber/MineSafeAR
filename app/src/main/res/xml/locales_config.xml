@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Per-app language picker entries (Android 13+ surfaces this in Settings ›
+  System › Languages, alongside our own picker in SettingsScreen).
+
+  Tags must match the resource qualifiers: "sat" is values-sat (Ol Chiki, the
+  script Santali is officially written in and CLDR's default for the language),
+  "sat-Deva" is values-b+sat+Deva (transliterated Devanagari, for devices with no
+  Ol Chiki font). The b+ qualifier syntax needs API 24+, comfortably below our
+  minSdk 29.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="hi" />
+    <locale android:name="sat" />
+    <locale android:name="sat-Deva" />
+</locale-config>

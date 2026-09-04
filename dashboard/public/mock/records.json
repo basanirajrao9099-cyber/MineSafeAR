@@ -1,0 +1,1171 @@
+{
+  "generatedAtMillis": 1788255000000,
+  "generatedAt": "2026-09-01T09:30:00+00:00",
+  "note": "Synthetic demo data for the MineSafeAR admin dashboard. Signature hashes are genuine SHA-256 digests produced by tools/generate_mock_data.py, which mirrors CertificateSigner.kt, so the Verify page really does verify. Certification status is not stored here — the dashboard derives it from the certificate on record. Two certificates have been altered on purpose; see plantedAnomalies.",
+  "plantedAnomalies": [
+    {
+      "certId": "9e4d3acc-6194-46ac-9d1c-457c6fc9de06",
+      "workerName": "Ramesh Mahato",
+      "kind": "SIGNATURE_MISMATCH",
+      "detail": "score edited from 90 to 97 after signing; the hash still covers the original"
+    },
+    {
+      "certId": "acaa9e65-bd3b-4f9f-905a-b0d47c5c8642",
+      "workerName": "Abdul Rashid",
+      "kind": "EXPIRY_ALTERED",
+      "detail": "a lapsed certificate's expiry was pushed out by 180 days so it reads as current; the signature still matches because expiry is not signed, so the verifier re-derives it",
+      "expiryWas": 1776331800000,
+      "expiryNow": 1791883800000
+    }
+  ],
+  "sites": [
+    {
+      "id": "site_dhanwar_east",
+      "name": "Dhanwar East Opencast",
+      "shortName": "Dhanwar East OC",
+      "district": "Bokaro",
+      "state": "Jharkhand"
+    },
+    {
+      "id": "site_kesla_4",
+      "name": "Kesla No. 4 Underground",
+      "shortName": "Kesla No. 4 UG",
+      "district": "Dhanbad",
+      "state": "Jharkhand"
+    },
+    {
+      "id": "site_sitalpur",
+      "name": "Sitalpur Washery",
+      "shortName": "Sitalpur Washery",
+      "district": "Paschim Bardhaman",
+      "state": "West Bengal"
+    },
+    {
+      "id": "site_bhojudih",
+      "name": "Bhojudih Incline",
+      "shortName": "Bhojudih Incline",
+      "district": "Angul",
+      "state": "Odisha"
+    }
+  ],
+  "modules": [
+    {
+      "id": "fire_explosion_response",
+      "name": "Fire & explosion response",
+      "status": "live",
+      "required": true
+    },
+    {
+      "id": "gas_leak_protocol",
+      "name": "Gas leak & confined space protocol",
+      "status": "live",
+      "required": true
+    },
+    {
+      "id": "machinery_lockout",
+      "name": "Machinery lockout & tagout",
+      "status": "planned",
+      "required": false
+    },
+    {
+      "id": "ground_support_awareness",
+      "name": "Ground support & roof awareness",
+      "status": "planned",
+      "required": false
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "d5ffead2-0555-4abc-b5f0-734ccd124d13",
+      "employeeCode": "DE-1000",
+      "fullName": "Ramesh Mahato",
+      "siteId": "site_dhanwar_east",
+      "jobRole": "Dumper operator",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "2c4316df-c866-4eb4-918f-47a5985c2482",
+          "moduleId": "fire_explosion_response",
+          "userId": "d5ffead2-0555-4abc-b5f0-734ccd124d13",
+          "score": 90,
+          "timestamp": 1775899800000,
+          "passed": true,
+          "durationSeconds": 262,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "407dfe54-d8e9-4aa1-9744-d89e5f6107b0",
+          "moduleId": "gas_leak_protocol",
+          "userId": "d5ffead2-0555-4abc-b5f0-734ccd124d13",
+          "score": 90,
+          "timestamp": 1776072600000,
+          "passed": true,
+          "durationSeconds": 196,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "9e4d3acc-6194-46ac-9d1c-457c6fc9de06",
+        "userId": "d5ffead2-0555-4abc-b5f0-734ccd124d13",
+        "userName": "Ramesh Mahato",
+        "score": 97,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1776072600000,
+        "expiryDate": 1807608600000,
+        "signatureHash": "444edbb5a1dfc0235393c13f1f1009e5f640e3c414d9796f5181c673aa0020cc"
+      }
+    },
+    {
+      "workerId": "b1bf336b-9c7f-4c0b-993e-1778322ba2b2",
+      "employeeCode": "KN-1037",
+      "fullName": "Sunita Devi",
+      "siteId": "site_kesla_4",
+      "jobRole": "Mining sirdar",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "e35c6f6f-6c66-4613-bc42-3b06f4bbfb70",
+          "moduleId": "fire_explosion_response",
+          "userId": "b1bf336b-9c7f-4c0b-993e-1778322ba2b2",
+          "score": 58,
+          "timestamp": 1775727000000,
+          "passed": false,
+          "durationSeconds": 252,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        },
+        {
+          "id": "d895bd57-b3c6-4f2f-b2a4-b5a013592277",
+          "moduleId": "fire_explosion_response",
+          "userId": "b1bf336b-9c7f-4c0b-993e-1778322ba2b2",
+          "score": 95,
+          "timestamp": 1776763800000,
+          "passed": true,
+          "durationSeconds": 48,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "58360c78-e47c-4ac0-a56a-df3572b1b8d7",
+          "moduleId": "gas_leak_protocol",
+          "userId": "b1bf336b-9c7f-4c0b-993e-1778322ba2b2",
+          "score": 83,
+          "timestamp": 1776504600000,
+          "passed": true,
+          "durationSeconds": 211,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": {
+        "certId": "ad4ce7cc-42ab-4dbf-8b19-6dcd44830a44",
+        "userId": "b1bf336b-9c7f-4c0b-993e-1778322ba2b2",
+        "userName": "Sunita Devi",
+        "score": 89,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1776763800000,
+        "expiryDate": 1808299800000,
+        "signatureHash": "f35206206159914031b3d7f44634ecddf3bede0efc999a73c98a2b2313be567c"
+      }
+    },
+    {
+      "workerId": "1c001040-4a14-4695-b5ba-49986a09e79d",
+      "employeeCode": "SW-1074",
+      "fullName": "Birsa Murmu",
+      "siteId": "site_sitalpur",
+      "jobRole": "Shift overman",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "f307a3fd-c994-4bb3-b464-b1fb66520164",
+          "moduleId": "fire_explosion_response",
+          "userId": "1c001040-4a14-4695-b5ba-49986a09e79d",
+          "score": 85,
+          "timestamp": 1758360600000,
+          "passed": true,
+          "durationSeconds": 69,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "6e50da2c-f030-4fc8-be72-23e943f90647",
+          "moduleId": "gas_leak_protocol",
+          "userId": "1c001040-4a14-4695-b5ba-49986a09e79d",
+          "score": 77,
+          "timestamp": 1757842200000,
+          "passed": false,
+          "durationSeconds": 148,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "bf4e6217-d6e8-43e2-bcb3-508cd7390177",
+          "moduleId": "gas_leak_protocol",
+          "userId": "1c001040-4a14-4695-b5ba-49986a09e79d",
+          "score": 90,
+          "timestamp": 1758187800000,
+          "passed": true,
+          "durationSeconds": 204,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "3a275129-6133-42aa-a076-4f4423317c05",
+        "userId": "1c001040-4a14-4695-b5ba-49986a09e79d",
+        "userName": "Birsa Murmu",
+        "score": 87,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1758360600000,
+        "expiryDate": 1789896600000,
+        "signatureHash": "f7a4cbb3f2a2c9a104879caae061829c76e3a19f85ffd253bce2025934026208"
+      }
+    },
+    {
+      "workerId": "49d0c606-35d4-4e7f-a4f0-46e78ddcdfa6",
+      "employeeCode": "BI-1111",
+      "fullName": "Abdul Rashid",
+      "siteId": "site_bhojudih",
+      "jobRole": "Support fitter",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "57ae8d48-fcd6-4039-b142-01154b78ded2",
+          "moduleId": "fire_explosion_response",
+          "userId": "49d0c606-35d4-4e7f-a4f0-46e78ddcdfa6",
+          "score": 100,
+          "timestamp": 1744623000000,
+          "passed": true,
+          "durationSeconds": 160,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "b7ef6380-a41a-44bc-8901-df144c5dfde6",
+          "moduleId": "gas_leak_protocol",
+          "userId": "49d0c606-35d4-4e7f-a4f0-46e78ddcdfa6",
+          "score": 83,
+          "timestamp": 1744709400000,
+          "passed": true,
+          "durationSeconds": 221,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": {
+        "certId": "acaa9e65-bd3b-4f9f-905a-b0d47c5c8642",
+        "userId": "49d0c606-35d4-4e7f-a4f0-46e78ddcdfa6",
+        "userName": "Abdul Rashid",
+        "score": 91,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1744795800000,
+        "expiryDate": 1791883800000,
+        "signatureHash": "408847034007a241eb5c55c26bb38fb4338fafdd5d207c1cd1b0ef6d7397241d"
+      }
+    },
+    {
+      "workerId": "c98e4277-e058-46e9-8551-9a2f0e968f41",
+      "employeeCode": "DE-1148",
+      "fullName": "Pradeep Kumar Singh",
+      "siteId": "site_dhanwar_east",
+      "jobRole": "Belt attendant",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "286e23e6-997d-4736-9627-ed213c921220",
+          "moduleId": "fire_explosion_response",
+          "userId": "c98e4277-e058-46e9-8551-9a2f0e968f41",
+          "score": 71,
+          "timestamp": 1768987800000,
+          "passed": false,
+          "durationSeconds": 126,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "e43ef1a6-a156-4f19-afd9-5c49d2df1138",
+          "moduleId": "fire_explosion_response",
+          "userId": "c98e4277-e058-46e9-8551-9a2f0e968f41",
+          "score": 95,
+          "timestamp": 1769938200000,
+          "passed": true,
+          "durationSeconds": 169,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "de3d28cf-fd11-4b4f-8fd0-29edfc8c726f",
+          "moduleId": "gas_leak_protocol",
+          "userId": "c98e4277-e058-46e9-8551-9a2f0e968f41",
+          "score": 90,
+          "timestamp": 1769851800000,
+          "passed": true,
+          "durationSeconds": 108,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "1630d089-9597-4a6f-bbb8-208f0e773605",
+        "userId": "c98e4277-e058-46e9-8551-9a2f0e968f41",
+        "userName": "Pradeep Kumar Singh",
+        "score": 92,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1770111000000,
+        "expiryDate": 1801647000000,
+        "signatureHash": "6c63b428398d904f0b4b793a5c6e578e6aa1494597876e4ebc18cca5f2e67364"
+      }
+    },
+    {
+      "workerId": "7c5eb392-565c-43f0-90bc-b5bdb98d5d60",
+      "employeeCode": "KN-1185",
+      "fullName": "Mangal Soren",
+      "siteId": "site_kesla_4",
+      "jobRole": "Winding engine driver",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "79033f3f-18b6-4b8d-8bbb-a49285702349",
+          "moduleId": "fire_explosion_response",
+          "userId": "7c5eb392-565c-43f0-90bc-b5bdb98d5d60",
+          "score": 61,
+          "timestamp": 1787477400000,
+          "passed": false,
+          "durationSeconds": 197,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        },
+        {
+          "id": "e6649e86-6212-4f9b-84c1-0937aec5b5bd",
+          "moduleId": "gas_leak_protocol",
+          "userId": "7c5eb392-565c-43f0-90bc-b5bdb98d5d60",
+          "score": 68,
+          "timestamp": 1785922200000,
+          "passed": false,
+          "durationSeconds": 109,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        }
+      ],
+      "certificate": null
+    },
+    {
+      "workerId": "8b143504-758d-4a26-b05c-7fb62bba8073",
+      "employeeCode": "SW-1222",
+      "fullName": "Kavita Kumari",
+      "siteId": "site_sitalpur",
+      "jobRole": "Blasting assistant",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "0c29526b-8a03-4c71-a1a7-c82cd090a0dc",
+          "moduleId": "fire_explosion_response",
+          "userId": "8b143504-758d-4a26-b05c-7fb62bba8073",
+          "score": 80,
+          "timestamp": 1776245400000,
+          "passed": true,
+          "durationSeconds": 200,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "41869915-3873-4fa7-a0ec-2a98059ff34f",
+          "moduleId": "gas_leak_protocol",
+          "userId": "8b143504-758d-4a26-b05c-7fb62bba8073",
+          "score": 83,
+          "timestamp": 1776418200000,
+          "passed": true,
+          "durationSeconds": 168,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": {
+        "certId": "33e65be2-4052-4775-863b-532c7f49353d",
+        "userId": "8b143504-758d-4a26-b05c-7fb62bba8073",
+        "userName": "Kavita Kumari",
+        "score": 81,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1776504600000,
+        "expiryDate": 1808040600000,
+        "signatureHash": "b39f3edd961b14b1be859a1a757e74ba47cb289c9686614b5cd6a2af750dca6f"
+      }
+    },
+    {
+      "workerId": "52753daa-294d-4367-a7e5-509a405f1825",
+      "employeeCode": "BI-1259",
+      "fullName": "Sanjay Bauri",
+      "siteId": "site_bhojudih",
+      "jobRole": "Pump khalasi",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "b64105ef-fac9-4464-b8c9-987639a1c191",
+          "moduleId": "fire_explosion_response",
+          "userId": "52753daa-294d-4367-a7e5-509a405f1825",
+          "score": 92,
+          "timestamp": 1757237400000,
+          "passed": true,
+          "durationSeconds": 85,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "f700cd71-fec3-4628-a08a-96b562e6d5fb",
+          "moduleId": "gas_leak_protocol",
+          "userId": "52753daa-294d-4367-a7e5-509a405f1825",
+          "score": 77,
+          "timestamp": 1756632600000,
+          "passed": false,
+          "durationSeconds": 159,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "cab9d964-9980-49c5-967a-47b9fbbd27fe",
+          "moduleId": "gas_leak_protocol",
+          "userId": "52753daa-294d-4367-a7e5-509a405f1825",
+          "score": 90,
+          "timestamp": 1757064600000,
+          "passed": true,
+          "durationSeconds": 131,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "1672797e-7317-4df9-8877-ed49eecb0c8d",
+        "userId": "52753daa-294d-4367-a7e5-509a405f1825",
+        "userName": "Sanjay Bauri",
+        "score": 91,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1757237400000,
+        "expiryDate": 1788773400000,
+        "signatureHash": "43bf260150fbf3f5619f288be43ed25e1f65aaac05c58ae741e177fdd4934279"
+      }
+    },
+    {
+      "workerId": "e95cbad6-5f2d-4fe0-a2af-b9c60471dfcf",
+      "employeeCode": "DE-1296",
+      "fullName": "Dilip Mandal",
+      "siteId": "site_dhanwar_east",
+      "jobRole": "Trammer",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "b146c0af-9518-483e-8bf5-54edf15be2ec",
+          "moduleId": "fire_explosion_response",
+          "userId": "e95cbad6-5f2d-4fe0-a2af-b9c60471dfcf",
+          "score": 90,
+          "timestamp": 1776763800000,
+          "passed": true,
+          "durationSeconds": 92,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "8cc8e23b-8625-43f9-a145-69db13437aec",
+          "moduleId": "gas_leak_protocol",
+          "userId": "e95cbad6-5f2d-4fe0-a2af-b9c60471dfcf",
+          "score": 71,
+          "timestamp": 1776418200000,
+          "passed": false,
+          "durationSeconds": 132,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "de575f47-7a55-4d9f-8cbf-36e1c1011b02",
+          "moduleId": "gas_leak_protocol",
+          "userId": "e95cbad6-5f2d-4fe0-a2af-b9c60471dfcf",
+          "score": 100,
+          "timestamp": 1776763800000,
+          "passed": true,
+          "durationSeconds": 63,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "204ac0e4-2640-4a56-aeaa-0c6fed81b1de",
+        "userId": "e95cbad6-5f2d-4fe0-a2af-b9c60471dfcf",
+        "userName": "Dilip Mandal",
+        "score": 95,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1776850200000,
+        "expiryDate": 1808386200000,
+        "signatureHash": "4bc6c89fd14ada2c8f73e615db3a2d7af38db484a8d90a66773d549e72908869"
+      }
+    },
+    {
+      "workerId": "2954bfff-3751-45ec-bb1d-b0516decc0c7",
+      "employeeCode": "KN-1333",
+      "fullName": "Anita Hembram",
+      "siteId": "site_kesla_4",
+      "jobRole": "Electrician",
+      "preferredLanguage": "en",
+      "moduleResults": [],
+      "certificate": null
+    },
+    {
+      "workerId": "5c286b33-4424-4e41-9ba0-e62fb11ea974",
+      "employeeCode": "SW-1370",
+      "fullName": "Rajesh Prasad",
+      "siteId": "site_sitalpur",
+      "jobRole": "Gas testing officer",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "f05babbd-288a-43ce-a330-f269e2eba311",
+          "moduleId": "fire_explosion_response",
+          "userId": "5c286b33-4424-4e41-9ba0-e62fb11ea974",
+          "score": 71,
+          "timestamp": 1777973400000,
+          "passed": false,
+          "durationSeconds": 261,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "c928e4b7-9bd0-4301-a83b-29224bad0912",
+          "moduleId": "fire_explosion_response",
+          "userId": "5c286b33-4424-4e41-9ba0-e62fb11ea974",
+          "score": 80,
+          "timestamp": 1778751000000,
+          "passed": true,
+          "durationSeconds": 143,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "56aa13da-f672-4d0b-89fc-24af6e674709",
+          "moduleId": "gas_leak_protocol",
+          "userId": "5c286b33-4424-4e41-9ba0-e62fb11ea974",
+          "score": 71,
+          "timestamp": 1777627800000,
+          "passed": false,
+          "durationSeconds": 107,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "c4e85a75-e7ef-45be-bdac-2a69f8aef6ae",
+          "moduleId": "gas_leak_protocol",
+          "userId": "5c286b33-4424-4e41-9ba0-e62fb11ea974",
+          "score": 83,
+          "timestamp": 1778751000000,
+          "passed": true,
+          "durationSeconds": 256,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": {
+        "certId": "32f9d470-a1c3-485b-9ad6-b2aecdce84e0",
+        "userId": "5c286b33-4424-4e41-9ba0-e62fb11ea974",
+        "userName": "Rajesh Prasad",
+        "score": 81,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1778751000000,
+        "expiryDate": 1810287000000,
+        "signatureHash": "3c6dd913f3dccba840e4efea2f489a1dfba2702eaf89360a8fee154c401357de"
+      }
+    },
+    {
+      "workerId": "3bb5fe0c-cfde-43a8-954a-a17d7501fe01",
+      "employeeCode": "BI-1407",
+      "fullName": "Sukhram Oraon",
+      "siteId": "site_bhojudih",
+      "jobRole": "Timber mistry",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "41a3dc2e-3bd5-4b51-8985-4a5a330c7aa4",
+          "moduleId": "fire_explosion_response",
+          "userId": "3bb5fe0c-cfde-43a8-954a-a17d7501fe01",
+          "score": 58,
+          "timestamp": 1751275800000,
+          "passed": false,
+          "durationSeconds": 241,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        },
+        {
+          "id": "e5a9bc2b-16a5-4081-8718-b241f481f5b7",
+          "moduleId": "fire_explosion_response",
+          "userId": "3bb5fe0c-cfde-43a8-954a-a17d7501fe01",
+          "score": 85,
+          "timestamp": 1752053400000,
+          "passed": true,
+          "durationSeconds": 230,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "d687e453-b1c5-4bf2-b715-3be98a686b3c",
+          "moduleId": "gas_leak_protocol",
+          "userId": "3bb5fe0c-cfde-43a8-954a-a17d7501fe01",
+          "score": 92,
+          "timestamp": 1752312600000,
+          "passed": true,
+          "durationSeconds": 181,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "2b5f7780-a2f5-47c7-b6d0-25e6c4bbeb68",
+        "userId": "3bb5fe0c-cfde-43a8-954a-a17d7501fe01",
+        "userName": "Sukhram Oraon",
+        "score": 88,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1752312600000,
+        "expiryDate": 1783848600000,
+        "signatureHash": "b4d8085607b834586793192ccf0e1be353f49234e8fdcfab7a277fd608fb908b"
+      }
+    },
+    {
+      "workerId": "6c4ae74e-3c39-4093-ac71-0d61e9911aa1",
+      "employeeCode": "DE-1444",
+      "fullName": "Farida Khatun",
+      "siteId": "site_dhanwar_east",
+      "jobRole": "Dumper operator",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "40a50559-b6ff-47eb-9bdb-abfe75e404e8",
+          "moduleId": "fire_explosion_response",
+          "userId": "6c4ae74e-3c39-4093-ac71-0d61e9911aa1",
+          "score": 77,
+          "timestamp": 1784107800000,
+          "passed": false,
+          "durationSeconds": 228,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "1152395f-3a77-4b94-9860-58c26b755c33",
+          "moduleId": "fire_explosion_response",
+          "userId": "6c4ae74e-3c39-4093-ac71-0d61e9911aa1",
+          "score": 92,
+          "timestamp": 1784971800000,
+          "passed": true,
+          "durationSeconds": 88,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "fc8834f0-6762-4b4e-816b-851f9209a68e",
+        "userId": "6c4ae74e-3c39-4093-ac71-0d61e9911aa1",
+        "userName": "Farida Khatun",
+        "score": 92,
+        "modulesCompleted": [
+          "fire_explosion_response"
+        ],
+        "issuedDate": 1785231000000,
+        "expiryDate": 1816767000000,
+        "signatureHash": "08ac736e652c4934b61cf016dfb045d5aaced00a5735b668456b92fd90c8b2c9"
+      }
+    },
+    {
+      "workerId": "b828f894-d1b4-4f3c-9fae-5f29315212e4",
+      "employeeCode": "KN-1481",
+      "fullName": "Nitesh Chauhan",
+      "siteId": "site_kesla_4",
+      "jobRole": "Mining sirdar",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "1aa4775d-b829-47b1-adfe-fe511b5a16a8",
+          "moduleId": "fire_explosion_response",
+          "userId": "b828f894-d1b4-4f3c-9fae-5f29315212e4",
+          "score": 90,
+          "timestamp": 1785663000000,
+          "passed": true,
+          "durationSeconds": 172,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "63a52a2e-9c98-4474-b841-7956f5289adf",
+          "moduleId": "gas_leak_protocol",
+          "userId": "b828f894-d1b4-4f3c-9fae-5f29315212e4",
+          "score": 58,
+          "timestamp": 1784712600000,
+          "passed": false,
+          "durationSeconds": 177,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        },
+        {
+          "id": "d133aaf1-575e-4367-b236-cfa7fab7679d",
+          "moduleId": "gas_leak_protocol",
+          "userId": "b828f894-d1b4-4f3c-9fae-5f29315212e4",
+          "score": 83,
+          "timestamp": 1785663000000,
+          "passed": true,
+          "durationSeconds": 170,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": {
+        "certId": "8b04cc0a-2530-4dc5-b8f0-2b09f0210c20",
+        "userId": "b828f894-d1b4-4f3c-9fae-5f29315212e4",
+        "userName": "Nitesh Chauhan",
+        "score": 86,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1785749400000,
+        "expiryDate": 1817285400000,
+        "signatureHash": "e1a67237ab9ffb9b7e3659315706e498255d878a9ad45e90166b1c6bd6c5e34c"
+      }
+    },
+    {
+      "workerId": "7fbc8220-c079-45b7-8afd-53dff4a73460",
+      "employeeCode": "SW-1518",
+      "fullName": "Bishnu Charan Pradhan",
+      "siteId": "site_sitalpur",
+      "jobRole": "Shift overman",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "50042dcd-95c4-48aa-a9f3-284bf324f387",
+          "moduleId": "fire_explosion_response",
+          "userId": "7fbc8220-c079-45b7-8afd-53dff4a73460",
+          "score": 83,
+          "timestamp": 1758879000000,
+          "passed": true,
+          "durationSeconds": 64,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "59253513-b4c3-4f3f-847b-3fbf09f942d0",
+          "moduleId": "gas_leak_protocol",
+          "userId": "7fbc8220-c079-45b7-8afd-53dff4a73460",
+          "score": 100,
+          "timestamp": 1758792600000,
+          "passed": true,
+          "durationSeconds": 228,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "10fd4bca-725a-46ca-9203-55a4f1844e38",
+        "userId": "7fbc8220-c079-45b7-8afd-53dff4a73460",
+        "userName": "Bishnu Charan Pradhan",
+        "score": 91,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1758879000000,
+        "expiryDate": 1790415000000,
+        "signatureHash": "4ee80c80703914260959bbc7ffb26a62d26acddf969f08bb757c12d2efc0e8ed"
+      }
+    },
+    {
+      "workerId": "ee539410-c863-4362-92a2-b0f136508d4d",
+      "employeeCode": "BI-1555",
+      "fullName": "Lakhan Turi",
+      "siteId": "site_bhojudih",
+      "jobRole": "Support fitter",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "1c7df278-6c44-4e0b-bb9d-b8f2126d5cc5",
+          "moduleId": "fire_explosion_response",
+          "userId": "ee539410-c863-4362-92a2-b0f136508d4d",
+          "score": 74,
+          "timestamp": 1787823000000,
+          "passed": false,
+          "durationSeconds": 218,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": null
+    },
+    {
+      "workerId": "70c3e32a-0a6c-407c-b374-5e2fc246be8d",
+      "employeeCode": "DE-1592",
+      "fullName": "Meena Kisku",
+      "siteId": "site_dhanwar_east",
+      "jobRole": "Belt attendant",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "52fa98f6-5054-4510-af0a-af867dc481e1",
+          "moduleId": "fire_explosion_response",
+          "userId": "70c3e32a-0a6c-407c-b374-5e2fc246be8d",
+          "score": 100,
+          "timestamp": 1781429400000,
+          "passed": true,
+          "durationSeconds": 82,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "30b0860b-72bf-4ffc-acfb-7eb47110ef68",
+          "moduleId": "gas_leak_protocol",
+          "userId": "70c3e32a-0a6c-407c-b374-5e2fc246be8d",
+          "score": 77,
+          "timestamp": 1781083800000,
+          "passed": false,
+          "durationSeconds": 241,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "d5d766fe-3115-4268-b169-d2d0e1d20cda",
+          "moduleId": "gas_leak_protocol",
+          "userId": "70c3e32a-0a6c-407c-b374-5e2fc246be8d",
+          "score": 88,
+          "timestamp": 1781602200000,
+          "passed": true,
+          "durationSeconds": 105,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": {
+        "certId": "b0d86bf7-d8ab-4d61-adad-a03abe5c7024",
+        "userId": "70c3e32a-0a6c-407c-b374-5e2fc246be8d",
+        "userName": "Meena Kisku",
+        "score": 94,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1781688600000,
+        "expiryDate": 1813224600000,
+        "signatureHash": "a8fb5f8b34382803225957f97663f09bae62428de8d6c0aca56983a39b8143d8"
+      }
+    },
+    {
+      "workerId": "9ad0f398-ea4e-43a8-b2bd-0c376f47eae8",
+      "employeeCode": "KN-1629",
+      "fullName": "Arvind Yadav",
+      "siteId": "site_kesla_4",
+      "jobRole": "Winding engine driver",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "9db032e5-6c25-47af-a7a7-bc2e1d42adcd",
+          "moduleId": "fire_explosion_response",
+          "userId": "9ad0f398-ea4e-43a8-b2bd-0c376f47eae8",
+          "score": 77,
+          "timestamp": 1785576600000,
+          "passed": false,
+          "durationSeconds": 262,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "68add569-3fa2-4119-8998-4d45adc8f35b",
+          "moduleId": "fire_explosion_response",
+          "userId": "9ad0f398-ea4e-43a8-b2bd-0c376f47eae8",
+          "score": 100,
+          "timestamp": 1786267800000,
+          "passed": true,
+          "durationSeconds": 98,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "3c2e82c0-b0ae-4297-9f31-aae1aff6de2b",
+          "moduleId": "gas_leak_protocol",
+          "userId": "9ad0f398-ea4e-43a8-b2bd-0c376f47eae8",
+          "score": 77,
+          "timestamp": 1785576600000,
+          "passed": false,
+          "durationSeconds": 78,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "36f39bdc-93bd-4dd4-8bec-9b3e21cacead",
+          "moduleId": "gas_leak_protocol",
+          "userId": "9ad0f398-ea4e-43a8-b2bd-0c376f47eae8",
+          "score": 90,
+          "timestamp": 1786181400000,
+          "passed": true,
+          "durationSeconds": 253,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "6a5e02fd-4319-48b3-b34c-3b99bcce9b1a",
+        "userId": "9ad0f398-ea4e-43a8-b2bd-0c376f47eae8",
+        "userName": "Arvind Yadav",
+        "score": 95,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1786440600000,
+        "expiryDate": 1817976600000,
+        "signatureHash": "40bced09fbed7cd25bd1b854596b763b87bf4bd7f80e2774c37511ee32c48fdb"
+      }
+    },
+    {
+      "workerId": "96bc0a8c-abcf-490c-bef3-3df114acaff8",
+      "employeeCode": "SW-1666",
+      "fullName": "Sushil Ganguly",
+      "siteId": "site_sitalpur",
+      "jobRole": "Blasting assistant",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "51c67e3e-d577-4b4a-a84f-f37d8e8f99e7",
+          "moduleId": "fire_explosion_response",
+          "userId": "96bc0a8c-abcf-490c-bef3-3df114acaff8",
+          "score": 77,
+          "timestamp": 1750498200000,
+          "passed": false,
+          "durationSeconds": 119,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "11fd2bee-cb9e-4f4b-9553-eab6c8cf4072",
+          "moduleId": "fire_explosion_response",
+          "userId": "96bc0a8c-abcf-490c-bef3-3df114acaff8",
+          "score": 92,
+          "timestamp": 1751448600000,
+          "passed": true,
+          "durationSeconds": 126,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "db8e5b7f-b80d-4868-a9b4-5f88fc99337e",
+          "moduleId": "gas_leak_protocol",
+          "userId": "96bc0a8c-abcf-490c-bef3-3df114acaff8",
+          "score": 58,
+          "timestamp": 1751016600000,
+          "passed": false,
+          "durationSeconds": 126,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        },
+        {
+          "id": "0a4224eb-b5bf-4d24-a4a9-8a6997a085b2",
+          "moduleId": "gas_leak_protocol",
+          "userId": "96bc0a8c-abcf-490c-bef3-3df114acaff8",
+          "score": 92,
+          "timestamp": 1751535000000,
+          "passed": true,
+          "durationSeconds": 216,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "b3513103-7511-4d10-a6cb-4a58aab1b2f5",
+        "userId": "96bc0a8c-abcf-490c-bef3-3df114acaff8",
+        "userName": "Sushil Ganguly",
+        "score": 92,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1751621400000,
+        "expiryDate": 1783157400000,
+        "signatureHash": "e425834242f4ccda2b6f2724e709b438b3c80a7f8468d238882477b09bf46d7e"
+      }
+    },
+    {
+      "workerId": "a4c3101f-4a13-48b6-9e29-283174d8445a",
+      "employeeCode": "BI-1703",
+      "fullName": "Phulmani Baske",
+      "siteId": "site_bhojudih",
+      "jobRole": "Pump khalasi",
+      "preferredLanguage": "hi",
+      "moduleResults": [
+        {
+          "id": "22597212-f45b-4b40-9cb9-e4a3bdb8eaaf",
+          "moduleId": "fire_explosion_response",
+          "userId": "a4c3101f-4a13-48b6-9e29-283174d8445a",
+          "score": 79,
+          "timestamp": 1785231000000,
+          "passed": false,
+          "durationSeconds": 198,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        }
+      ],
+      "certificate": null
+    },
+    {
+      "workerId": "0f1d0e76-379b-41c7-95c9-30347fd8914b",
+      "employeeCode": "DE-1740",
+      "fullName": "Md. Sabir Ansari",
+      "siteId": "site_dhanwar_east",
+      "jobRole": "Trammer",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "5ab6313d-bde5-4212-a7ea-b6bf5efb4101",
+          "moduleId": "fire_explosion_response",
+          "userId": "0f1d0e76-379b-41c7-95c9-30347fd8914b",
+          "score": 77,
+          "timestamp": 1770629400000,
+          "passed": false,
+          "durationSeconds": 138,
+          "correctTaps": 2,
+          "incorrectTaps": 1
+        },
+        {
+          "id": "57485ac3-fe8b-450b-9c50-8aa85b5d6ae4",
+          "moduleId": "fire_explosion_response",
+          "userId": "0f1d0e76-379b-41c7-95c9-30347fd8914b",
+          "score": 100,
+          "timestamp": 1771579800000,
+          "passed": true,
+          "durationSeconds": 234,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "f1608647-101c-4a99-83a1-b74823c7d7c0",
+        "userId": "0f1d0e76-379b-41c7-95c9-30347fd8914b",
+        "userName": "Md. Sabir Ansari",
+        "score": 100,
+        "modulesCompleted": [
+          "fire_explosion_response"
+        ],
+        "issuedDate": 1771839000000,
+        "expiryDate": 1803375000000,
+        "signatureHash": "d0b3209a3020163c55e627d48b737bb37d9fcfb5f4ccfc17780089a129d7e81b"
+      }
+    },
+    {
+      "workerId": "a65cd3b3-3af7-48c0-bf18-3a3ab72e77f6",
+      "employeeCode": "KN-1777",
+      "fullName": "Gopal Rana",
+      "siteId": "site_kesla_4",
+      "jobRole": "Electrician",
+      "preferredLanguage": "en",
+      "moduleResults": [
+        {
+          "id": "e77c2218-0ae3-4ed3-b297-a7c402fd6918",
+          "moduleId": "fire_explosion_response",
+          "userId": "a65cd3b3-3af7-48c0-bf18-3a3ab72e77f6",
+          "score": 92,
+          "timestamp": 1758879000000,
+          "passed": true,
+          "durationSeconds": 117,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        },
+        {
+          "id": "14c55413-d483-41a9-b048-ab6c11f26f13",
+          "moduleId": "gas_leak_protocol",
+          "userId": "a65cd3b3-3af7-48c0-bf18-3a3ab72e77f6",
+          "score": 92,
+          "timestamp": 1758619800000,
+          "passed": true,
+          "durationSeconds": 181,
+          "correctTaps": 2,
+          "incorrectTaps": 0
+        }
+      ],
+      "certificate": {
+        "certId": "2cf1550e-3ebd-49e2-8ac5-39d98ad66979",
+        "userId": "a65cd3b3-3af7-48c0-bf18-3a3ab72e77f6",
+        "userName": "Gopal Rana",
+        "score": 92,
+        "modulesCompleted": [
+          "fire_explosion_response",
+          "gas_leak_protocol"
+        ],
+        "issuedDate": 1758879000000,
+        "expiryDate": 1790415000000,
+        "signatureHash": "d7c986d023e0a2308afd210e2cb06e0d87140c9eec0a01f90d57a79c40e97dd8"
+      }
+    },
+    {
+      "workerId": "c50f17b1-91df-43a8-a6a9-f19e66e37da5",
+      "employeeCode": "SW-1814",
+      "fullName": "Rekha Sahu",
+      "siteId": "site_sitalpur",
+      "jobRole": "Gas testing officer",
+      "preferredLanguage": "hi",
+      "moduleResults": [],
+      "certificate": null
+    },
+    {
+      "workerId": "fbd6c9a2-4bdf-4dad-add1-3528579b521a",
+      "employeeCode": "BI-1851",
+      "fullName": "Jitendra Ravidas",
+      "siteId": "site_bhojudih",
+      "jobRole": "Timber mistry",
+      "preferredLanguage": "sat",
+      "moduleResults": [
+        {
+          "id": "a0958464-0fb7-419c-8382-b7dec34163b7",
+          "moduleId": "fire_explosion_response",
+          "userId": "fbd6c9a2-4bdf-4dad-add1-3528579b521a",
+          "score": 61,
+          "timestamp": 1785922200000,
+          "passed": false,
+          "durationSeconds": 72,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        },
+        {
+          "id": "f6ea4bb5-c68d-4c40-ad33-9e738a176d9e",
+          "moduleId": "gas_leak_protocol",
+          "userId": "fbd6c9a2-4bdf-4dad-add1-3528579b521a",
+          "score": 61,
+          "timestamp": 1787218200000,
+          "passed": false,
+          "durationSeconds": 213,
+          "correctTaps": 2,
+          "incorrectTaps": 2
+        }
+      ],
+      "certificate": null
+    }
+  ]
+}

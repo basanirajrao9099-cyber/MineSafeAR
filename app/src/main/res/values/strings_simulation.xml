@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Part 1: AR Simulation & Interactive Training Experience (Laptop 1 / Developer A)
+  All strings for AR drills, voice briefings, fire response scenarios, and opening detection.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Spoken narration, shared by training modules -->
+    <string name="narration_play">Play spoken briefing</string>
+    <string name="narration_stop">Stop briefing</string>
+    <string name="narration_not_recorded">The spoken briefing has not been recorded in this language yet. Read the text above.</string>
+
+    <!-- Training module catalogue -->
+    <string name="modules_start">Start</string>
+    <string name="modules_more_coming">More modules are on the way.</string>
+
+    <!-- Shared AR chrome -->
+    <string name="ar_close">Close</string>
+    <string name="ar_hint_find_plane">Move the phone slowly to scan the floor.</string>
+
+    <!-- Egress / Exit detection screen -->
+    <string name="exit_detect_title">Find exits</string>
+    <string name="exit_detect_open">Find exits in this room</string>
+
+    <!-- AR pipeline test screen -->
+    <string name="ar_test_title">AR pipeline test</string>
+    <string name="ar_test_open">Open AR pipeline test</string>
+    <string name="ar_clear">Clear</string>
+    <string name="ar_placed_count">Placed: %1$d</string>
+    <string name="ar_hint_tap_plane">Tap the grid to place a cube.</string>
+
+    <!-- ARCore tracking failures -->
+    <string name="ar_tracking_bad_state">AR tracking was interrupted. Hold the phone still for a moment.</string>
+    <string name="ar_tracking_insufficient_light">Too dark to track. More light is needed.</string>
+    <string name="ar_tracking_excessive_motion">Moving too fast. Slow down.</string>
+    <string name="ar_tracking_insufficient_features">Not enough detail on this surface. Point at something more textured.</string>
+    <string name="ar_tracking_camera_unavailable">The camera is in use by another app.</string>
+
+    <!-- ARCore availability -->
+    <string name="ar_core_unavailable_title">AR training cannot start</string>
+    <string name="ar_core_device_unsupported">This phone does not support AR. The written modules and your certificates still work here — ask your supervisor for a supported phone to complete the AR drills.</string>
+    <string name="ar_core_missing">AR training needs Google Play Services for AR, which is not installed on this phone. Installing it needs a connection, so do it at the surface office before your shift.</string>
+    <string name="ar_core_outdated">Google Play Services for AR is out of date on this phone. Update it at the surface office, where there is a connection.</string>
+
+    <!-- Fire & Explosion Response module -->
+    <string name="fire_module_title">Fire &amp; Explosion Response</string>
+    <string name="fire_module_card_summary">Pick the right extinguisher for a live electrical fire, then find the signed way out.</string>
+    <string name="fire_module_fire_description">Burning: the conveyor motor starter panel. The supply is still live.</string>
+
+    <!-- Briefing -->
+    <string name="fire_module_briefing_title">Scenario briefing</string>
+    <string name="fire_module_instruction_1">A fire has started in this room. The starter panel feeding the conveyor motor is alight and its supply has not been isolated, so treat everything inside it as live.</string>
+    <string name="fire_module_instruction_2">Three extinguishers are stored nearby. Only one is safe on a live electrical fire; the other two conduct the current back to whoever is holding them. Identify the right one by the colour of its body.</string>
+    <string name="fire_module_instruction_3">Then get out. Put the exit sign at the real way out of the room you are standing in, and take the route that leads to it.</string>
+    <string name="fire_module_start_drill">Start drill</string>
+
+    <!-- Placing the scene -->
+    <string name="fire_module_place_exit_sign">Point the phone at the floor beside the real way out of this room, then tap to put up the exit sign.</string>
+    <string name="fire_module_place_extinguisher">Tap a clear patch of floor. An extinguisher will appear there, and you will not be told which one.</string>
+    <string name="fire_module_place_route">Tap the floor to lay down an escape route arrow. Spread the three of them out in different directions.</string>
+    <string name="fire_module_place_progress">%1$d of %2$d placed</string>
+    <string name="fire_module_hint_too_close">Too close to something already placed. Leave about a metre between objects.</string>
+    <string name="fire_module_prompt_wait">Hold steady.</string>
+
+    <!-- Making the decisions -->
+    <string name="fire_module_choose_extinguisher_prompt">Tap the extinguisher you would use on this fire.</string>
+    <string name="fire_module_choose_route_prompt">Tap the arrow that leads to the exit sign.</string>
+    <string name="fire_module_hint_tap_extinguisher">That is not one of the extinguishers. Tap one of the three bottles.</string>
+    <string name="fire_module_hint_tap_route">Tap one of the escape route arrows.</string>
+    <string name="fire_module_hint_exit_sign_later">You will need that exit, but the extinguisher decision comes first.</string>
+
+    <!-- What each object is -->
+    <string name="fire_module_item_extinguisher_co2">CO₂ extinguisher (black)</string>
+    <string name="fire_module_item_extinguisher_foam">Foam extinguisher (cream)</string>
+    <string name="fire_module_item_extinguisher_water">Water extinguisher (red)</string>
+    <string name="fire_module_item_exit_sign">Exit sign</string>
+    <string name="fire_module_item_exit_arrow">Escape route arrow</string>
+
+    <!-- Feedback overlays -->
+    <string name="fire_module_feedback_correct_title">Correct</string>
+    <string name="fire_module_feedback_wrong_title">Why that is wrong</string>
+    <string name="fire_module_feedback_hint_title">Not that one</string>
+    <string name="fire_module_feedback_continue">Continue</string>
+    <string name="fire_module_extinguisher_correct">The black CO₂ extinguisher. Carbon dioxide does not conduct electricity and leaves no residue, so it is safe on live equipment and will not write off the panel.</string>
+    <string name="fire_module_wrong_water">The red water extinguisher. Water conducts, so a jet onto a live panel carries the current straight back up the stream to you. Water is for wood, paper and cloth, never for electrical fires.</string>
+    <string name="fire_module_wrong_foam">The cream foam extinguisher. Foam is mostly water, so it conducts as well. Foam is for flammable liquids such as fuel, oil and solvents, not for live equipment.</string>
+    <string name="fire_module_wrong_generic">That extinguisher is not rated for this fire.</string>
+    <string name="fire_module_route_wrong">That arrow leads away from the exit sign. In smoke you will not be able to see the door, so the signage is all you have, and a route that ignores it is a dead end.</string>
+
+    <!-- Drill status bar -->
+    <string name="fire_module_elapsed">%1$02d:%2$02d</string>
+    <string name="fire_module_wrong_count">Errors: %1$d</string>
+    <string name="fire_module_quit">Quit</string>
+    <string name="fire_module_quit_confirm_title">Quit the drill?</string>
+    <string name="fire_module_quit_confirm_body">This attempt will not be scored or saved.</string>
+    <string name="fire_module_quit_confirm_cancel">Keep going</string>
+
+    <!-- Results -->
+    <string name="fire_module_results_title">Drill complete</string>
+    <string name="fire_module_results_score">%1$d / %2$d</string>
+    <string name="fire_module_results_passed">Passed</string>
+    <string name="fire_module_results_failed">Not passed</string>
+    <string name="fire_module_results_pass_mark">Pass mark: %1$d</string>
+    <string name="fire_module_results_correct">Correct decisions</string>
+    <string name="fire_module_results_wrong">Wrong decisions</string>
+    <string name="fire_module_results_time">Time taken</string>
+    <string name="fire_module_results_passed_advice">You picked the right extinguisher and followed the signage. Run the drill again from time to time: in real smoke there is no time to work it out.</string>
+    <string name="fire_module_results_failed_advice">Read the explanations again before you retry. The colour of the body tells you what is inside: black is CO₂, cream is foam, red is water.</string>
+    <string name="fire_module_retry">Retry</string>
+    <string name="fire_module_next_module">Next module</string>
+
+    <!-- Fallback tracking modes -->
+    <string name="tracking_full_ar">Full AR</string>
+    <string name="tracking_marker">Marker AR — point at the printed marker</string>
+    <string name="tracking_gyro">Limited AR — orientation only</string>
+</resources>

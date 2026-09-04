@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MineSafeAR</string>
+
+    <!-- Home -->
+    <string name="home_greeting">नमस्ते MineSafeAR</string>
+    <string name="home_subtitle">एआर आधारित औद्योगिक सुरक्षा प्रशिक्षण</string>
+
+    <!-- Sync status, shown on Home -->
+    <string name="sync_status_synced">सिंक हो गया</string>
+    <string name="sync_status_pending">सिंक बाकी है — नेटवर्क मिलने पर अपलोड होगा</string>
+    <string name="sync_status_never">अभी सिंक करने के लिए कुछ नहीं है</string>
+    <string name="sync_status_last_synced">पिछला सिंक: %1$s</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">होम</string>
+    <string name="nav_modules">मॉड्यूल</string>
+    <string name="nav_assessment">मूल्यांकन</string>
+    <string name="nav_certificates">प्रमाणपत्र</string>
+    <string name="nav_settings">सेटिंग्स</string>
+
+    <!-- Screen titles -->
+    <string name="title_home">होम</string>
+    <string name="title_modules">प्रशिक्षण मॉड्यूल</string>
+    <string name="title_assessment">मूल्यांकन</string>
+    <string name="title_certificates">मेरे प्रमाणपत्र</string>
+    <string name="title_settings">सेटिंग्स और भाषा</string>
+
+    <!-- Placeholder copy -->
+    <string name="placeholder_assessment">मॉड्यूल मूल्यांकन यहाँ चलेगा।</string>
+
+    <!-- सेटिंग्स और भाषा -->
+    <string name="settings_language_heading">भाषा</string>
+    <string name="settings_language_description">निर्देश, सुरक्षा चेतावनियाँ और प्रमाणपत्र के लेबल सभी इसी चयन के अनुसार दिखेंगे।</string>
+    <string name="settings_language_restart_note">बदलने पर स्क्रीन फिर से लोड होगी। पहले शुरू किया गया अभ्यास पूरा कर लें।</string>
+    <string name="settings_language_partial">इस भाषा का अनुवाद अभी चल रहा है। जिन स्क्रीनों का अनुवाद नहीं हुआ है वे अंग्रेज़ी में रहेंगी।</string>
+    <string name="settings_language_olchiki_note">यदि ओल चिकी विकल्प में अक्षरों की जगह खाली डिब्बे दिखें, तो इस डिवाइस में ओल चिकी फ़ॉन्ट नहीं है। उसकी जगह देवनागरी विकल्प चुनें।</string>
+    <string name="settings_language_system_note">एंड्रॉइड भी MineSafeAR को सेटिंग्स, सिस्टम, भाषाएँ में दिखाता है, इसलिए यह चयन और सिस्टम का चयन एक साथ रहते हैं।</string>
+
+    <!-- बोला गया विवरण, हर प्रशिक्षण मॉड्यूल में समान -->
+    <string name="narration_play">बोला गया विवरण सुनें</string>
+    <string name="narration_stop">विवरण रोकें</string>
+    <string name="narration_not_recorded">बोला गया विवरण इस भाषा में अभी रिकॉर्ड नहीं हुआ है। ऊपर लिखा पाठ पढ़ें।</string>
+
+    <!-- Training module catalogue -->
+    <string name="modules_start">शुरू करें</string>
+    <string name="modules_more_coming">और मॉड्यूल आ रहे हैं।</string>
+
+    <!-- Shared AR chrome. Used by every AR screen, not just the test harness. -->
+    <string name="ar_close">बंद करें</string>
+    <string name="ar_hint_find_plane">फ़र्श को स्कैन करने के लिए फ़ोन को धीरे-धीरे घुमाएँ।</string>
+
+    <!-- Egress detection screen. -->
+    <string name="exit_detect_title">निकास खोजें</string>
+    <string name="exit_detect_open">इस कमरे में निकास खोजें</string>
+
+    <!-- AR pipeline test screen. Temporary: remove with ARTestActivity. -->
+    <string name="ar_test_title">एआर पाइपलाइन परीक्षण</string>
+    <string name="ar_test_open">एआर पाइपलाइन परीक्षण खोलें</string>
+    <string name="ar_clear">हटाएँ</string>
+    <string name="ar_placed_count">रखे गए: %1$d</string>
+    <string name="ar_hint_tap_plane">क्यूब रखने के लिए ग्रिड पर टैप करें।</string>
+
+    <!-- Camera permission -->
+    <string name="ar_permission_rationale">एआर प्रशिक्षण को आपके आसपास की जगह देखने के लिए कैमरे की आवश्यकता है। कुछ भी रिकॉर्ड नहीं किया जाता।</string>
+    <string name="ar_permission_denied">कैमरा अनुमति नहीं दी गई, इसलिए एआर प्रशिक्षण शुरू नहीं हो सकता। आप बिना-एआर मॉड्यूल अब भी उपयोग कर सकते हैं।</string>
+    <string name="ar_grant_camera">कैमरा अनुमति दें</string>
+    <string name="ar_open_settings">सेटिंग्स खोलें</string>
+
+    <!-- ARCore tracking failures -->
+    <string name="ar_tracking_bad_state">एआर ट्रैकिंग बाधित हुई। फ़ोन को कुछ पल स्थिर रखें।</string>
+    <string name="ar_tracking_insufficient_light">ट्रैकिंग के लिए बहुत अंधेरा है। अधिक रोशनी चाहिए।</string>
+    <string name="ar_tracking_excessive_motion">बहुत तेज़ हिल रहा है। धीरे करें।</string>
+    <string name="ar_tracking_insufficient_features">इस सतह पर पर्याप्त विवरण नहीं है। किसी अधिक बनावट वाली सतह पर लक्ष्य करें।</string>
+    <string name="ar_tracking_camera_unavailable">कैमरा किसी अन्य ऐप द्वारा उपयोग में है।</string>
+
+    <!-- ARCore availability -->
+    <string name="ar_core_unavailable_title">एआर प्रशिक्षण शुरू नहीं हो सका</string>
+    <string name="ar_core_device_unsupported">यह फ़ोन एआर का समर्थन नहीं करता। लिखित मॉड्यूल और आपके प्रमाणपत्र यहाँ काम करते रहेंगे — एआर ड्रिल पूरी करने के लिए अपने पर्यवेक्षक से समर्थित फ़ोन माँगें।</string>
+    <string name="ar_core_missing">एआर प्रशिक्षण के लिए Google Play Services for AR ज़रूरी है, जो इस फ़ोन में इंस्टॉल नहीं है। इसे इंस्टॉल करने के लिए नेटवर्क चाहिए, इसलिए शिफ़्ट से पहले सतह कार्यालय में यह कर लें।</string>
+    <string name="ar_core_outdated">इस फ़ोन में Google Play Services for AR पुराना है। जहाँ नेटवर्क है, वहाँ सतह कार्यालय में इसे अपडेट करें।</string>
+
+    <!--
+      Fire &amp; Explosion Response module.
+
+      The cylinder colour named in each extinguisher string is the identifying
+      feature the trainee is being taught, so it is kept in the translation. Which
+      colour goes with which type must not be changed: काला = CO2, क्रीम = foam,
+      लाल = water (IS 15683 / EN 3).
+    -->
+    <string name="fire_module_title">आग और विस्फोट प्रतिक्रिया</string>
+    <string name="fire_module_card_summary">चालू बिजली उपकरण में लगी आग के लिए सही अग्निशामक यंत्र चुनें, फिर चिह्नों के अनुसार बाहर निकलें।</string>
+    <string name="fire_module_fire_description">जल रहा है: कन्वेयर मोटर का स्टार्टर पैनल। बिजली की सप्लाई अब भी चालू है।</string>
+
+    <!-- Briefing -->
+    <string name="fire_module_briefing_title">परिदृश्य विवरण</string>
+    <string name="fire_module_instruction_1">इस कमरे में आग लग गई है। कन्वेयर मोटर को बिजली देने वाला स्टार्टर पैनल जल रहा है और उसकी सप्लाई बंद नहीं की गई है, इसलिए पैनल के अंदर सब कुछ चालू मानें।</string>
+    <string name="fire_module_instruction_2">पास में तीन अग्निशामक यंत्र रखे हैं। चालू बिजली उपकरण की आग पर इनमें से केवल एक सुरक्षित है; बाकी दो करंट को पकड़ने वाले तक वापस पहुँचा देंगे। सही यंत्र को उसके सिलेंडर के रंग से पहचानें।</string>
+    <string name="fire_module_instruction_3">इसके बाद बाहर निकलें। आप जिस कमरे में खड़े हैं, उसके असली निकास पर निकास चिह्न लगाएँ, और उसी तक जाने वाला मार्ग चुनें।</string>
+    <string name="fire_module_start_drill">अभ्यास शुरू करें</string>
+
+    <!-- Placing the scene -->
+    <string name="fire_module_place_exit_sign">फ़ोन को इस कमरे के असली निकास के पास के फ़र्श पर लक्ष्य करें, फिर निकास चिह्न लगाने के लिए टैप करें।</string>
+    <string name="fire_module_place_extinguisher">फ़र्श की किसी खाली जगह पर टैप करें। वहाँ एक अग्निशामक यंत्र दिखेगा, और आपको नहीं बताया जाएगा कि कौन सा है।</string>
+    <string name="fire_module_place_route">निकास मार्ग का तीर रखने के लिए फ़र्श पर टैप करें। तीनों तीरों को अलग-अलग दिशाओं में फैलाएँ।</string>
+    <string name="fire_module_place_progress">%2$d में से %1$d रखे गए</string>
+    <string name="fire_module_hint_too_close">पहले रखी वस्तु के बहुत पास है। वस्तुओं के बीच लगभग एक मीटर की दूरी रखें।</string>
+    <string name="fire_module_prompt_wait">फ़ोन को स्थिर रखें।</string>
+
+    <!-- Making the decisions -->
+    <string name="fire_module_choose_extinguisher_prompt">जिस अग्निशामक यंत्र का उपयोग आप इस आग पर करेंगे, उस पर टैप करें।</string>
+    <string name="fire_module_choose_route_prompt">जो तीर निकास चिह्न की ओर जाता है, उस पर टैप करें।</string>
+    <string name="fire_module_hint_tap_extinguisher">यह अग्निशामक यंत्र नहीं है। तीनों सिलेंडरों में से किसी एक पर टैप करें।</string>
+    <string name="fire_module_hint_tap_route">निकास मार्ग के तीरों में से किसी एक पर टैप करें।</string>
+    <string name="fire_module_hint_exit_sign_later">वह निकास आपको चाहिए होगा, लेकिन पहले अग्निशामक का निर्णय लेना है।</string>
+
+    <!-- What each object is, revealed in feedback and results -->
+    <string name="fire_module_item_extinguisher_co2">CO₂ अग्निशामक (काला)</string>
+    <string name="fire_module_item_extinguisher_foam">फोम अग्निशामक (क्रीम)</string>
+    <string name="fire_module_item_extinguisher_water">पानी वाला अग्निशामक (लाल)</string>
+    <string name="fire_module_item_exit_sign">निकास चिह्न</string>
+    <string name="fire_module_item_exit_arrow">निकास मार्ग का तीर</string>
+
+    <!-- Feedback overlays -->
+    <string name="fire_module_feedback_correct_title">सही</string>
+    <string name="fire_module_feedback_wrong_title">यह क्यों ग़लत है</string>
+    <string name="fire_module_feedback_hint_title">यह नहीं</string>
+    <string name="fire_module_feedback_continue">आगे बढ़ें</string>
+    <string name="fire_module_extinguisher_correct">काला CO₂ अग्निशामक। कार्बन डाइऑक्साइड बिजली का सुचालक नहीं है और कोई अवशेष नहीं छोड़ती, इसलिए यह चालू उपकरण पर सुरक्षित है और पैनल को भी ख़राब नहीं करेगी।</string>
+    <string name="fire_module_wrong_water">लाल, पानी वाला अग्निशामक। पानी बिजली का सुचालक है, इसलिए चालू पैनल पर डाली गई धार करंट को सीधे आप तक वापस ले आती है। पानी लकड़ी, काग़ज़ और कपड़े की आग के लिए है, बिजली की आग के लिए कभी नहीं।</string>
+    <string name="fire_module_wrong_foam">क्रीम रंग का फोम अग्निशामक। फोम में मुख्यतः पानी होता है, इसलिए वह भी करंट प्रवाहित करता है। फोम ज्वलनशील तरल पदार्थों — ईंधन, तेल, सॉल्वेंट — के लिए है, चालू उपकरण के लिए नहीं।</string>
+    <string name="fire_module_wrong_generic">यह अग्निशामक इस प्रकार की आग के लिए नहीं है।</string>
+    <string name="fire_module_route_wrong">यह तीर निकास चिह्न से दूर ले जाता है। धुएँ में आपको दरवाज़ा दिखाई नहीं देगा, इसलिए चिह्न ही एकमात्र सहारा हैं, और उन्हें छोड़ने वाला रास्ता बंद गली है।</string>
+
+    <!-- Drill status bar -->
+    <string name="fire_module_elapsed">%1$02d:%2$02d</string>
+    <string name="fire_module_wrong_count">ग़लतियाँ: %1$d</string>
+    <string name="fire_module_quit">छोड़ें</string>
+    <string name="fire_module_quit_confirm_title">अभ्यास छोड़ना है?</string>
+    <string name="fire_module_quit_confirm_body">इस प्रयास का स्कोर नहीं बनेगा और यह सहेजा नहीं जाएगा।</string>
+    <string name="fire_module_quit_confirm_cancel">जारी रखें</string>
+
+    <!-- Results -->
+    <string name="fire_module_results_title">अभ्यास पूरा हुआ</string>
+    <string name="fire_module_results_score">%1$d / %2$d</string>
+    <string name="fire_module_results_passed">उत्तीर्ण</string>
+    <string name="fire_module_results_failed">अनुत्तीर्ण</string>
+    <string name="fire_module_results_pass_mark">उत्तीर्ण अंक: %1$d</string>
+    <string name="fire_module_results_correct">सही निर्णय</string>
+    <string name="fire_module_results_wrong">ग़लत निर्णय</string>
+    <string name="fire_module_results_time">लगा समय</string>
+    <string name="fire_module_results_passed_advice">आपने सही अग्निशामक चुना और चिह्नों का पालन किया। यह अभ्यास समय-समय पर दोहराएँ: असली धुएँ में सोचने का समय नहीं मिलता।</string>
+    <string name="fire_module_results_failed_advice">दोबारा कोशिश करने से पहले स्पष्टीकरण फिर पढ़ें। सिलेंडर का रंग बताता है कि उसमें क्या है: काला यानी CO₂, क्रीम यानी फोम, लाल यानी पानी।</string>
+    <string name="fire_module_retry">फिर कोशिश करें</string>
+    <string name="fire_module_next_module">अगला मॉड्यूल</string>
+
+    <!--
+      Certificates. वैध / अवैध / समय-सीमा समाप्त are the three verdicts a supervisor
+      reads off the screen during an inspection; they are kept short and visibly
+      distinct from each other.
+    -->
+    <string name="certificate_back">वापस</string>
+    <string name="certificate_unknown_holder">नाम रहित कर्मी</string>
+    <string name="certificate_status_valid">वैध</string>
+    <string name="certificate_status_expired">समाप्त</string>
+    <string name="certificate_score">%1$d / 100</string>
+    <string name="certificate_score_label">स्कोर</string>
+    <string name="certificate_holder_label">धारक</string>
+    <string name="certificate_issued_label">जारी हुआ</string>
+    <string name="certificate_expires_label">समाप्ति</string>
+    <string name="certificate_expired_label">समाप्त हुआ</string>
+    <string name="certificate_id_label">प्रमाणपत्र आईडी</string>
+    <string name="certificate_open">क्यूआर कोड दिखाएँ</string>
+
+    <!-- My Certificates list -->
+    <string name="certificates_empty">अभी कोई प्रमाणपत्र नहीं है। प्रशिक्षण मॉड्यूल उत्तीर्ण करें, फिर यहाँ प्रमाणपत्र बनाएँ।</string>
+    <string name="certificates_no_results">इस डिवाइस पर अभी कोई मॉड्यूल परिणाम नहीं है। पहले एक प्रशिक्षण मॉड्यूल पूरा करें।</string>
+    <string name="certificates_eligible">प्रमाणन के लिए योग्य। औसत स्कोर %1$d।</string>
+    <string name="certificates_not_eligible">औसत स्कोर %1$d। प्रमाणन के लिए %2$d चाहिए।</string>
+    <string name="certificates_modules_counted">%1$d मॉड्यूल में से प्रत्येक का सर्वश्रेष्ठ प्रयास गिना गया है।</string>
+    <string name="certificates_issue_button">प्रमाणपत्र बनाएँ</string>
+    <string name="certificates_verify_button">प्रमाणपत्र जाँचें</string>
+
+    <!-- QR code screen -->
+    <string name="certificate_qr_title">प्रमाणपत्र क्यूआर कोड</string>
+    <string name="certificate_qr_instruction">इसे सुपरवाइज़र से \"प्रमाणपत्र जाँचें\" के ज़रिए स्कैन करवाएँ। जाँच के लिए किसी भी फ़ोन पर नेटवर्क की आवश्यकता नहीं है।</string>
+    <string name="certificate_qr_missing">वह प्रमाणपत्र इस डिवाइस पर नहीं है।</string>
+    <string name="certificate_qr_render_failed">क्यूआर कोड नहीं बनाया जा सका।</string>
+    <string name="certificate_qr_content_description">प्रमाणपत्र क्यूआर कोड</string>
+    <string name="certificate_qr_save">गैलरी में सहेजें</string>
+    <string name="certificate_qr_share">साझा करें</string>
+    <string name="certificate_qr_saved">Pictures में MineSafeAR एल्बम में सहेजा गया।</string>
+    <string name="certificate_qr_save_failed">छवि सहेजी नहीं जा सकी।</string>
+    <string name="certificate_qr_share_subject">MineSafeAR प्रमाणपत्र — %1$s</string>
+
+    <!-- Caption printed onto the saved PNG -->
+    <string name="certificate_image_title">MineSafeAR सुरक्षा प्रशिक्षण प्रमाणपत्र</string>
+    <string name="certificate_expires_on">%1$s तक वैध</string>
+    <string name="certificate_id_line">आईडी %1$s</string>
+
+    <!-- Verify Certificate -->
+    <string name="verify_title">प्रमाणपत्र जाँचें</string>
+    <string name="verify_instruction">कर्मी के प्रमाणपत्र का क्यूआर कोड स्कैन करें। जाँच इसी फ़ोन पर होती है, इसलिए यह ज़मीन के नीचे बिना सिग्नल भी काम करती है।</string>
+    <string name="verify_scan_button">क्यूआर कोड स्कैन करें</string>
+    <string name="verify_scan_again">दूसरा स्कैन करें</string>
+    <string name="verify_scan_prompt">कैमरे को प्रमाणपत्र के क्यूआर कोड पर लक्ष्य करें</string>
+    <string name="verify_result_valid">वैध</string>
+    <string name="verify_result_invalid">अवैध</string>
+    <string name="verify_result_expired">समय-सीमा समाप्त</string>
+    <string name="verify_valid_detail">हस्ताक्षर कोड में दिए विवरण से मेल खाता है, और प्रमाणपत्र अपनी वैधता अवधि के भीतर है।</string>
+    <string name="verify_expired_detail">हस्ताक्षर मेल खाता है, लेकिन यह प्रमाणपत्र %1$s को समाप्त हो गया। धारक को दोबारा प्रशिक्षण लेना होगा।</string>
+    <string name="verify_invalid_not_certificate">यह कोड MineSafeAR प्रमाणपत्र नहीं है।</string>
+    <string name="verify_invalid_signature">हस्ताक्षर कोड में दिए विवरण से मेल नहीं खाता। इसे जारी होने के बाद बदला गया है, या यह MineSafeAR द्वारा जारी नहीं किया गया।</string>
+    <string name="verify_invalid_expiry">समाप्ति तिथि जारी होने की तिथि से मेल नहीं खाती। वैधता बढ़ाने के लिए कोड बदला गया है।</string>
+    <string name="verify_cancelled">स्कैन रद्द किया गया।</string>
+    <string name="verify_scanned_details">स्कैन किया गया विवरण</string>
+    <string name="verify_no_local_record">इस डिवाइस पर जारी नहीं हुआ</string>
+</resources>

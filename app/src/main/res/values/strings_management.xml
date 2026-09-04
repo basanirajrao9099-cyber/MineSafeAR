@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Part 2: Certification, Sync, Storage & Management UI (Laptop 2 / Developer B)
+  All strings for certificates, QR scanning, sync status, database, assessment, and settings.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Sync status, shown on Home -->
+    <string name="sync_status_synced">Synced</string>
+    <string name="sync_status_pending">Pending sync — will upload when online</string>
+    <string name="sync_status_never">Nothing to sync yet</string>
+    <string name="sync_status_last_synced">Last synced: %1$s</string>
+
+    <!-- Placeholder copy -->
+    <string name="placeholder_assessment">Module assessments will run here.</string>
+
+    <!-- Settings & Language -->
+    <string name="settings_language_heading">Language</string>
+    <string name="settings_language_description">Instructions, safety warnings and certificate labels all follow this choice.</string>
+    <string name="settings_language_restart_note">The screen reloads when you change this. Finish any drill you have started first.</string>
+    <string name="settings_language_partial">This language is still being translated. Screens with no translation yet stay in English.</string>
+    <string name="settings_language_olchiki_note">If the Ol Chiki option shows empty boxes instead of letters, this device has no Ol Chiki font. Choose the Devanagari option instead.</string>
+    <string name="settings_language_system_note">Android also lists MineSafeAR under Settings, System, Languages, so this choice and the system one stay in step.</string>
+
+    <!-- Certificates -->
+    <string name="certificate_back">Back</string>
+    <string name="certificate_unknown_holder">Unnamed worker</string>
+    <string name="certificate_status_valid">Valid</string>
+    <string name="certificate_status_expired">Expired</string>
+    <string name="certificate_score">%1$d / 100</string>
+    <string name="certificate_score_label">Score</string>
+    <string name="certificate_holder_label">Holder</string>
+    <string name="certificate_issued_label">Issued</string>
+    <string name="certificate_expires_label">Expires</string>
+    <string name="certificate_expired_label">Expired on</string>
+    <string name="certificate_id_label">Certificate ID</string>
+    <string name="certificate_open">Show QR code</string>
+
+    <!-- My Certificates list -->
+    <string name="certificates_empty">No certificates yet. Pass the training modules, then issue one here.</string>
+    <string name="certificates_no_results">No module results on this device yet. Complete a training module first.</string>
+    <string name="certificates_eligible">Eligible for certification. Average score %1$d.</string>
+    <string name="certificates_not_eligible">Average score %1$d. Certification needs %2$d.</string>
+    <string name="certificates_modules_counted">Counting the best attempt at each of %1$d modules.</string>
+    <string name="certificates_issue_button">Generate certificate</string>
+    <string name="certificates_verify_button">Verify a certificate</string>
+
+    <!-- QR code screen -->
+    <string name="certificate_qr_title">Certificate QR code</string>
+    <string name="certificate_qr_instruction">Have a supervisor scan this from Verify a certificate. The check needs no network on either phone.</string>
+    <string name="certificate_qr_missing">That certificate is not on this device.</string>
+    <string name="certificate_qr_render_failed">The QR code could not be generated.</string>
+    <string name="certificate_qr_content_description">Certificate QR code</string>
+    <string name="certificate_qr_save">Save to gallery</string>
+    <string name="certificate_qr_share">Share</string>
+    <string name="certificate_qr_saved">Saved to the MineSafeAR album in Pictures.</string>
+    <string name="certificate_qr_save_failed">The image could not be saved.</string>
+    <string name="certificate_qr_share_subject">MineSafeAR certificate — %1$s</string>
+
+    <!-- Caption printed onto the saved PNG -->
+    <string name="certificate_image_title">MineSafeAR safety training certificate</string>
+    <string name="certificate_expires_on">Valid until %1$s</string>
+    <string name="certificate_id_line">ID %1$s</string>
+
+    <!-- Verify Certificate -->
+    <string name="verify_title">Verify certificate</string>
+    <string name="verify_instruction">Scan the QR code on a worker\'s certificate. The check runs on this phone, so it works underground with no signal.</string>
+    <string name="verify_scan_button">Scan QR code</string>
+    <string name="verify_scan_again">Scan another</string>
+    <string name="verify_scan_prompt">Point the camera at the certificate QR code</string>
+    <string name="verify_result_valid">VALID</string>
+    <string name="verify_result_invalid">INVALID</string>
+    <string name="verify_result_expired">EXPIRED</string>
+    <string name="verify_valid_detail">The signature matches the details in the code, and the certificate is inside its validity period.</string>
+    <string name="verify_expired_detail">The signature matches, but this certificate lapsed on %1$s. The holder needs to retrain.</string>
+    <string name="verify_invalid_not_certificate">That code is not a MineSafeAR certificate.</string>
+    <string name="verify_invalid_signature">The signature does not match the details in the code. It was altered after being issued, or it was not issued by MineSafeAR.</string>
+    <string name="verify_invalid_expiry">The expiry date does not match the issue date. The code was altered to stretch its validity.</string>
+    <string name="verify_cancelled">Scan cancelled.</string>
+    <string name="verify_scanned_details">Scanned details</string>
+    <string name="verify_no_local_record">Not issued on this device</string>
+</resources>

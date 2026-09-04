@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MineSafeAR</string>
+
+    <!-- Language names for picker -->
+    <string name="language_name_en" translatable="false">English</string>
+    <string name="language_name_hi" translatable="false">हिन्दी</string>
+    <string name="language_name_sat_olck" translatable="false">ᱥᱟᱱᱛᱟᱲᱤ</string>
+    <string name="language_name_sat_deva" translatable="false">संताली</string>
+    <string name="language_latin_hi" translatable="false">Hindi</string>
+    <string name="language_latin_sat_olck" translatable="false">Santali (Ol Chiki)</string>
+    <string name="language_latin_sat_deva" translatable="false">Santali (Devanagari)</string>
+
+    <!-- Home Greeting -->
+    <string name="home_greeting">Hello MineSafeAR</string>
+    <string name="home_subtitle">AR-based industrial safety training</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_modules">Modules</string>
+    <string name="nav_assessment">Assessment</string>
+    <string name="nav_certificates">Certificates</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Screen titles -->
+    <string name="title_home">Home</string>
+    <string name="title_modules">Training Modules</string>
+    <string name="title_assessment">Assessment</string>
+    <string name="title_certificates">My Certificates</string>
+    <string name="title_settings">Settings &amp; Language</string>
+
+    <!-- Camera permission -->
+    <string name="ar_permission_rationale">AR training needs the camera to see the space around you. Nothing is recorded.</string>
+    <string name="ar_permission_denied">Camera access was declined, so AR training cannot start. You can still use the non-AR modules.</string>
+    <string name="ar_grant_camera">Allow camera</string>
+    <string name="ar_open_settings">Open settings</string>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- AR training scenes and QR certificate scanning. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Background sync of progress, assessments and certificates. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- AR Optional: the app installs and runs on devices without ARCore,
+         falling back to non-AR training content. -->
+    <uses-feature
+        android:name="android.hardware.camera.ar"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name=".MineSafeArApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MineSafeAR">
+
+        <!-- "optional" pairs with the AR Optional uses-feature above. -->
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="optional" />
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MineSafeAR">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Temporary AR harness, launched from the Home screen. Delete with
+             ARTestActivity. configChanges keeps the ARCore session and every
+             placed anchor alive across rotation instead of recreating the
+             activity underneath them. -->
+        <activity
+            android:name=".ar.ARTestActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode"
+            android:exported="false"
+            android:label="@string/ar_test_title"
+            android:theme="@style/Theme.MineSafeAR" />
+
+        <!-- Egress detection. No ARCore dependency, so this is reachable on
+             devices where Session() create fails. configChanges keeps the CameraX
+             binding and the world-anchored tracks alive across rotation. -->
+        <activity
+            android:name=".ar.openings.ExitDetectionActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode"
+            android:exported="false"
+            android:label="@string/exit_detect_title"
+            android:theme="@style/Theme.MineSafeAR" />
+    </application>
+
+</manifest>

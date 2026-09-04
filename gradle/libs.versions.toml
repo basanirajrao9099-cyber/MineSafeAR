@@ -1,0 +1,91 @@
+[versions]
+# Build toolchain — AGP 9.3.x uses built-in Kotlin support, so the
+# `org.jetbrains.kotlin.android` plugin is intentionally NOT applied.
+agp = "9.3.2"
+kotlin = "2.4.10"
+ksp = "2.3.11"
+
+# SDK levels
+compileSdk = "37"
+minSdk = "29"
+targetSdk = "37"
+
+# AndroidX / Compose
+coreKtx = "1.19.0"
+activityCompose = "1.13.0"
+lifecycle = "2.11.0"
+navigation = "2.10.0"
+composeBom = "2026.08.00"
+
+# Offline storage + background sync
+room = "2.8.4"
+work = "2.11.2"
+
+# AR
+arcore = "1.54.0"
+sceneview = "4.33.0"
+opencv = "4.11.0"
+camerax = "1.4.1"
+
+# QR generation + scanning
+zxingCore = "3.5.4"
+zxingEmbedded = "4.3.0"
+
+# Sync transport. Declared for the SyncApiService interface only — no Retrofit
+# client is built yet (sync/SyncApi.kt runs the in-process fake), so nothing here
+# opens a socket. 3.x is forward binary-compatible with 2.x and moves to OkHttp 4.
+retrofit = "3.0.0"
+
+# Test
+junit = "4.13.2"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
+# Compose BOM keeps every Compose artifact on one compatible set.
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
+
+# Room — offline worker profiles, module progress, assessments, certificates.
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+# WorkManager — background sync of progress/certificates.
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
+
+# ARCore + SceneView (Sceneform is archived; SceneView is the maintained successor).
+google-arcore = { group = "com.google.ar", name = "core", version.ref = "arcore" }
+sceneview-ar = { group = "io.github.sceneview", name = "arsceneview", version.ref = "sceneview" }
+
+# ZXing — certificate QR generation (core) and scanning (embedded).
+zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxingCore" }
+zxing-android-embedded = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxingEmbedded" }
+
+# Retrofit — the SyncApiService contract (sync/). No converter factory is declared:
+# one is only needed when a real client is built, and picking it is the backend
+# team's call. See the note on SyncApi.
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+opencv = { group = "org.opencv", name = "opencv", version.ref = "opencv" }
+camerax-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
+camerax-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
+camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
+camerax-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

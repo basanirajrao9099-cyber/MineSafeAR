@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Stylised safety helmet inside the 72dp adaptive-icon safe zone. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,32c-10.5,0 -19,8.5 -19,19v10h38v-10c0,-10.5 -8.5,-19 -19,-19z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M28,63h52v6h-52z" />
+    <path
+        android:fillColor="#FFFFE082"
+        android:pathData="M51,38h6v14h-6z" />
+</vector>
