@@ -29,6 +29,8 @@ class TrainingRepository(private val database: MineSafeArDatabase) {
 
     fun observeWorker(workerId: String): Flow<WorkerEntity?> = workerDao.observeById(workerId)
 
+    fun observeAllWorkers(): Flow<List<WorkerEntity>> = workerDao.observeAll()
+
     suspend fun upsertWorker(worker: WorkerEntity) = workerDao.upsert(worker)
 
     suspend fun findWorkerByBadge(employeeCode: String): WorkerEntity? =
@@ -158,7 +160,8 @@ class TrainingRepository(private val database: MineSafeArDatabase) {
     fun observePendingSyncCount(): Flow<Int> = combine(
         moduleResultDao.observePendingSyncCount(),
         certificateDao.observePendingSyncCount(),
-    ) { results, certificates -> results + certificates }
+        resultDao.observePendingSyncCount(),
+    ) { results, certificates, assessments -> results + certificates + assessments }
 
     /** The rows [com.minesafear.sync.SyncWorker] uploads. */
     suspend fun pendingModuleResults(): List<ModuleResultEntity> =
@@ -166,6 +169,9 @@ class TrainingRepository(private val database: MineSafeArDatabase) {
 
     suspend fun pendingCertificates(): List<CertificateEntity> =
         certificateDao.getPendingSync()
+
+    suspend fun pendingAssessmentResults(): List<AssessmentResultEntity> =
+        resultDao.getPendingSync()
 
     /**
      * Marks the named results as uploaded.
@@ -182,6 +188,11 @@ class TrainingRepository(private val database: MineSafeArDatabase) {
     suspend fun markCertificatesSynced(certIds: List<String>) {
         if (certIds.isEmpty()) return
         certificateDao.clearPendingSync(certIds)
+    }
+
+    suspend fun markAssessmentResultsSynced(resultIds: List<String>) {
+        if (resultIds.isEmpty()) return
+        resultDao.clearPendingSync(resultIds)
     }
 
     companion object {

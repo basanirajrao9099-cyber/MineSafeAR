@@ -35,6 +35,9 @@ interface AssessmentResultDao {
     @Query("SELECT * FROM assessment_results WHERE pending_sync = 1")
     suspend fun getPendingSync(): List<AssessmentResultEntity>
 
+    @Query("SELECT COUNT(*) FROM assessment_results WHERE pending_sync = 1")
+    fun observePendingSyncCount(): Flow<Int>
+
     @Query("UPDATE assessment_results SET pending_sync = 0 WHERE id IN (:resultIds)")
     suspend fun clearPendingSync(resultIds: List<String>)
 }

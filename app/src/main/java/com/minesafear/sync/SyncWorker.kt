@@ -50,8 +50,9 @@ class SyncWorker(
 
         val pendingResults = repository.pendingModuleResults()
         val pendingCertificates = repository.pendingCertificates()
+        val pendingAssessments = repository.pendingAssessmentResults()
 
-        if (pendingResults.isEmpty() && pendingCertificates.isEmpty()) {
+        if (pendingResults.isEmpty() && pendingCertificates.isEmpty() && pendingAssessments.isEmpty()) {
             // Deliberately does not touch the last-synced timestamp: nothing was
             // synced. The Home indicator already reads an empty queue as "Synced",
             // so there is nothing this would add except a misleading clock.
@@ -68,7 +69,8 @@ class SyncWorker(
         Log.i(
             TAG,
             "Run ${runAttemptCount + 1}: ${pendingResults.size} result(s), " +
-                "${pendingCertificates.size} certificate(s) queued.",
+                "${pendingCertificates.size} certificate(s), " +
+                "${pendingAssessments.size} assessment(s) queued.",
         )
 
         val uploads = mutableListOf<Upload>()
@@ -84,10 +86,6 @@ class SyncWorker(
             )
         }
 
-        // Attempted even if the results upload failed. The two are independent on the
-        // wire for exactly this reason: a worker whose certificate is stuck behind a
-        // rejected drill attempt cannot prove their certification, and the drill
-        // attempt is the less important of the two.
         if (pendingCertificates.isNotEmpty()) {
             val dtos = pendingCertificates.map { it.toDto() }
             uploads += upload(
@@ -96,6 +94,17 @@ class SyncWorker(
                 ids = dtos.map { it.recordId() },
                 post = { api.uploadCertificates(it) },
                 markSynced = { accepted -> repository.markCertificatesSynced(accepted) },
+            )
+        }
+
+        if (pendingAssessments.isNotEmpty()) {
+            val dtos = pendingAssessments.map { it.toDto() }
+            uploads += upload(
+                label = "assessment results",
+                batch = SyncBatch(deviceId, sentAt, dtos),
+                ids = dtos.map { it.recordId() },
+                post = { api.uploadAssessmentResults(it) },
+                markSynced = { accepted -> repository.markAssessmentResultsSynced(accepted) },
             )
         }
 

@@ -41,6 +41,11 @@ interface SyncApiService {
     suspend fun uploadCertificates(
         @Body batch: SyncBatch<CertificateDto>,
     ): Response<SyncAck>
+
+    @POST("v1/assessment-results")
+    suspend fun uploadAssessmentResults(
+        @Body batch: SyncBatch<AssessmentResultDto>,
+    ): Response<SyncAck>
 }
 
 /**

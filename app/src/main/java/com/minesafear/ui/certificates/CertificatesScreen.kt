@@ -57,13 +57,13 @@ fun CertificatesScreen(
     val context = LocalContext.current
     val repository = remember(context) { TrainingRepository(DatabaseProvider.get(context)) }
     val scope = rememberCoroutineScope()
-    val userId = TrainingRepository.UNPROVISIONED_USER_ID
+    val userId = remember(context) { com.minesafear.data.ActiveWorkerPreference.getActiveWorkerId(context) }
 
-    val certificates by remember(repository) { repository.observeCertificates(userId) }
+    val certificates by remember(repository, userId) { repository.observeCertificates(userId) }
         .collectAsStateWithLifecycle(emptyList())
-    val results by remember(repository) { repository.observeModuleResults(userId) }
+    val results by remember(repository, userId) { repository.observeModuleResults(userId) }
         .collectAsStateWithLifecycle(emptyList())
-    val worker by remember(repository) { repository.observeWorker(userId) }
+    val worker by remember(repository, userId) { repository.observeWorker(userId) }
         .collectAsStateWithLifecycle(null)
 
     val snapshot = remember(results) { CertificateIssuer.snapshot(results, userId) }

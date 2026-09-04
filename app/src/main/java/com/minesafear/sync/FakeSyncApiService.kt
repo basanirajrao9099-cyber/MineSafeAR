@@ -96,6 +96,14 @@ class FakeSyncApiService(
         ids = batch.records.map { it.recordId() },
     )
 
+    override suspend fun uploadAssessmentResults(
+        batch: SyncBatch<AssessmentResultDto>,
+    ): Response<SyncAck> = respond(
+        path = "v1/assessment-results",
+        batch = batch,
+        ids = batch.records.map { it.recordId() },
+    )
+
     private suspend fun <T> respond(
         path: String,
         batch: SyncBatch<T>,

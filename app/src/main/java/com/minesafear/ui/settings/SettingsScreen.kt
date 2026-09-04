@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.minesafear.R
 import com.minesafear.localization.AppLanguage
 import com.minesafear.localization.AppLocaleManager
@@ -91,15 +92,14 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
                 LanguageRow(
                     language = language,
                     isSelected = language == selected,
-                    onSelect = {
-                        // Re-picking the current language would reload the screen for
-                        // nothing, and on a drill-heavy device that is a real cost.
-                        if (language != selected) {
-                            selected = language
-                            applyLanguage(context, language)
-                        }
-                    },
-                )
+                ) {
+                    // Re-picking the current language would reload the screen for
+                    // nothing, and on a drill-heavy device that is a real cost.
+                    if (language != selected) {
+                        selected = language
+                        applyLanguage(context, language)
+                    }
+                }
             }
         }
 
@@ -111,6 +111,40 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         Note(text = stringResource(R.string.settings_language_olchiki_note))
         if (AppLocaleManager.isSystemBacked) {
             Note(text = stringResource(R.string.settings_language_system_note))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Sync & Storage Status
+        val repository = remember(context) { com.minesafear.data.repository.TrainingRepository(com.minesafear.data.DatabaseProvider.get(context)) }
+        val pendingCount by remember(repository) { repository.observePendingSyncCount() }
+            .collectAsStateWithLifecycle(0)
+        val deviceId = remember(context) { com.minesafear.sync.SyncStatusStore.deviceId(context) }
+
+        Text(
+            text = stringResource(R.string.settings_sync_heading),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.settings_sync_device_id, deviceId.take(12)),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = stringResource(R.string.settings_sync_pending_count, pendingCount),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(top = 4.dp),
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        androidx.compose.material3.OutlinedButton(
+            onClick = { com.minesafear.sync.SyncScheduler.requestSyncNow(context) },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(R.string.settings_sync_button))
         }
     }
 }

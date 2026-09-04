@@ -13,6 +13,42 @@
     <!-- Placeholder copy -->
     <string name="placeholder_assessment">Module assessments will run here.</string>
 
+    <!-- Assessment Questionnaire -->
+    <string name="assessment_start_title">Mine Safety Knowledge Quiz</string>
+    <string name="assessment_start_desc">Test your understanding of underground mine safety, fire response, and hazard protocols. Minimum passing score is 80%.</string>
+    <string name="assessment_start_button">Start Assessment</string>
+    <string name="assessment_question_counter">Question %1$d of %2$d</string>
+    <string name="assessment_submit_button">Submit Assessment</string>
+    <string name="assessment_next_button">Next</string>
+    <string name="assessment_prev_button">Previous</string>
+    <string name="assessment_passed">PASSED</string>
+    <string name="assessment_failed">FAILED</string>
+    <string name="assessment_score_summary">Score: %1$d%% (%2$d of %3$d correct)</string>
+    <string name="assessment_passed_desc">Great job! You passed the written safety assessment.</string>
+    <string name="assessment_failed_desc">You did not reach the 80% threshold. Please review safety rules and attempt again.</string>
+    <string name="assessment_missed_hazards">Hazard topics to review:</string>
+    <string name="assessment_retry_button">Retake Assessment</string>
+    <string name="assessment_unanswered_warning">Answer all questions before submitting (%1$d unanswered).</string>
+
+    <!-- Worker Profile Management -->
+    <string name="worker_card_title">Active Miner Profile</string>
+    <string name="worker_card_switch">Switch Profile</string>
+    <string name="worker_card_register">Add Worker</string>
+    <string name="worker_dialog_title">Select Active Miner</string>
+    <string name="worker_dialog_add_title">Register New Worker</string>
+    <string name="worker_field_name">Full Name</string>
+    <string name="worker_field_code">Employee / Badge Code</string>
+    <string name="worker_field_role">Job Role (e.g., Drill Operator)</string>
+    <string name="worker_field_site">Mine Shaft / Site ID</string>
+    <string name="worker_button_save">Save Worker</string>
+    <string name="worker_unprovisioned_label">Default Local Worker</string>
+
+    <!-- Settings & Sync Diagnostics -->
+    <string name="settings_sync_heading">Sync &amp; Storage Status</string>
+    <string name="settings_sync_device_id">Device Handset ID: %1$s</string>
+    <string name="settings_sync_pending_count">Pending Offline Records: %1$d</string>
+    <string name="settings_sync_button">Force Sync Queue</string>
+
     <!-- Settings & Language -->
     <string name="settings_language_heading">Language</string>
     <string name="settings_language_description">Instructions, safety warnings and certificate labels all follow this choice.</string>

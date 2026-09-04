@@ -63,6 +63,20 @@ data class CertificateDto(
     val signatureHash: String,
 )
 
+/** One written safety assessment attempt. Mirrors AssessmentResultEntity minus pending_sync. */
+data class AssessmentResultDto(
+    val id: String,
+    val workerId: String,
+    val moduleId: String,
+    val attemptNumber: Int,
+    val scorePercent: Int,
+    val correctAnswers: Int,
+    val totalQuestions: Int,
+    val passed: Boolean,
+    val durationSeconds: Int,
+    val submittedAt: Long,
+)
+
 /**
  * A batch upload.
  *
@@ -124,6 +138,19 @@ fun CertificateEntity.toDto(): CertificateDto = CertificateDto(
     signatureHash = signatureHash,
 )
 
+fun com.minesafear.data.entity.AssessmentResultEntity.toDto(): AssessmentResultDto = AssessmentResultDto(
+    id = id,
+    workerId = workerId,
+    moduleId = moduleId,
+    attemptNumber = attemptNumber,
+    scorePercent = scorePercent,
+    correctAnswers = correctAnswers,
+    totalQuestions = totalQuestions,
+    passed = passed,
+    durationSeconds = durationSeconds,
+    submittedAt = submittedAt,
+)
+
 /**
  * The id [SyncAck.acceptedIds] refers to, per record type.
  *
@@ -135,3 +162,5 @@ fun CertificateEntity.toDto(): CertificateDto = CertificateDto(
 fun ModuleResultDto.recordId(): String = id
 
 fun CertificateDto.recordId(): String = certId
+
+fun AssessmentResultDto.recordId(): String = id
