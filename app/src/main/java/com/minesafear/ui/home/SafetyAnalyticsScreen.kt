@@ -1,5 +1,6 @@
 package com.minesafear.ui.home
 
+import android.os.Environment
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,10 +15,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +33,11 @@ import com.minesafear.R
 import com.minesafear.data.DatabaseProvider
 import com.minesafear.data.repository.TrainingRepository
 import com.minesafear.ui.assessment.sampleQuestions
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Site-wide safety performance analytics dashboard for supervisors.
@@ -57,6 +66,26 @@ fun SafetyAnalyticsScreen(
     val avgScorePercent = remember(allAssessments, totalAttempts) {
         if (totalAttempts > 0) (allAssessments.sumOf { it.scorePercent }) / totalAttempts else 0
     }
+
+    // Role-wise breakdown
+    val rolesMap = remember(workers) {
+        if (workers.isEmpty()) {
+            mapOf("Local Worker" to 1)
+        } else {
+            workers.groupBy { it.jobRole.ifBlank { "Operator" } }.mapValues { it.value.size }
+        }
+    }
+
+    // Site-wise breakdown
+    val sitesMap = remember(workers) {
+        if (workers.isEmpty()) {
+            mapOf("SITE-1" to 1)
+        } else {
+            workers.groupBy { it.siteId.ifBlank { "SITE-1" } }.mapValues { it.value.size }
+        }
+    }
+
+    var exportResultMsg by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = modifier
@@ -139,6 +168,66 @@ fun SafetyAnalyticsScreen(
             }
         }
 
+        // Job Role Breakdown Card
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.analytics_role_breakdown),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                )
+                HorizontalDivider()
+
+                rolesMap.forEach { (role, count) ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(text = "• $role", style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = "$count miners enrolled",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+                }
+            }
+        }
+
+        // Mine Site ID Breakdown Card
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.analytics_site_breakdown),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                )
+                HorizontalDivider()
+
+                sitesMap.forEach { (site, count) ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(text = "• Mine Site $site", style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = "$count miners assigned",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+                }
+            }
+        }
+
         // Missed Hazards Card
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(
@@ -182,6 +271,67 @@ fun SafetyAnalyticsScreen(
                     }
                 }
             }
+        }
+
+        // Analytics Summary Export Button
+        OutlinedButton(
+            onClick = {
+                try {
+                    val dateStr = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
+                    val reportContent = buildString {
+                        appendLine("==================================================")
+                        appendLine("       MINESAFEAR SITE SAFETY ANALYTICS REPORT    ")
+                        appendLine("==================================================")
+                        appendLine("Generated: $dateStr")
+                        appendLine()
+                        appendLine("KPI SUMMARY:")
+                        appendLine("- Total Enrolled Miners: $totalMiners")
+                        appendLine("- Total Quiz Attempts: $totalAttempts")
+                        appendLine("- Passed Quiz Attempts: $passedAttempts ($passRatePercent%)")
+                        appendLine("- Average Assessment Score: $avgScorePercent%")
+                        appendLine()
+                        appendLine("JOB ROLE DISTRIBUTION:")
+                        rolesMap.forEach { (role, count) ->
+                            appendLine("- $role: $count miner(s)")
+                        }
+                        appendLine()
+                        appendLine("MINE SITE DISTRIBUTION:")
+                        sitesMap.forEach { (site, count) ->
+                            appendLine("- Site $site: $count miner(s)")
+                        }
+                        appendLine()
+                        appendLine("MONITORED SAFETY HAZARD TOPICS:")
+                        sampleQuestions.mapNotNull { it.hazardTag }.distinct().forEach { tag ->
+                            appendLine("- $tag")
+                        }
+                        appendLine()
+                        appendLine("==================================================")
+                    }
+
+                    val file = File(
+                        context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
+                        "MineSafeAR_Analytics_Report.txt",
+                    )
+                    FileOutputStream(file).use { out ->
+                        out.write(reportContent.toByteArray())
+                    }
+                    exportResultMsg = "Analytics report exported to Downloads/MineSafeAR_Analytics_Report.txt"
+                } catch (_: Exception) {
+                    exportResultMsg = "Failed to export analytics report."
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(R.string.analytics_export_button))
+        }
+
+        exportResultMsg?.let { msg ->
+            Text(
+                text = msg,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
+            )
         }
     }
 }

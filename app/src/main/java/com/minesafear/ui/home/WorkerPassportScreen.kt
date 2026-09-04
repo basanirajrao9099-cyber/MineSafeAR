@@ -1,5 +1,9 @@
 package com.minesafear.ui.home
 
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.os.Environment
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +14,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +43,19 @@ import com.minesafear.data.ActiveWorkerPreference
 import com.minesafear.data.DatabaseProvider
 import com.minesafear.data.repository.TrainingRepository
 import com.minesafear.ui.certificates.rememberFormattedDate
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+/** Achievement badge model for miner competency milestones. */
+data class AchievementBadge(
+    val title: String,
+    val description: String,
+    val iconEmoji: String,
+    val isEarned: Boolean,
+)
 
 /**
  * Detailed safety passport and complete competency transcript for a miner.
@@ -61,6 +83,39 @@ fun WorkerPassportScreen(
     val isCertified = remember(activeCert, now) {
         (activeCert != null) && !CertificatePolicy.isExpiredAt(activeCert.expiryDate, now)
     }
+
+    // Compute Achievement Badges
+    val badges = remember(isCertified, moduleResults, assessmentResults) {
+        listOf(
+            AchievementBadge(
+                title = "Certified Miner",
+                description = "Holds an active statutory safety certificate",
+                iconEmoji = "🏆",
+                isEarned = isCertified,
+            ),
+            AchievementBadge(
+                title = "Fire Specialist",
+                description = "Passed practical AR fire drill (score ≥ 80%)",
+                iconEmoji = "🔥",
+                isEarned = moduleResults.any { it.passed && it.score >= 80 },
+            ),
+            AchievementBadge(
+                title = "Safety Quiz Ace",
+                description = "Passed statutory written safety quiz",
+                iconEmoji = "📝",
+                isEarned = assessmentResults.any { it.passed && it.scorePercent >= 80 },
+            ),
+            AchievementBadge(
+                title = "100% Score Club",
+                description = "Achieved 100% on any drill or quiz",
+                iconEmoji = "🎯",
+                isEarned = moduleResults.any { it.score == 100 } || assessmentResults.any { it.scorePercent == 100 },
+            ),
+        )
+    }
+
+    var showSignoffModal by remember { mutableStateOf(false) }
+    var pdfExportSuccess by remember { mutableStateOf<Boolean?>(null) }
 
     Column(
         modifier = modifier
@@ -137,41 +192,8 @@ fun WorkerPassportScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                var pdfExportSuccess by remember { mutableStateOf<Boolean?>(null) }
-                androidx.compose.material3.OutlinedButton(
-                    onClick = {
-                        try {
-                            val pdfDocument = android.graphics.pdf.PdfDocument()
-                            val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 842, 1).create()
-                            val page = pdfDocument.startPage(pageInfo)
-                            val canvas = page.canvas
-                            val paint = android.graphics.Paint()
-                            paint.color = android.graphics.Color.BLACK
-                            paint.textSize = 16f
-
-                            canvas.drawText("MineSafeAR Official Safety Compliance Report", 40f, 50f, paint)
-                            canvas.drawText("Worker: ${worker?.fullName ?: "Local Worker"}", 40f, 90f, paint)
-                            canvas.drawText("Badge Code: ${worker?.employeeCode ?: "EMP-LOCAL"}", 40f, 120f, paint)
-                            canvas.drawText("Certification Status: ${if (isCertified) "CERTIFIED" else "TRAINING IN PROGRESS"}", 40f, 150f, paint)
-                            canvas.drawText("Practical Drills Completed: ${moduleResults.size}", 40f, 180f, paint)
-                            canvas.drawText("Written Assessments Taken: ${assessmentResults.size}", 40f, 210f, paint)
-
-                            pdfDocument.finishPage(page)
-
-                            val file = java.io.File(
-                                context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS),
-                                "MineSafeAR_Compliance_Report.pdf",
-                            )
-                            val outputStream = java.io.FileOutputStream(file)
-                            pdfDocument.writeTo(outputStream)
-                            pdfDocument.close()
-                            outputStream.close()
-
-                            pdfExportSuccess = true
-                        } catch (_: Exception) {
-                            pdfExportSuccess = false
-                        }
-                    },
+                OutlinedButton(
+                    onClick = { showSignoffModal = true },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(text = stringResource(R.string.compliance_pdf_button))
@@ -195,6 +217,71 @@ fun WorkerPassportScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            // Achievement Badges Section
+            item {
+                Text(
+                    text = stringResource(R.string.passport_badges_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
+
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    badges.chunked(2).forEach { rowBadges ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            rowBadges.forEach { badge ->
+                                Card(
+                                    modifier = Modifier.weight(1f),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = if (badge.isEarned) {
+                                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                                        } else {
+                                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+                                        },
+                                    ),
+                                ) {
+                                    Column(
+                                        modifier = Modifier.padding(12.dp),
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                    ) {
+                                        Text(
+                                            text = "${badge.iconEmoji} ${badge.title}",
+                                            style = MaterialTheme.typography.titleSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            color = if (badge.isEarned) {
+                                                MaterialTheme.colorScheme.onPrimaryContainer
+                                            } else {
+                                                MaterialTheme.colorScheme.onSurfaceVariant
+                                            },
+                                        )
+                                        Text(
+                                            text = badge.description,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        )
+                                        Text(
+                                            text = if (badge.isEarned) "UNLOCKED" else "LOCKED",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            color = if (badge.isEarned) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
+                                        )
+                                    }
+                                }
+                            }
+                            if (rowBadges.size == 1) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
+                    }
+                }
+            }
+
             // Practical AR Drills Section
             item {
                 Text(
@@ -308,4 +395,140 @@ fun WorkerPassportScreen(
             }
         }
     }
+
+    if (showSignoffModal) {
+        SupervisorSignoffDialog(
+            onDismiss = { showSignoffModal = false },
+            onConfirmSignoff = { supName, supCode ->
+                showSignoffModal = false
+                try {
+                    val pdfDocument = PdfDocument()
+                    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+                    val page = pdfDocument.startPage(pageInfo)
+                    val canvas = page.canvas
+                    val paint = Paint()
+
+                    paint.color = Color.BLACK
+                    paint.textSize = 18f
+                    paint.isFakeBoldText = true
+
+                    canvas.drawText("MINESAFEAR STATUTORY SAFETY COMPLIANCE REPORT", 40f, 50f, paint)
+
+                    paint.textSize = 12f
+                    paint.isFakeBoldText = false
+                    val dateStr = SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.US).format(Date())
+                    canvas.drawText("Generated: $dateStr", 40f, 75f, paint)
+
+                    canvas.drawLine(40f, 85f, 555f, 85f, paint)
+
+                    paint.textSize = 14f
+                    paint.isFakeBoldText = true
+                    canvas.drawText("WORKER PROFILE", 40f, 110f, paint)
+
+                    paint.textSize = 12f
+                    paint.isFakeBoldText = false
+                    canvas.drawText("Name: ${worker?.fullName ?: "Local Worker"}", 40f, 135f, paint)
+                    canvas.drawText("Badge Code: ${worker?.employeeCode ?: "EMP-LOCAL"}", 40f, 155f, paint)
+                    canvas.drawText("Job Role: ${worker?.jobRole ?: "Operator"}", 40f, 175f, paint)
+                    canvas.drawText("Mine Site: ${worker?.siteId ?: "SITE-1"}", 40f, 195f, paint)
+                    canvas.drawText("Certification Status: ${if (isCertified) "CERTIFIED" else "TRAINING IN PROGRESS"}", 40f, 215f, paint)
+
+                    canvas.drawLine(40f, 235f, 555f, 235f, paint)
+
+                    paint.textSize = 14f
+                    paint.isFakeBoldText = true
+                    canvas.drawText("SUMMARY OF PERFORMANCE", 40f, 260f, paint)
+
+                    paint.textSize = 12f
+                    paint.isFakeBoldText = false
+                    canvas.drawText("Practical Drills Completed: ${moduleResults.size}", 40f, 285f, paint)
+                    canvas.drawText("Written Assessments Attempted: ${assessmentResults.size}", 40f, 305f, paint)
+                    canvas.drawText("Earned Badges: ${badges.count { it.isEarned }} of ${badges.size}", 40f, 325f, paint)
+
+                    canvas.drawLine(40f, 350f, 555f, 350f, paint)
+
+                    // Supervisor Seal Box
+                    paint.color = Color.DKGRAY
+                    paint.textSize = 14f
+                    paint.isFakeBoldText = true
+                    canvas.drawText("DIGITAL SUPERVISOR APPROVAL & SEAL", 40f, 380f, paint)
+
+                    paint.textSize = 12f
+                    paint.isFakeBoldText = false
+                    canvas.drawText("Supervisor Name: $supName", 40f, 405f, paint)
+                    canvas.drawText("Supervisor Badge / ID: $supCode", 40f, 425f, paint)
+                    canvas.drawText("Approval Stamp: VERIFIED & OFFICIALLY SIGNED", 40f, 445f, paint)
+
+                    pdfDocument.finishPage(page)
+
+                    val file = File(
+                        context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
+                        "MineSafeAR_Compliance_Report.pdf",
+                    )
+                    val outputStream = FileOutputStream(file)
+                    pdfDocument.writeTo(outputStream)
+                    pdfDocument.close()
+                    outputStream.close()
+
+                    pdfExportSuccess = true
+                } catch (_: Exception) {
+                    pdfExportSuccess = false
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun SupervisorSignoffDialog(
+    onDismiss: () -> Unit,
+    onConfirmSignoff: (String, String) -> Unit,
+) {
+    var supName by remember { mutableStateOf("") }
+    var supCode by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(R.string.supervisor_signoff_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+            )
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    text = stringResource(R.string.supervisor_signoff_desc),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                OutlinedTextField(
+                    value = supName,
+                    onValueChange = { supName = it },
+                    label = { Text(stringResource(R.string.supervisor_field_name)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                OutlinedTextField(
+                    value = supCode,
+                    onValueChange = { supCode = it },
+                    label = { Text(stringResource(R.string.supervisor_field_code)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onConfirmSignoff(supName, supCode) },
+                enabled = supName.isNotBlank() && supCode.isNotBlank(),
+            ) {
+                Text(text = stringResource(R.string.supervisor_sign_button))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.supervisor_cancel_button))
+            }
+        },
+    )
 }

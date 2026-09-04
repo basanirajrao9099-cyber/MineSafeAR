@@ -197,4 +197,30 @@
     <string name="verify_cancelled">Scan cancelled.</string>
     <string name="verify_scanned_details">Scanned details</string>
     <string name="verify_no_local_record">Not issued on this device</string>
+
+    <!-- Achievement Badges -->
+    <string name="passport_badges_title">Competency Badges &amp; Achievements</string>
+    <string name="badge_certified_miner">Certified Miner</string>
+    <string name="badge_certified_miner_desc">Holds an active valid safety certificate</string>
+    <string name="badge_fire_specialist">Fire Response Specialist</string>
+    <string name="badge_fire_specialist_desc">Passed practical AR fire drill (score ≥ 80%)</string>
+    <string name="badge_quiz_ace">Safety Quiz Ace</string>
+    <string name="badge_quiz_ace_desc">Passed statutory written safety quiz (score ≥ 80%)</string>
+    <string name="badge_perfect_score">100% Perfect Score</string>
+    <string name="badge_perfect_score_desc">Achieved 100% on a drill or assessment</string>
+
+    <!-- Supervisor Digital Sign-off PDF Modal -->
+    <string name="supervisor_signoff_title">Supervisor Digital Sign-off</string>
+    <string name="supervisor_signoff_desc">Enter supervisor credentials to digitally approve and seal this compliance report.</string>
+    <string name="supervisor_field_name">Supervisor Full Name</string>
+    <string name="supervisor_field_code">Supervisor Badge Code / ID</string>
+    <string name="supervisor_sign_button">Sign &amp; Export PDF</string>
+    <string name="supervisor_cancel_button">Cancel</string>
+
+    <!-- Site Safety Analytics Enhancements -->
+    <string name="analytics_role_breakdown">Pass Rate by Job Role</string>
+    <string name="analytics_site_breakdown">Pass Rate by Mine Site ID</string>
+    <string name="analytics_export_button">Export Analytics Report</string>
+    <string name="analytics_export_saved">Analytics report exported to Downloads/MineSafeAR_Analytics_Report.txt</string>
+    <string name="analytics_export_failed">Failed to export analytics report.</string>
 </resources>

@@ -108,6 +108,21 @@ fun HomeScreen(
             onOpenPassport = onOpenPassport,
         )
 
+        // Certificate Expiry Alert (if expiring or expired)
+        val activeCertificates by remember(repository, activeWorkerId) {
+            repository.observeCertificates(activeWorkerId)
+        }.collectAsStateWithLifecycle(emptyList())
+
+        val nowMillis = remember(activeCertificates) { System.currentTimeMillis() }
+        val latestActiveCert = remember(activeCertificates) { activeCertificates.maxByOrNull { it.issuedDate } }
+        val daysUntilExpiry = remember(latestActiveCert, nowMillis) {
+            latestActiveCert?.let { ((it.expiryDate - nowMillis) / (1000 * 60 * 60 * 24)).toInt() }
+        }
+
+        if ((latestActiveCert != null) && (daysUntilExpiry != null) && (daysUntilExpiry <= 30)) {
+            CertExpiryHomeBanner(daysRemaining = daysUntilExpiry)
+        }
+
         // Safety Competency Card
         CompetencyCard(
             repository = repository,
@@ -494,6 +509,51 @@ private fun CompetencyCard(
             Text(
                 text = stringResource(R.string.home_competency_assessment, assessmentText),
                 style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CertExpiryHomeBanner(daysRemaining: Int) {
+    val isExpired = daysRemaining <= 0
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isExpired) {
+                MaterialTheme.colorScheme.errorContainer
+            } else {
+                MaterialTheme.colorScheme.tertiaryContainer
+            },
+        ),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.cert_renewal_banner_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = if (isExpired) {
+                    MaterialTheme.colorScheme.onErrorContainer
+                } else {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                },
+            )
+
+            Text(
+                text = if (isExpired) {
+                    stringResource(R.string.cert_renewal_banner_expired)
+                } else {
+                    stringResource(R.string.cert_renewal_banner_expiring, daysRemaining)
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (isExpired) {
+                    MaterialTheme.colorScheme.onErrorContainer
+                } else {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                },
             )
         }
     }
