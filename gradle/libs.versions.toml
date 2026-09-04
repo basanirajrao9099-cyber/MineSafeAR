@@ -1,40 +1,38 @@
 [versions]
-# Build toolchain — AGP 9.3.x uses built-in Kotlin support, so the
-# `org.jetbrains.kotlin.android` plugin is intentionally NOT applied.
-agp = "9.3.2"
-kotlin = "2.4.10"
-ksp = "2.3.11"
+# Build toolchain
+agp = "8.8.0"
+kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
 
 # SDK levels
-compileSdk = "37"
+compileSdk = "35"
 minSdk = "29"
-targetSdk = "37"
+targetSdk = "35"
 
 # AndroidX / Compose
-coreKtx = "1.19.0"
-activityCompose = "1.13.0"
-lifecycle = "2.11.0"
-navigation = "2.10.0"
-composeBom = "2026.08.00"
+coreKtx = "1.15.0"
+activityCompose = "1.10.0"
+lifecycle = "2.8.7"
+navigation = "2.8.8"
+composeBom = "2025.02.00"
 
 # Offline storage + background sync
-room = "2.8.4"
-work = "2.11.2"
+room = "2.7.0-alpha12"
+work = "2.10.0"
+okhttp = "4.12.0"
 
 # AR
-arcore = "1.54.0"
-sceneview = "4.33.0"
-opencv = "4.11.0"
+arcore = "1.48.0"
+sceneview = "2.2.1"
+opencv = "4.10.0"
 camerax = "1.4.1"
 
 # QR generation + scanning
-zxingCore = "3.5.4"
+zxingCore = "3.5.3"
 zxingEmbedded = "4.3.0"
 
-# Sync transport. Declared for the SyncApiService interface only — no Retrofit
-# client is built yet (sync/SyncApi.kt runs the in-process fake), so nothing here
-# opens a socket. 3.x is forward binary-compatible with 2.x and moves to OkHttp 4.
-retrofit = "3.0.0"
+# Sync transport
+retrofit = "2.11.0"
 
 # Test
 junit = "4.13.2"
@@ -72,10 +70,9 @@ sceneview-ar = { group = "io.github.sceneview", name = "arsceneview", version.re
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxingCore" }
 zxing-android-embedded = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxingEmbedded" }
 
-# Retrofit — the SyncApiService contract (sync/). No converter factory is declared:
-# one is only needed when a real client is built, and picking it is the backend
-# team's call. See the note on SyncApi.
+# Retrofit & OkHttp — sync transport
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
@@ -87,5 +84,6 @@ camerax-view = { group = "androidx.camera", name = "camera-view", version.ref = 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

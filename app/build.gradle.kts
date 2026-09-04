@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    // Compose compiler plugin — still applied explicitly alongside AGP's built-in Kotlin.
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    // KSP drives Room's code generation (kapt is incompatible with built-in Kotlin).
     alias(libs.plugins.ksp)
 }
 
@@ -93,9 +92,9 @@ dependencies {
     // WorkManager — background sync (sync/).
     implementation(libs.androidx.work.runtime.ktx)
 
-    // Retrofit — the SyncApiService contract only. Sync currently runs against an
-    // in-process fake, so this adds a type dependency, not a network one.
+    // Retrofit & OkHttp — the SyncApiService contract and HTTP types
     implementation(libs.retrofit)
+    implementation(libs.okhttp)
 
     // AR — ARCore plus SceneView, the maintained successor to Sceneform (ar/).
     implementation(libs.google.arcore)
