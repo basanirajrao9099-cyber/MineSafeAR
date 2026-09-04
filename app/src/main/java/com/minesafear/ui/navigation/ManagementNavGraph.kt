@@ -20,7 +20,10 @@ fun NavGraphBuilder.addManagementGraph(
     insetModifier: Modifier,
 ) {
     composable(MineSafeArDestination.HOME.route) {
-        HomeScreen(modifier = insetModifier)
+        HomeScreen(
+            onOpenPassport = { navController.navigate("passport") },
+            modifier = insetModifier,
+        )
     }
     composable(MineSafeArDestination.ASSESSMENT.route) {
         AssessmentScreen(modifier = insetModifier)
@@ -52,6 +55,13 @@ fun NavGraphBuilder.addManagementGraph(
     }
     composable(CertificateRoutes.VERIFY) {
         VerifyCertificateScreen(
+            onBack = { navController.popBackStack() },
+            modifier = insetModifier,
+        )
+    }
+
+    composable("passport") {
+        com.minesafear.ui.home.WorkerPassportScreen(
             onBack = { navController.popBackStack() },
             modifier = insetModifier,
         )

@@ -115,6 +115,31 @@ class SyncWorker(
             SyncStatusStore.recordSyncSuccess(applicationContext, System.currentTimeMillis())
         }
 
+        // Execute pull sync for remote worker profiles
+        try {
+            val remoteProfiles = api.fetchWorkerProfiles().body() ?: emptyList()
+            remoteProfiles.forEach { dto ->
+                val now = System.currentTimeMillis()
+                val entity = com.minesafear.data.entity.WorkerEntity(
+                    id = dto.id,
+                    employeeCode = dto.employeeCode,
+                    fullName = dto.fullName,
+                    siteId = dto.siteId,
+                    jobRole = dto.jobRole,
+                    preferredLanguage = dto.preferredLanguage,
+                    createdAt = now,
+                    updatedAt = now,
+                    syncedAt = now,
+                )
+                repository.upsertWorker(entity)
+            }
+            if (remoteProfiles.isNotEmpty()) {
+                Log.i(TAG, "Pulled and saved ${remoteProfiles.size} remote worker profile(s).")
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Pull sync worker profiles failed: ${e.message}")
+        }
+
         val verdict = SyncOutcomes.capRetries(
             SyncOutcomes.combine(uploads.map { it.outcome }),
             runAttemptCount,

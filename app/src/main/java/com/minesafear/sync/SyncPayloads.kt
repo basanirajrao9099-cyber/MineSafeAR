@@ -77,6 +77,16 @@ data class AssessmentResultDto(
     val submittedAt: Long,
 )
 
+/** Worker profile downloaded from the remote server during pull sync. */
+data class WorkerDto(
+    val id: String,
+    val employeeCode: String,
+    val fullName: String,
+    val siteId: String,
+    val jobRole: String,
+    val preferredLanguage: String = "en",
+)
+
 /**
  * A batch upload.
  *

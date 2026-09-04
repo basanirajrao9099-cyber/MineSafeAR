@@ -46,6 +46,9 @@ interface SyncApiService {
     suspend fun uploadAssessmentResults(
         @Body batch: SyncBatch<AssessmentResultDto>,
     ): Response<SyncAck>
+
+    @retrofit2.http.GET("v1/worker-profiles")
+    suspend fun fetchWorkerProfiles(): Response<List<WorkerDto>>
 }
 
 /**

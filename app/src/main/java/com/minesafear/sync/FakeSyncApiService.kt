@@ -104,6 +104,14 @@ class FakeSyncApiService(
         ids = batch.records.map { it.recordId() },
     )
 
+    override suspend fun fetchWorkerProfiles(): Response<List<WorkerDto>> {
+        val sampleWorkers = listOf(
+            WorkerDto("remote_001", "EMP-9001", "Ramesh Kumar (Remote)", "SHAFT-A", "Drill Specialist"),
+            WorkerDto("remote_002", "EMP-9002", "Soren Tudu (Remote)", "SHAFT-B", "Safety Inspector", "sat"),
+        )
+        return Response.success(sampleWorkers)
+    }
+
     private suspend fun <T> respond(
         path: String,
         batch: SyncBatch<T>,

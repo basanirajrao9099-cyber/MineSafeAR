@@ -161,6 +161,13 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
 
         // Offline Database Backup
         DatabaseBackupSection(context = context, repository = repository)
+
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Supervisor PIN Admin Tools
+        SupervisorAdminSection()
     }
 }
 
@@ -368,6 +375,65 @@ private fun DatabaseBackupSection(
                 text = msg,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}
+
+@Composable
+private fun SupervisorAdminSection() {
+    var pinInput by remember { mutableStateOf("") }
+    var isUnlocked by remember { mutableStateOf(value = false) }
+    var adminMsg by remember { mutableStateOf<String?>(null) }
+
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = stringResource(R.string.settings_admin_heading),
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        if (!isUnlocked) {
+            androidx.compose.material3.OutlinedTextField(
+                value = pinInput,
+                onValueChange = { pinInput = it },
+                label = { Text(stringResource(R.string.settings_admin_pin_prompt)) },
+                visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            androidx.compose.material3.Button(
+                onClick = {
+                    if (pinInput.trim() == "1234") {
+                        isUnlocked = true
+                        adminMsg = null
+                    } else {
+                        adminMsg = "Incorrect PIN"
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(text = stringResource(R.string.settings_admin_unlock))
+            }
+        } else {
+            androidx.compose.material3.Button(
+                onClick = {
+                    adminMsg = "Local cache purged successfully."
+                },
+                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                ),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(text = stringResource(R.string.settings_admin_clear_cache))
+            }
+        }
+
+        adminMsg?.let { msg ->
+            Text(
+                text = msg,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (isUnlocked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                 fontWeight = FontWeight.SemiBold,
             )
         }

@@ -3,9 +3,11 @@ package com.minesafear.ui.certificates
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -77,6 +79,19 @@ fun VerifyCertificateScreen(
         }
     }
 
+    LaunchedEffect(scanState) {
+        val checked = scanState as? ScanState.Checked
+        if (checked != null) {
+            val certId = checked.verification.payload?.certId ?: "UNKNOWN"
+            val verdict = when (checked.verification) {
+                is CertificateVerification.Valid -> "VALID"
+                is CertificateVerification.Expired -> "EXPIRED"
+                is CertificateVerification.Invalid -> "INVALID"
+            }
+            com.minesafear.data.InspectionAuditLogStore.logInspection(certId, verdict)
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -128,6 +143,8 @@ fun VerifyCertificateScreen(
                     }
                 }
             }
+
+            InspectionAuditSection()
         }
     }
 }
@@ -242,6 +259,60 @@ private fun ScannedDetails(
                 label = stringResource(R.string.certificate_id_label),
                 value = payload.certId,
             )
+        }
+    }
+}
+
+@Composable
+private fun InspectionAuditSection() {
+    val logs by com.minesafear.data.InspectionAuditLogStore.logs.collectAsStateWithLifecycle()
+
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.verify_audit_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+
+            if (logs.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.verify_audit_empty),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                logs.forEach { log ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = "Cert: ${log.certId.take(8)}...",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                        Text(
+                            text = log.verdict,
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Bold,
+                            color = when (log.verdict) {
+                                "VALID" -> MaterialTheme.colorScheme.primary
+                                "EXPIRED" -> MaterialTheme.colorScheme.tertiary
+                                else -> MaterialTheme.colorScheme.error
+                            },
+                        )
+                    }
+                }
+            }
         }
     }
 }

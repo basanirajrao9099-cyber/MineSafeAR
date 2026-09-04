@@ -82,6 +82,28 @@
     <string name="settings_backup_success">Backup exported to Downloads/MineSafeAR_Backup.json</string>
     <string name="settings_backup_failed">Failed to export backup.</string>
 
+    <!-- Inspection Audit Log -->
+    <string name="verify_audit_title">Safety Officer Inspection Audit Log</string>
+    <string name="verify_audit_empty">No recent certificate verification scans logged.</string>
+    <string name="verify_audit_clear">Clear Inspection History</string>
+
+    <!-- Worker Safety Passport -->
+    <string name="passport_title">Worker Safety Passport</string>
+    <string name="passport_subtitle">Official Underground Competency &amp; Training History</string>
+    <string name="passport_drills_section">Practical AR Drill Attempts</string>
+    <string name="passport_quizzes_section">Written Knowledge Assessment Attempts</string>
+    <string name="passport_no_history">No training history recorded yet for this miner.</string>
+    <string name="passport_badge_certified">CERTIFIED MINER</string>
+    <string name="passport_badge_uncertified">TRAINING IN PROGRESS</string>
+
+    <!-- Supervisor PIN Admin Tools -->
+    <string name="settings_admin_heading">Supervisor Admin Section</string>
+    <string name="settings_admin_pin_prompt">Enter Supervisor PIN (Default: 1234)</string>
+    <string name="settings_admin_pin_incorrect">Incorrect Supervisor PIN.</string>
+    <string name="settings_admin_unlock">Unlock Admin Section</string>
+    <string name="settings_admin_clear_cache">Clear Synced Local Cache</string>
+    <string name="settings_admin_clear_success">Synced local cache cleared successfully.</string>
+
     <!-- Settings & Language -->
     <string name="settings_language_heading">Language</string>
     <string name="settings_language_description">Instructions, safety warnings and certificate labels all follow this choice.</string>

@@ -55,7 +55,10 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    onOpenPassport: () -> Unit = {},
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     val repository = remember(context) { TrainingRepository(DatabaseProvider.get(context)) }
     val scope = rememberCoroutineScope()
@@ -100,12 +103,15 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         // Active Miner Profile Card
         ActiveWorkerCard(
             worker = activeWorker,
-        ) { showWorkerDialog = true }
+            onSwitchWorker = { showWorkerDialog = true },
+            onOpenPassport = onOpenPassport,
+        )
 
         // Safety Competency Card
         CompetencyCard(
             repository = repository,
             workerId = activeWorkerId,
+            onOpenPassport = onOpenPassport,
         )
 
         // Sync Status & Trigger
@@ -182,8 +188,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 private fun ActiveWorkerCard(
     worker: WorkerEntity?,
     onSwitchWorker: () -> Unit,
+    onOpenPassport: () -> Unit = {},
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onOpenPassport)) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -391,6 +398,7 @@ private fun WorkerProfileDialog(
 private fun CompetencyCard(
     repository: TrainingRepository,
     workerId: String,
+    onOpenPassport: () -> Unit = {},
 ) {
     val moduleResults by remember(repository, workerId) {
         repository.observeModuleResults(workerId)
@@ -418,7 +426,7 @@ private fun CompetencyCard(
         (activeCert != null) && com.minesafear.certificate.CertificatePolicy.isExpiredAt(activeCert.expiryDate, now)
     }
 
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onOpenPassport)) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
