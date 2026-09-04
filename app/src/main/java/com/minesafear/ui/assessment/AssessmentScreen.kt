@@ -131,7 +131,7 @@ fun AssessmentScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val repository = remember(context) { TrainingRepository(DatabaseProvider.get(context)) }
     val scope = rememberCoroutineScope()
-    val userId = TrainingRepository.UNPROVISIONED_USER_ID
+    val userId = remember(context) { com.minesafear.data.ActiveWorkerPreference.getActiveWorkerId(context) }
 
     var mode by remember { mutableStateOf(AssessmentScreenMode.INTRO) }
     var currentQuestionIndex by remember { mutableIntStateOf(0) }
@@ -162,21 +162,23 @@ fun AssessmentScreen(modifier: Modifier = Modifier) {
         mode = AssessmentScreenMode.COMPLETED
 
         scope.launch {
-            val attemptNum = repository.nextAttemptNumber(userId, "fire_explosion_response")
-            val entity = AssessmentResultEntity(
-                id = UUID.randomUUID().toString(),
-                workerId = userId,
-                moduleId = "fire_explosion_response",
-                attemptNumber = attemptNum,
-                scorePercent = score.scorePercent,
-                correctAnswers = score.correctAnswers,
-                totalQuestions = score.totalQuestions,
-                passed = score.passed,
-                durationSeconds = duration,
-                submittedAt = System.currentTimeMillis(),
-                pendingSync = true,
-            )
-            repository.saveResult(entity)
+            runCatching {
+                val attemptNum = repository.nextAttemptNumber(userId, "fire_explosion_response")
+                val entity = AssessmentResultEntity(
+                    id = UUID.randomUUID().toString(),
+                    workerId = userId,
+                    moduleId = "fire_explosion_response",
+                    attemptNumber = attemptNum,
+                    scorePercent = score.scorePercent,
+                    correctAnswers = score.correctAnswers,
+                    totalQuestions = score.totalQuestions,
+                    passed = score.passed,
+                    durationSeconds = duration,
+                    submittedAt = System.currentTimeMillis(),
+                    pendingSync = true,
+                )
+                repository.saveResult(entity)
+            }
         }
     }
 

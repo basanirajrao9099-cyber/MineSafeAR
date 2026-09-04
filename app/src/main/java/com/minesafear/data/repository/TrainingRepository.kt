@@ -86,9 +86,48 @@ class TrainingRepository(private val database: MineSafeArDatabase) {
         resultDao.observeForWorker(workerId)
 
     suspend fun nextAttemptNumber(workerId: String, moduleId: String): Int =
-        resultDao.countAttempts(workerId, moduleId) + 1
+        runCatching { resultDao.countAttempts(workerId, moduleId) }.getOrDefault(0) + 1
 
-    suspend fun saveResult(result: AssessmentResultEntity) = resultDao.insert(result)
+    suspend fun ensureWorkerExists(workerId: String) {
+        if (workerDao.getById(workerId) == null) {
+            val now = System.currentTimeMillis()
+            workerDao.upsert(
+                WorkerEntity(
+                    id = workerId,
+                    employeeCode = "EMP-LOCAL",
+                    fullName = "Local Worker",
+                    siteId = "SITE-1",
+                    jobRole = "Operator",
+                    createdAt = now,
+                    updatedAt = now,
+                ),
+            )
+        }
+    }
+
+    suspend fun ensureModuleExists(moduleId: String) {
+        if (moduleDao.getById(moduleId) == null) {
+            moduleDao.upsert(
+                TrainingModuleEntity(
+                    id = moduleId,
+                    title = "Fire & Explosion Response",
+                    summary = "Underground fire response and extinguisher selection",
+                    category = "Fire Safety",
+                    durationMinutes = 15,
+                    totalSteps = 3,
+                    updatedAt = System.currentTimeMillis(),
+                ),
+            )
+        }
+    }
+
+    suspend fun saveResult(result: AssessmentResultEntity) {
+        runCatching {
+            ensureWorkerExists(result.workerId)
+            ensureModuleExists(result.moduleId)
+            resultDao.insert(result)
+        }
+    }
 
     // --- Interactive module results --------------------------------------
 

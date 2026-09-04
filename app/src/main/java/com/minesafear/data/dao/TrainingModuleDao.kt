@@ -12,6 +12,9 @@ interface TrainingModuleDao {
     @Upsert
     suspend fun upsertAll(modules: List<TrainingModuleEntity>)
 
+    @Upsert
+    suspend fun upsert(module: TrainingModuleEntity)
+
     @Query("SELECT * FROM training_modules ORDER BY category ASC, title ASC")
     fun observeAll(): Flow<List<TrainingModuleEntity>>
 
