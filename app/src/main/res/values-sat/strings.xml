@@ -63,38 +63,37 @@
 
     <!-- Home -->
     <string name="home_greeting">ᱡᱚᱦᱟᱨ MineSafeAR</string>
-    <!-- TODO(santali): <string name="home_subtitle">AR-based industrial safety training</string> -->
+    <string name="home_subtitle">AR ᱴᱮᱠᱱᱚᱞᱚᱡᱤ ᱥᱟᱶ ᱠᱷᱟᱫᱟᱱ ᱥᱩᱨᱚᱠᱷᱟ ᱴᱨᱮᱱᱤᱝ</string>
 
     <!-- Sync status, shown on Home -->
-    <!-- TODO(santali): <string name="sync_status_synced">Synced</string> -->
-    <!-- TODO(santali): <string name="sync_status_pending">Pending sync — will upload when online</string> -->
-    <!-- TODO(santali): <string name="sync_status_never">Nothing to sync yet</string> -->
-    <!-- keeps: %1$s -->
-    <!-- TODO(santali): <string name="sync_status_last_synced">Last synced: %1$s</string> -->
+    <string name="sync_status_synced">ᱥᱤᱝᱠ ᱮᱱᱟ</string>
+    <string name="sync_status_pending">ᱥᱤᱝᱠ ᱵᱟᱹᱠᱤ ᱢᱮᱱᱟᱜᱼᱟ</string>
+    <string name="sync_status_never">ᱥᱤᱝᱠ ᱞᱟᱹᱜᱤᱫ ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱹᱱᱩᱜᱼᱟ</string>
+    <string name="sync_status_last_synced">ᱢᱩᱪᱟᱹᱫ ᱥᱤᱝᱠ: %1$s</string>
 
     <!-- Bottom navigation -->
-    <!-- TODO(santali): <string name="nav_home">Home</string> -->
-    <!-- TODO(santali): <string name="nav_modules">Modules</string> -->
-    <!-- TODO(santali): <string name="nav_assessment">Assessment</string> -->
-    <!-- TODO(santali): <string name="nav_certificates">Certificates</string> -->
-    <!-- TODO(santali): <string name="nav_settings">Settings</string> -->
+    <string name="nav_home">ᱦᱳᱢ</string>
+    <string name="nav_modules">ᱢᱳᱰᱤᱭᱩᱞ</string>
+    <string name="nav_assessment">ᱯᱚᱨᱤᱠᱷᱟ</string>
+    <string name="nav_certificates">ᱥᱟᱨᱴᱤᱯᱷᱤᱠᱮᱴ</string>
+    <string name="nav_settings">ᱥᱮᱴᱤᱝᱥ</string>
 
     <!-- Screen titles -->
-    <!-- TODO(santali): <string name="title_home">Home</string> -->
-    <!-- TODO(santali): <string name="title_modules">Training Modules</string> -->
-    <!-- TODO(santali): <string name="title_assessment">Assessment</string> -->
-    <!-- TODO(santali): <string name="title_certificates">My Certificates</string> -->
-    <!-- TODO(santali): <string name="title_settings">Settings &amp; Language</string> -->
+    <string name="title_home">ᱦᱳᱢ</string>
+    <string name="title_modules">ᱴᱨᱮᱱᱤᱝ ᱢᱳᱰᱤᱭᱩᱞ</string>
+    <string name="title_assessment">ᱥᱩᱨᱚᱠᱷᱟ ᱯᱚᱨᱤᱠᱷᱟ</string>
+    <string name="title_certificates">ᱤᱧᱟᱜ ᱥᱟᱨᱴᱤᱯᱷᱤᱠᱮᱴ</string>
+    <string name="title_settings">ᱥᱮᱴᱤᱝᱥ ᱟᱨ ᱯᱟᱹᱨᱥᱤ</string>
 
     <!-- Placeholder copy -->
-    <!-- TODO(santali): <string name="placeholder_assessment">Module assessments will run here.</string> -->
+    <string name="placeholder_assessment">ᱢᱳᱰᱤᱭᱩᱞ ᱯᱚᱨᱤᱠᱷᱟ ᱱᱚᱸᱰᱮ ᱦᱩᱭᱩᱜᱼᱟ᱾</string>
 
     <!-- Settings &amp; Language -->
-    <!-- TODO(santali): <string name="settings_language_heading">Language</string> -->
-    <!-- TODO(santali): <string name="settings_language_description">Instructions, safety warnings and certificate labels all follow this choice.</string> -->
-    <!-- TODO(santali): <string name="settings_language_restart_note">The screen reloads when you change this. Finish any drill you have started first.</string> -->
-    <!-- TODO(santali): <string name="settings_language_partial">This language is still being translated. Screens with no translation yet stay in English.</string> -->
-    <!-- TODO(santali): <string name="settings_language_olchiki_note">If the Ol Chiki option shows empty boxes instead of letters, this device has no Ol Chiki font. Choose the Devanagari option instead.</string> -->
+    <string name="settings_language_heading">ᱯᱟᱹᱨᱥᱤ (Language)</string>
+    <string name="settings_language_description">ᱱᱚᱣᱟ ᱯᱟᱹᱨᱥᱤ ᱛᱮ ᱥᱟᱱᱟᱢ ᱱᱤᱭᱚᱢ ᱟᱨ ᱥᱟᱨᱴᱤᱯᱷᱤᱠᱮᱴ ᱞᱮᱵᱮᱞ ᱫᱮᱠᱷᱟᱣᱚᱜᱼᱟ᱾</string>
+    <string name="settings_language_restart_note">ᱯᱟᱹᱨᱥᱤ ᱵᱚᱫᱚᱞ ᱞᱮᱠᱷᱟᱱ ᱥᱠᱨᱤᱱ ᱫᱚᱦᱲᱟ ᱞᱳᱰᱚᱜᱼᱟ᱾</string>
+    <string name="settings_language_partial">ᱱᱚᱣᱟ ᱯᱟᱹᱨᱥᱤ ᱛᱚᱨᱡᱚᱢᱟ ᱪᱟᱞᱟᱜ ᱠᱟᱱᱟ᱾</string>
+    <string name="settings_language_olchiki_note">ᱡᱩᱫᱤ Ol Chiki ᱚᱠᱷᱚᱨ ᱵᱟᱝ ᱧᱮᱞᱚᱜᱼᱟ, ᱛᱚᱵᱮ Devanagari ᱵᱟᱪᱷᱟᱣ ᱢᱮ᱾</string>
     <!-- TODO(santali): <string name="settings_language_system_note">Android also lists MineSafeAR under Settings, System, Languages, so this choice and the system one stay in step.</string> -->
 
     <!-- Spoken narration, shared by every training module -->
@@ -291,4 +290,36 @@
     <!-- TODO(santali): <string name="verify_cancelled">Scan cancelled.</string> -->
     <!-- TODO(santali): <string name="verify_scanned_details">Scanned details</string> -->
     <!-- TODO(santali): <string name="verify_no_local_record">Not issued on this device</string> -->
+
+    <!-- Additional UI & Worker management strings -->
+    <string name="worker_badge_label">ᱵᱮᱡᱽ: %1$s</string>
+    <string name="worker_role_label">ᱠᱟᱹᱢᱤ: %1$s</string>
+    <string name="ar_harness_title">AR ᱴᱮᱥᱴ ᱟᱨ ᱡᱟᱸᱪ</string>
+    <string name="dialog_close">ᱵᱚᱸᱫᱽ</string>
+    <string name="worker_card_title">ᱪᱟᱹᱞᱩ ᱢᱟᱭᱱᱚᱨ ᱯᱨᱳᱯᱷᱟᱭᱤᱞ</string>
+    <string name="worker_card_switch">ᱯᱨᱳᱯᱷᱟᱭᱤᱞ ᱵᱚᱫᱚᱞ</string>
+    <string name="worker_card_register">ᱠᱟᱹᱢᱤᱭᱟᱹ ᱡᱚᱲᱟᱣ</string>
+    <string name="worker_dialog_title">ᱢᱟᱭᱱᱚᱨ ᱵᱟᱪᱷᱟᱣ</string>
+    <string name="worker_dialog_add_title">ᱱᱟᱶᱟ ᱠᱟᱹᱢᱤᱭᱟᱹ ᱮᱱᱴᱨᱤ</string>
+    <string name="worker_field_name">ᱯᱩᱨᱟᱹ ᱧᱩᱛᱩᱢ</string>
+    <string name="worker_field_code">ᱵᱮᱡᱽ ᱠᱳᱰ</string>
+    <string name="worker_field_role">ᱠᱟᱹᱢᱤ ᱴᱷᱟᱶ</string>
+    <string name="worker_field_site">ᱠᱷᱟᱫᱟᱱ ᱥᱟᱭᱤᱴ ID</string>
+    <string name="worker_button_save">ᱠᱟᱹᱢᱤᱭᱟᱹ ᱥᱟᱸᱪᱟᱣ</string>
+    <string name="worker_unprovisioned_label">ᱞᱳᱠᱟᱞ ᱠᱟᱹᱢᱤᱭᱟᱹ</string>
+    <string name="worker_language_label">ᱯᱟᱹᱨᱥᱤ: %1$s</string>
+    <string name="home_competency_title">ᱥᱩᱨᱚᱠᱷᱟ ᱡᱳᱜᱽᱭᱚᱛᱟ ᱥᱟᱨᱟᱝᱥ</string>
+    <string name="home_competency_drills">AR ᱴᱨᱮᱱᱤᱝ: %1$d ᱯᱩᱨᱟᱹᱣ ᱮᱱᱟ</string>
+    <string name="home_competency_assessment">ᱚᱞ ᱯᱚᱨᱤᱠᱷᱟ: %1$s</string>
+    <string name="home_competency_status_certified">ᱥᱟᱨᱴᱤᱯᱷᱟᱭᱤᱰ</string>
+    <string name="home_competency_status_uncertified">ᱵᱟᱝ ᱥᱟᱨᱴᱤᱯᱷᱟᱭᱤᱰ</string>
+    <string name="home_competency_status_expired">ᱯᱟᱨᱚᱢ ᱮᱱᱟ</string>
+    <string name="home_competency_no_test">ᱵᱟᱝ ᱮᱢ ᱟᱠᱟᱱᱟ</string>
+    <string name="home_competency_passed">ᱯᱟᱥ (%1$d%%)</string>
+    <string name="home_competency_failed">ᱯᱷᱮᱞ (%1$d%%)</string>
+    <string name="calendar_heading">ᱴᱨᱮᱱᱤᱝ ᱥᱤᱯᱷᱴ ᱥ schedule</string>
+    <string name="calendar_next_session">ᱤᱱᱟᱹ ᱛᱟᱭᱚᱢ ᱴᱨᱮᱱᱤᱝ: ᱥᱮᱸᱜᱮᱞ ᱟᱨ ᱜᱮᱥ ᱰᱨᱤᱞ</string>
+    <string name="calendar_date_due">ᱥᱚᱢᱚᱭ: ᱤᱱᱟᱹ ᱛᱟᱭᱚᱢ ᱥᱤᱯᱷᱴ (08:00 AM)</string>
+    <string name="analytics_open_button">ᱥᱟᱭᱤᱴ ᱥᱩᱨᱚᱠᱷᱟ ᱮᱱᱟᱞᱤᱴᱤᱠᱥ</string>
+    <string name="settings_sync_button">ᱥᱤᱝᱠ ᱠᱚᱨᱟᱣ ᱢᱮ</string>
 </resources>

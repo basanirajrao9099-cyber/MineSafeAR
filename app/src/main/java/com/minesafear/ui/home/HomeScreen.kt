@@ -49,6 +49,7 @@ import com.minesafear.data.ActiveWorkerPreference
 import com.minesafear.data.DatabaseProvider
 import com.minesafear.data.entity.WorkerEntity
 import com.minesafear.data.repository.TrainingRepository
+import com.minesafear.localization.findActivity
 import com.minesafear.sync.SyncScheduler
 import com.minesafear.sync.SyncStatusStore
 import kotlinx.coroutines.launch
@@ -71,6 +72,19 @@ fun HomeScreen(
     val activeWorker by remember(repository, activeWorkerId) {
         repository.observeWorker(activeWorkerId)
     }.collectAsStateWithLifecycle(null)
+
+    // Restore and apply active worker's saved language preference on load or switch
+    androidx.compose.runtime.LaunchedEffect(activeWorker?.id, activeWorker?.preferredLanguage) {
+        val workerLangTag = activeWorker?.preferredLanguage
+        if (!workerLangTag.isNullOrBlank()) {
+            val targetLang = com.minesafear.localization.AppLanguage.fromTag(workerLangTag)
+            val currentLang = com.minesafear.localization.AppLocaleManager.currentLanguage(context)
+            if (targetLang != currentLang) {
+                com.minesafear.localization.AppLocaleManager.setLanguage(context, targetLang)
+                context.findActivity()?.recreate()
+            }
+        }
+    }
 
     val pendingCount by remember(repository) { repository.observePendingSyncCount() }
         .collectAsStateWithLifecycle(0)
@@ -232,9 +246,17 @@ fun HomeScreen(
             repository = repository,
             activeWorkerId = activeWorkerId,
             onSelectWorker = { selectedId ->
-                activeWorkerId = selectedId
-                ActiveWorkerPreference.setActiveWorkerId(context, selectedId)
-                showWorkerDialog = false
+                scope.launch {
+                    activeWorkerId = selectedId
+                    ActiveWorkerPreference.setActiveWorkerId(context, selectedId)
+                    val selectedWorker = repository.getWorker(selectedId)
+                    if (selectedWorker != null) {
+                        val targetLang = com.minesafear.localization.AppLanguage.fromTag(selectedWorker.preferredLanguage)
+                        com.minesafear.localization.AppLocaleManager.setLanguage(context, targetLang)
+                        context.findActivity()?.recreate()
+                    }
+                    showWorkerDialog = false
+                }
             },
             onDismiss = { showWorkerDialog = false },
             onAddWorker = { newWorker ->
@@ -274,6 +296,8 @@ private fun ActiveWorkerCard(
                 fontWeight = FontWeight.Bold,
             )
 
+            var showLangModal by remember { mutableStateOf(false) }
+
             worker?.let { w ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -291,12 +315,26 @@ private fun ActiveWorkerCard(
                     )
                 }
 
-                Text(
-                    text = stringResource(R.string.worker_language_label, w.preferredLanguage.uppercase()),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.SemiBold,
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showLangModal = true }
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = stringResource(R.string.worker_language_label, w.preferredLanguage.uppercase()),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text = stringResource(R.string.worker_language_switch),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.secondary,
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -306,6 +344,60 @@ private fun ActiveWorkerCard(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(text = stringResource(R.string.worker_card_switch))
+            }
+
+            if (showLangModal && worker != null) {
+                val context = LocalContext.current
+                val repository = remember(context) { TrainingRepository(DatabaseProvider.get(context)) }
+                val scope = rememberCoroutineScope()
+
+                AlertDialog(
+                    onDismissRequest = { showLangModal = false },
+                    title = { Text(stringResource(R.string.worker_language_switch)) },
+                    text = {
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            com.minesafear.localization.AppLanguage.entries.forEach { lang ->
+                                val isSel = lang.tag == worker.preferredLanguage
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            showLangModal = false
+                                            scope.launch {
+                                                repository.upsertWorker(worker.copy(preferredLanguage = lang.tag))
+                                                com.minesafear.localization.AppLocaleManager.setLanguage(context, lang)
+                                                context.findActivity()?.recreate()
+                                            }
+                                        }
+                                        .padding(vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    RadioButton(selected = isSel, onClick = null)
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Column {
+                                        Text(
+                                            text = stringResource(lang.displayNameRes),
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.SemiBold,
+                                        )
+                                        lang.latinNameRes?.let { latin ->
+                                            Text(
+                                                text = stringResource(latin),
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    confirmButton = {
+                        TextButton(onClick = { showLangModal = false }) {
+                            Text("Close")
+                        }
+                    },
+                )
             }
         }
     }
@@ -319,6 +411,7 @@ private fun WorkerProfileDialog(
     onAddWorker: (WorkerEntity) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val context = LocalContext.current
     val workers by repository.observeAllWorkers().collectAsStateWithLifecycle(emptyList())
     var isAddingNew by remember { mutableStateOf(value = false) }
 
@@ -433,6 +526,7 @@ private fun WorkerProfileDialog(
             if (isAddingNew) {
                 Button(
                     onClick = {
+                        val currentLangTag = com.minesafear.localization.AppLocaleManager.currentLanguage(context).tag
                         val now = System.currentTimeMillis()
                         val newWorker = WorkerEntity(
                             id = UUID.randomUUID().toString(),
@@ -440,7 +534,7 @@ private fun WorkerProfileDialog(
                             fullName = fullName.ifBlank { "Miner ${System.currentTimeMillis() % 1000}" },
                             siteId = siteId.ifBlank { "SITE-1" },
                             jobRole = jobRole.ifBlank { "Operator" },
-                            preferredLanguage = "en",
+                            preferredLanguage = currentLangTag,
                             createdAt = now,
                             updatedAt = now,
                         )
@@ -452,7 +546,7 @@ private fun WorkerProfileDialog(
                 }
             } else {
                 TextButton(onClick = onDismiss) {
-                    Text(text = "Close")
+                    Text(text = stringResource(R.string.dialog_close))
                 }
             }
         },

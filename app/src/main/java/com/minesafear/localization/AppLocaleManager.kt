@@ -74,11 +74,9 @@ object AppLocaleManager {
             val localeManager = context.getSystemService(android.app.LocaleManager::class.java)
             if (localeManager != null) {
                 localeManager.applicationLocales = LocaleList.forLanguageTags(language.tag)
-                return Applied.BY_SYSTEM
             }
         }
-        // Below 13 (or if the service is somehow absent) the recreated activity
-        // picks the choice up through wrap().
+        // Always return NEEDS_RECREATE so activity recreates immediately on all API levels.
         return Applied.NEEDS_RECREATE
     }
 
@@ -134,4 +132,16 @@ object AppLocaleManager {
     /** True when the device itself persists the per-app language. */
     val isSystemBacked: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+}
+
+/**
+ * Walks the wrapper chain rather than casting to find the hosting Activity.
+ */
+fun Context.findActivity(): android.app.Activity? {
+    var current: Context? = this
+    while (current is android.content.ContextWrapper) {
+        if (current is android.app.Activity) return current
+        current = current.baseContext
+    }
+    return null
 }

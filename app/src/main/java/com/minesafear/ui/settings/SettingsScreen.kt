@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,6 +65,10 @@ fun SettingsScreen(
         mutableStateOf(AppLocaleManager.currentLanguage(context))
     }
 
+    val scope = rememberCoroutineScope()
+    val repository = remember(context) { com.minesafear.data.repository.TrainingRepository(com.minesafear.data.DatabaseProvider.get(context)) }
+    val activeWorkerId = remember(context) { com.minesafear.data.ActiveWorkerPreference.getActiveWorkerId(context) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -97,11 +102,18 @@ fun SettingsScreen(
                     language = language,
                     isSelected = language == selected,
                 ) {
-                    // Re-picking the current language would reload the screen for
-                    // nothing, and on a drill-heavy device that is a real cost.
                     if (language != selected) {
                         selected = language
-                        applyLanguage(context, language)
+                        scope.launch {
+                            runCatching {
+                                repository.ensureWorkerExists(activeWorkerId)
+                                val worker = repository.getWorker(activeWorkerId)
+                                if (worker != null) {
+                                    repository.upsertWorker(worker.copy(preferredLanguage = language.tag, updatedAt = System.currentTimeMillis()))
+                                }
+                            }
+                            applyLanguage(context, language)
+                        }
                     }
                 }
             }

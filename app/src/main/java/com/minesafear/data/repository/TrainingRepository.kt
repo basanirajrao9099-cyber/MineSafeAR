@@ -33,6 +33,8 @@ class TrainingRepository(private val database: MineSafeArDatabase) {
 
     suspend fun upsertWorker(worker: WorkerEntity) = workerDao.upsert(worker)
 
+    suspend fun getWorker(workerId: String): WorkerEntity? = workerDao.getById(workerId)
+
     suspend fun findWorkerByBadge(employeeCode: String): WorkerEntity? =
         workerDao.getByEmployeeCode(employeeCode)
 
