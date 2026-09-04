@@ -215,4 +215,36 @@
     <string name="verify_cancelled">स्कैन रद्द किया गया।</string>
     <string name="verify_scanned_details">स्कैन किया गया विवरण</string>
     <string name="verify_no_local_record">इस डिवाइस पर जारी नहीं हुआ</string>
+
+    <!-- Additional UI & Worker management strings -->
+    <string name="worker_badge_label">बैज: %1$s</string>
+    <string name="worker_role_label">पद: %1$s</string>
+    <string name="ar_harness_title">एआर डायग्नोस्टिक्स और परीक्षण</string>
+    <string name="dialog_close">बंद करें</string>
+    <string name="worker_card_title">सक्रिय खनिक प्रोफ़ाइल</string>
+    <string name="worker_card_switch">प्रोफ़ाइल बदलें</string>
+    <string name="worker_card_register">श्रमिक जोड़ें</string>
+    <string name="worker_dialog_title">सक्रिय खनिक चुनें</string>
+    <string name="worker_dialog_add_title">नया श्रमिक पंजीकृत करें</string>
+    <string name="worker_field_name">पूरा नाम</string>
+    <string name="worker_field_code">कर्मचारी / बैज कोड</string>
+    <string name="worker_field_role">नौकरी की भूमिका</string>
+    <string name="worker_field_site">खान शाफ्ट / साइट आईडी</string>
+    <string name="worker_button_save">श्रमिक सहेजें</string>
+    <string name="worker_unprovisioned_label">डीफ़ॉल्ट स्थानीय श्रमिक</string>
+    <string name="worker_language_label">भाषा: %1$s</string>
+    <string name="home_competency_title">सुरक्षा योग्यता विवरण</string>
+    <string name="home_competency_drills">व्यावहारिक एआर अभ्यास: %1$d पूर्ण</string>
+    <string name="home_competency_assessment">लिखित मूल्यांकन: %1$s</string>
+    <string name="home_competency_status_certified">प्रमाणित</string>
+    <string name="home_competency_status_uncertified">प्रमाणित नहीं</string>
+    <string name="home_competency_status_expired">समाप्त</string>
+    <string name="home_competency_no_test">अभी तक प्रयास नहीं किया</string>
+    <string name="home_competency_passed">उत्तीर्ण (%1$d%%)</string>
+    <string name="home_competency_failed">अनुत्तीर्ण (%1$d%%)</string>
+    <string name="calendar_heading">वैधानिक पुनर्शिक्षण शिफ्ट अनुसूची</string>
+    <string name="calendar_next_session">अगला सत्र: आग और गैस निकासी अभ्यास</string>
+    <string name="calendar_date_due">समय: अगली शिफ्ट (सुबह 08:00 बजे)</string>
+    <string name="analytics_open_button">साइट सुरक्षा विश्लेषण देखें</string>
+    <string name="settings_sync_button">सिंक सिंक करें</string>
 </resources>

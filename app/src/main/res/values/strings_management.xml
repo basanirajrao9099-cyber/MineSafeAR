@@ -284,4 +284,10 @@
     <string name="olchiki_diag_button">Run Font Check</string>
     <string name="olchiki_diag_ok">Native Ol Chiki font detected &amp; fully supported on this device.</string>
     <string name="olchiki_diag_missing">Ol Chiki font missing on this device. Santali (Devanagari) recommended.</string>
+
+    <!-- UI Labels & Harness -->
+    <string name="worker_badge_label">Badge: %1$s</string>
+    <string name="worker_role_label">Role: %1$s</string>
+    <string name="ar_harness_title">AR Diagnostics &amp; Harness</string>
+    <string name="dialog_close">Close</string>
 </resources>
