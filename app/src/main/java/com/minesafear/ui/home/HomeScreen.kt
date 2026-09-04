@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -100,6 +101,12 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         ActiveWorkerCard(
             worker = activeWorker,
         ) { showWorkerDialog = true }
+
+        // Safety Competency Card
+        CompetencyCard(
+            repository = repository,
+            workerId = activeWorkerId,
+        )
 
         // Sync Status & Trigger
         Card(
@@ -378,4 +385,100 @@ private fun WorkerProfileDialog(
             }
         },
     )
+}
+
+@Composable
+private fun CompetencyCard(
+    repository: TrainingRepository,
+    workerId: String,
+) {
+    val moduleResults by remember(repository, workerId) {
+        repository.observeModuleResults(workerId)
+    }.collectAsStateWithLifecycle(emptyList())
+
+    val assessmentResults by remember(repository, workerId) {
+        repository.observeResults(workerId)
+    }.collectAsStateWithLifecycle(emptyList())
+
+    val certificates by remember(repository, workerId) {
+        repository.observeCertificates(workerId)
+    }.collectAsStateWithLifecycle(emptyList())
+
+    val now = remember(certificates) { System.currentTimeMillis() }
+    val completedDrills = remember(moduleResults) {
+        moduleResults.filter { it.passed }.map { it.moduleId }.distinct().size
+    }
+    val latestAssessment = remember(assessmentResults) {
+        assessmentResults.maxByOrNull { it.submittedAt }
+    }
+    val activeCert = remember(certificates) {
+        certificates.maxByOrNull { it.issuedDate }
+    }
+    val certExpired = remember(activeCert, now) {
+        (activeCert != null) && com.minesafear.certificate.CertificatePolicy.isExpiredAt(activeCert.expiryDate, now)
+    }
+
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.home_competency_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Surface(
+                    color = when {
+                        (activeCert != null) && !certExpired -> MaterialTheme.colorScheme.primaryContainer
+                        certExpired -> MaterialTheme.colorScheme.errorContainer
+                        else -> MaterialTheme.colorScheme.surfaceVariant
+                    },
+                    shape = MaterialTheme.shapes.small,
+                ) {
+                    Text(
+                        text = stringResource(
+                            when {
+                                (activeCert != null) && !certExpired -> R.string.home_competency_status_certified
+                                certExpired -> R.string.home_competency_status_expired
+                                else -> R.string.home_competency_status_uncertified
+                            },
+                        ),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = when {
+                            (activeCert != null) && !certExpired -> MaterialTheme.colorScheme.onPrimaryContainer
+                            certExpired -> MaterialTheme.colorScheme.onErrorContainer
+                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    )
+                }
+            }
+
+            HorizontalDivider()
+
+            Text(
+                text = stringResource(R.string.home_competency_drills, completedDrills),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            val assessmentText = when {
+                latestAssessment == null -> stringResource(R.string.home_competency_no_test)
+                latestAssessment.passed -> stringResource(R.string.home_competency_passed, latestAssessment.scorePercent)
+                else -> stringResource(R.string.home_competency_failed, latestAssessment.scorePercent)
+            }
+
+            Text(
+                text = stringResource(R.string.home_competency_assessment, assessmentText),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
 }

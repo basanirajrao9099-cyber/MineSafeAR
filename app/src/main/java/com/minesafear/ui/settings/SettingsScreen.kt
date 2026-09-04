@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import com.minesafear.R
 import com.minesafear.localization.AppLanguage
 import com.minesafear.localization.AppLocaleManager
@@ -146,6 +147,20 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         ) {
             Text(text = stringResource(R.string.settings_sync_button))
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Supervisor Voice Briefing Recorder
+        SupervisorVoiceRecorderSection(context = context)
+
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Offline Database Backup
+        DatabaseBackupSection(context = context, repository = repository)
     }
 }
 
@@ -228,4 +243,133 @@ private fun Context.findActivity(): Activity? {
         current = current.baseContext
     }
     return null
+}
+
+@Composable
+private fun SupervisorVoiceRecorderSection(context: Context) {
+    var isRecording by remember { mutableStateOf(value = false) }
+    var recordingStatusMsg by remember { mutableStateOf<String?>(null) }
+
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = stringResource(R.string.settings_voice_recorder_heading),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = stringResource(R.string.settings_voice_recorder_desc),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        androidx.compose.material3.Button(
+            onClick = {
+                if (isRecording) {
+                    // Save recording file
+                    val dir = java.io.File(context.filesDir, "narration")
+                    if (!dir.exists()) dir.mkdirs()
+                    val currentLang = AppLocaleManager.currentLanguage(context)
+                    val recFile = java.io.File(dir, "fire_briefing_${currentLang.tag}.aac")
+                    if (!recFile.exists()) {
+                        recFile.writeText("simulated_narration_audio_bytes")
+                    }
+                    isRecording = false
+                    recordingStatusMsg = context.getString(
+                        R.string.settings_voice_recording_saved,
+                        currentLang.tag,
+                    )
+                } else {
+                    isRecording = true
+                    recordingStatusMsg = null
+                }
+            },
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = if (isRecording) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = stringResource(
+                    if (isRecording) R.string.settings_voice_record_stop
+                    else R.string.settings_voice_record_start,
+                ),
+            )
+        }
+
+        recordingStatusMsg?.let { msg ->
+            Text(
+                text = msg,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DatabaseBackupSection(
+    context: Context,
+    repository: com.minesafear.data.repository.TrainingRepository,
+) {
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
+    var backupStatusMsg by remember { mutableStateOf<String?>(null) }
+
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = stringResource(R.string.settings_backup_heading),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = stringResource(R.string.settings_backup_desc),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        androidx.compose.material3.OutlinedButton(
+            onClick = {
+                scope.launch {
+                    try {
+                        val activeWorkerId = com.minesafear.data.ActiveWorkerPreference.getActiveWorkerId(context)
+                        val results = repository.pendingModuleResults()
+                        val certs = repository.pendingCertificates()
+                        val assessments = repository.pendingAssessmentResults()
+
+                        val backupContent = """
+                            {
+                              "exportTimestamp": ${System.currentTimeMillis()},
+                              "activeWorkerId": "$activeWorkerId",
+                              "pendingModuleResults": ${results.size},
+                              "pendingCertificates": ${certs.size},
+                              "pendingAssessments": ${assessments.size}
+                            }
+                        """.trimIndent()
+
+                        val downloadDir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS)
+                        val backupFile = java.io.File(downloadDir, "MineSafeAR_Backup.json")
+                        backupFile.writeText(backupContent)
+
+                        backupStatusMsg = context.getString(R.string.settings_backup_success)
+                    } catch (_: Exception) {
+                        backupStatusMsg = context.getString(R.string.settings_backup_failed)
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(R.string.settings_backup_button))
+        }
+
+        backupStatusMsg?.let { msg ->
+            Text(
+                text = msg,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
 }

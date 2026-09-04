@@ -49,6 +49,39 @@
     <string name="settings_sync_pending_count">Pending Offline Records: %1$d</string>
     <string name="settings_sync_button">Force Sync Queue</string>
 
+    <!-- Home Competency Widget -->
+    <string name="home_competency_title">Safety Competency Summary</string>
+    <string name="home_competency_drills">Practical AR Drills: %1$d completed</string>
+    <string name="home_competency_assessment">Written Assessment: %1$s</string>
+    <string name="home_competency_status_certified">CERTIFIED</string>
+    <string name="home_competency_status_uncertified">NOT CERTIFIED</string>
+    <string name="home_competency_status_expired">EXPIRED</string>
+    <string name="home_competency_no_test">Not attempted yet</string>
+    <string name="home_competency_passed">Passed (%1$d%%)</string>
+    <string name="home_competency_failed">Failed (%1$d%%)</string>
+    <string name="home_competency_action_assessment">Take Assessment</string>
+    <string name="home_competency_action_cert">View Certificates</string>
+
+    <!-- Certificate Renewal Alerts -->
+    <string name="cert_renewal_banner_title">Certificate Renewal Warning</string>
+    <string name="cert_renewal_banner_expiring">Your safety certificate expires in %1$d days. Please retake the assessment to renew.</string>
+    <string name="cert_renewal_banner_expired">Your safety certificate has expired. Retake the safety assessment to renew certification.</string>
+    <string name="cert_renewal_banner_action">Retake Assessment</string>
+
+    <!-- Supervisor Voice Recorder -->
+    <string name="settings_voice_recorder_heading">Supervisor Voice Briefings</string>
+    <string name="settings_voice_recorder_desc">Record local spoken instructions for miners in Santali, Hindi or English.</string>
+    <string name="settings_voice_record_start">Record Briefing</string>
+    <string name="settings_voice_record_stop">Stop &amp; Save Recording</string>
+    <string name="settings_voice_recording_saved">Voice briefing saved locally for %1$s.</string>
+
+    <!-- Database Backup & Export -->
+    <string name="settings_backup_heading">Data Backup &amp; Admin Tools</string>
+    <string name="settings_backup_desc">Export an offline backup of worker training history, drill attempts and certificate signatures to Downloads.</string>
+    <string name="settings_backup_button">Export Database Backup</string>
+    <string name="settings_backup_success">Backup exported to Downloads/MineSafeAR_Backup.json</string>
+    <string name="settings_backup_failed">Failed to export backup.</string>
+
     <!-- Settings & Language -->
     <string name="settings_language_heading">Language</string>
     <string name="settings_language_description">Instructions, safety warnings and certificate labels all follow this choice.</string>

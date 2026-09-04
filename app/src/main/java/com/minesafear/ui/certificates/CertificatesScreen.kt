@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.rememberCoroutineScope
@@ -73,6 +74,10 @@ fun CertificatesScreen(
     // Sampled once per data change rather than per frame: expiry is a date, so a
     // ticking clock would buy nothing and cost a recomposition a second.
     val now = remember(certificates) { System.currentTimeMillis() }
+    val latestCert = remember(certificates) { certificates.maxByOrNull { it.issuedDate } }
+    val daysRemaining = remember(latestCert, now) {
+        latestCert?.let { ((it.expiryDate - now) / (1000 * 60 * 60 * 24)).toInt() }
+    }
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -85,6 +90,12 @@ fun CertificatesScreen(
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.primary,
             )
+        }
+
+        if ((latestCert != null) && (daysRemaining != null) && (daysRemaining <= 30)) {
+            item {
+                ExpiryAlertBanner(daysRemaining = daysRemaining)
+            }
         }
 
         item {
@@ -263,5 +274,50 @@ private fun StatusChip(expired: Boolean) {
             },
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
         )
+    }
+}
+
+@Composable
+private fun ExpiryAlertBanner(daysRemaining: Int) {
+    val isExpired = daysRemaining <= 0
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = if (isExpired) {
+                MaterialTheme.colorScheme.errorContainer
+            } else {
+                MaterialTheme.colorScheme.tertiaryContainer
+            },
+        ),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.cert_renewal_banner_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = if (isExpired) {
+                    MaterialTheme.colorScheme.onErrorContainer
+                } else {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                },
+            )
+
+            Text(
+                text = if (isExpired) {
+                    stringResource(R.string.cert_renewal_banner_expired)
+                } else {
+                    stringResource(R.string.cert_renewal_banner_expiring, daysRemaining)
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (isExpired) {
+                    MaterialTheme.colorScheme.onErrorContainer
+                } else {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                },
+            )
+        }
     }
 }

@@ -71,9 +71,15 @@ object NarrationCatalogue {
         NarrationSlot.GAS_LEAK_BRIEFING -> gasLeakBriefing(language)
     }
 
-    /** True when a recording exists, so a caller can show the control disabled. */
-    fun isRecorded(slot: NarrationSlot, language: AppLanguage): Boolean =
-        resourceFor(slot, language) != null
+    /** True when a local supervisor recording or raw resource exists for a slot. */
+    fun isRecorded(context: android.content.Context, slot: NarrationSlot, language: AppLanguage): Boolean =
+        hasLocalFile(context, slot, language) || (resourceFor(slot, language) != null)
+
+    fun hasLocalFile(context: android.content.Context, slot: NarrationSlot, language: AppLanguage): Boolean {
+        val dir = java.io.File(context.filesDir, "narration")
+        val file = java.io.File(dir, "${slot.name.lowercase()}_${language.tag}.aac")
+        return file.exists() && file.length() > 0
+    }
 
     @RawRes
     private fun fireBriefing(language: AppLanguage): Int? = when (language) {
