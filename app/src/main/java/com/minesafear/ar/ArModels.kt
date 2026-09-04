@@ -92,6 +92,10 @@ object ArModels {
     @RawRes
     val EXTINGUISHER_WATER: Int = R.raw.placeholder_extinguisher_water
 
+    /** Realistic 3D fire extinguisher with pressure gauge, pull-pin, hose, nozzle & PASS instructions label. */
+    @RawRes
+    val EXTINGUISHER_REALISTIC: Int = R.raw.realistic_extinguisher
+
     /** Green panel on a post — see the note above about wall mounting. */
     @RawRes
     val EXIT_SIGN: Int = R.raw.placeholder_exit_sign
@@ -111,6 +115,9 @@ object ArModels {
 
     /** Height of a 9 kg extinguisher. Trainees judge reach and weight from this. */
     const val EXTINGUISHER_SCALE_METRES: Float = 0.55f
+
+    /** Default height in metres above the floor for extinguishers to float above the surface. */
+    const val EXTINGUISHER_DEFAULT_FLOAT_HEIGHT_METRES: Float = 0.25f
 
     /** Eye-height signage, so a trainee has to look up for it like the real thing. */
     const val EXIT_SIGN_SCALE_METRES: Float = 1.9f

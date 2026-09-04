@@ -5,6 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.minesafear.ui.modules.TrainingModulesScreen
+import com.minesafear.ui.modules.extinguisher.ExtinguisherModuleRoutes
+import com.minesafear.ui.modules.extinguisher.ExtinguisherOutcome
+import com.minesafear.ui.modules.extinguisher.ExtinguisherResultsScreen
+import com.minesafear.ui.modules.extinguisher.ExtinguisherTrainingScreen
 import com.minesafear.ui.modules.fire.FireDrillOutcome
 import com.minesafear.ui.modules.fire.FireModuleResultsScreen
 import com.minesafear.ui.modules.fire.FireModuleRoutes
@@ -20,6 +24,7 @@ fun NavGraphBuilder.addSimulationGraph(
     composable(MineSafeArDestination.TRAINING_MODULES.route) {
         TrainingModulesScreen(
             onStartFireModule = { navController.navigate(FireModuleRoutes.DRILL) },
+            onStartExtinguisherModule = { navController.navigate(ExtinguisherModuleRoutes.TRAINING) },
             modifier = insetModifier,
         )
     }
@@ -52,6 +57,40 @@ fun NavGraphBuilder.addSimulationGraph(
                 // NavBackStackEntry, and so a fresh FireDrillState.
                 navController.navigate(FireModuleRoutes.DRILL) {
                     popUpTo(FireModuleRoutes.RESULTS) { inclusive = true }
+                }
+            },
+            onNextModule = {
+                navController.navigate(MineSafeArDestination.TRAINING_MODULES.route) {
+                    popUpTo(MineSafeArDestination.TRAINING_MODULES.route) {
+                        inclusive = true
+                    }
+                }
+            },
+            modifier = insetModifier,
+        )
+    }
+
+    // --- Extinguisher PASS Method Training ----------------------------
+
+    composable(ExtinguisherModuleRoutes.TRAINING) {
+        ExtinguisherTrainingScreen(
+            onExit = { navController.popBackStack() },
+            onComplete = { outcome ->
+                navController.navigate(ExtinguisherModuleRoutes.results(outcome)) {
+                    popUpTo(ExtinguisherModuleRoutes.TRAINING) { inclusive = true }
+                }
+            },
+        )
+    }
+    composable(
+        route = ExtinguisherModuleRoutes.RESULTS,
+        arguments = ExtinguisherModuleRoutes.resultsArguments,
+    ) { entry ->
+        ExtinguisherResultsScreen(
+            outcome = ExtinguisherOutcome.fromArguments(entry.arguments),
+            onRetry = {
+                navController.navigate(ExtinguisherModuleRoutes.TRAINING) {
+                    popUpTo(ExtinguisherModuleRoutes.RESULTS) { inclusive = true }
                 }
             },
             onNextModule = {

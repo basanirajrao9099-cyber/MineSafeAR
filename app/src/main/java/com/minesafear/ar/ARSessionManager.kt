@@ -71,12 +71,16 @@ class ArPlacement internal constructor(
     val tag: Any? = null,
     initialRotationY: Float = 0f,
     initialScaleMultiplier: Float = 1.0f,
+    initialFloatHeight: Float = 0f,
 ) {
     /** Additional rotation around Y axis in degrees (0..360). */
     var rotationYDegrees: Float by mutableStateOf(initialRotationY)
 
     /** Scale multiplier applied on top of [scaleToUnits] (e.g. 0.2x..3.0x). */
     var userScaleMultiplier: Float by mutableStateOf(initialScaleMultiplier)
+
+    /** Elevation height in metres above the anchored surface (0.0m..2.0m). */
+    var floatHeightMetres: Float by mutableStateOf(initialFloatHeight)
 
     fun rotate(deltaDegrees: Float) {
         var newAngle = (rotationYDegrees + deltaDegrees) % 360f
@@ -96,6 +100,14 @@ class ArPlacement internal constructor(
 
     fun setScaleMultiplier(multiplier: Float) {
         userScaleMultiplier = multiplier.coerceIn(0.2f, 3.0f)
+    }
+
+    fun setFloatHeight(heightMetres: Float) {
+        floatHeightMetres = heightMetres.coerceIn(0.0f, 2.0f)
+    }
+
+    fun adjustFloatHeight(deltaMetres: Float) {
+        floatHeightMetres = (floatHeightMetres + deltaMetres).coerceIn(0.0f, 2.0f)
     }
 }
 
@@ -310,6 +322,9 @@ class ARSessionManager internal constructor(
         @RawRes modelRes: Int,
         scaleToUnits: Float = ArModels.DEFAULT_SCALE_METRES,
         tag: Any? = null,
+        initialRotationY: Float = 0f,
+        initialFloatHeight: Float = if (isExtinguisherModel(modelRes)) ArModels.EXTINGUISHER_DEFAULT_FLOAT_HEIGHT_METRES else 0f,
+        autoSelect: Boolean = false,
     ): ArPlacement? {
         val anchor = try {
             hitResult.createAnchor()
@@ -331,10 +346,21 @@ class ARSessionManager internal constructor(
             modelRes = modelRes,
             scaleToUnits = scaleToUnits,
             tag = tag,
+            initialRotationY = initialRotationY,
+            initialFloatHeight = initialFloatHeight,
         )
         _placements += placement
-        selectedPlacement = placement
+        if (autoSelect) {
+            selectedPlacement = placement
+        }
         return placement
+    }
+
+    private fun isExtinguisherModel(@RawRes modelRes: Int): Boolean {
+        return modelRes == ArModels.EXTINGUISHER_REALISTIC ||
+            modelRes == ArModels.EXTINGUISHER_CO2 ||
+            modelRes == ArModels.EXTINGUISHER_FOAM ||
+            modelRes == ArModels.EXTINGUISHER_WATER
     }
 
     /**

@@ -3,7 +3,6 @@ package com.minesafear.ar
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.google.ar.core.Config
@@ -12,6 +11,7 @@ import io.github.sceneview.ar.node.AnchorNode
 import io.github.sceneview.node.ModelNode
 import io.github.sceneview.rememberEngine
 import io.github.sceneview.rememberModelLoader
+import io.github.sceneview.rememberMainLightNode
 
 /**
  * The AR camera view, with horizontal plane detection and tap-to-place wired to
@@ -36,6 +36,13 @@ import io.github.sceneview.rememberModelLoader
  * lambda can build model instances; both are the library's own defaults, and both
  * are destroyed when this composition leaves.
  */
+private data class PlacementNodeKey(
+    val id: Long,
+    val rotationYDegrees: Float,
+    val userScaleMultiplier: Float,
+    val floatHeightMetres: Float,
+)
+
 @Composable
 fun ArScene(
     manager: ARSessionManager,
@@ -47,20 +54,37 @@ fun ArScene(
 
     val engine = rememberEngine()
     val modelLoader = rememberModelLoader(engine)
+    val mainLightNode = rememberMainLightNode(engine) {
+        intensity = 120_000f
+        rotation = io.github.sceneview.math.Rotation(x = -45f, y = 30f, z = 0f)
+    }
 
-    val nodes = remember(manager.placements) {
-        manager.placements.mapNotNull { placement ->
+    val placements = manager.placements
+    val nodesKeys = placements.map { placement ->
+        PlacementNodeKey(
+            id = placement.id,
+            rotationYDegrees = placement.rotationYDegrees,
+            userScaleMultiplier = placement.userScaleMultiplier,
+            floatHeightMetres = placement.floatHeightMetres,
+        )
+    }
+
+    val nodes = remember(nodesKeys) {
+        placements.mapNotNull { placement ->
             val instance = runCatching { modelLoader.createModelInstance(placement.modelRes) }.getOrNull()
             if (instance != null) {
                 val scaleMult = placement.userScaleMultiplier
                 val rotY = placement.rotationYDegrees
+                val floatH = placement.floatHeightMetres
                 AnchorNode(engine = engine, anchor = placement.anchor).apply {
                     addChildNode(
                         ModelNode(
                             modelInstance = instance,
                             scaleToUnits = placement.scaleToUnits * scaleMult,
                         ).apply {
+                            position = io.github.sceneview.math.Position(x = 0f, y = floatH, z = 0f)
                             rotation = io.github.sceneview.math.Rotation(x = 0f, y = rotY, z = 0f)
+                            isShadowCaster = true
                         }
                     )
                 }
@@ -73,10 +97,11 @@ fun ArScene(
             modifier = Modifier.fillMaxSize(),
             engine = engine,
             modelLoader = modelLoader,
+            mainLightNode = mainLightNode,
             childNodes = nodes,
-            // The translucent grid over detected planes.
             planeRenderer = showPlaneRenderer,
             sessionConfiguration = { session, config ->
+                config.lightEstimationMode = Config.LightEstimationMode.ENVIRONMENTAL_HDR
                 // Redundant with planeFindingMode above, but this is the hook a
                 // training module overrides, so state the requirement where it is read.
                 config.planeFindingMode = Config.PlaneFindingMode.HORIZONTAL

@@ -108,6 +108,72 @@
     <string name="fire_module_retry">Retry</string>
     <string name="fire_module_next_module">Next module</string>
 
+    <!-- Extinguisher PASS Method Training Module -->
+    <string name="extinguisher_module_title">Extinguisher Operation (PASS Method)</string>
+    <string name="extinguisher_module_summary">Master step-by-step fire extinguisher operation: Pull safety pin, Aim at base, Squeeze lever, and Sweep side-to-side.</string>
+    <string name="extinguisher_briefing_title">Fire Extinguisher PASS Training</string>
+    <string name="extinguisher_briefing_1">When operating a fire extinguisher, always remember the PASS rule: Pull the safety pin, Aim low at the base of the fire, Squeeze the operating lever, and Sweep side-to-side.</string>
+    <string name="extinguisher_briefing_2">First verify that the pressure gauge needle is in the GREEN zone, indicating the cylinder is fully pressurized and ready for use.</string>
+    <string name="extinguisher_briefing_3">In this module, you will place the realistic fire extinguisher in AR and perform each step interactively.</string>
+
+    <string name="extinguisher_place_prompt">Tap a clear patch of floor to place your 3D fire extinguisher.</string>
+    <string name="extinguisher_step_inspect">Step 1: Inspect the pressure gauge. Is the gauge needle in the GREEN zone?</string>
+    <string name="extinguisher_step_pull">Step 2 (P - Pull): Pull out the yellow safety pin to break the tamper seal.</string>
+    <string name="extinguisher_step_aim">Step 3 (A - Aim): Aim the nozzle low, directly at the base of the fire (the fuel source).</string>
+    <string name="extinguisher_step_squeeze">Step 4 (S - Squeeze): Squeeze the operating handle firmly to release extinguishing agent.</string>
+    <string name="extinguisher_step_sweep">Step 5 (S - Sweep): Sweep the nozzle side to side across the base of the fire.</string>
+
+    <string name="extinguisher_inspect_question">Pressure Gauge Check</string>
+    <string name="extinguisher_action_inspect_green">Gauge needle is in GREEN zone (Ready)</string>
+    <string name="extinguisher_action_inspect_red">Gauge needle is in RED zone (Low Pressure)</string>
+
+    <string name="extinguisher_pull_prompt">Pull Safety Pin</string>
+    <string name="extinguisher_action_pull_pin">Pull Safety Pin &amp; Seal</string>
+
+    <string name="extinguisher_aim_prompt">Aiming Nozzle</string>
+    <string name="extinguisher_action_aim_base">Aim low at base of fire (Fuel)</string>
+    <string name="extinguisher_action_aim_flames">Aim at top of flames</string>
+
+    <string name="extinguisher_squeeze_prompt">Squeeze Discharge Handle</string>
+    <string name="extinguisher_action_squeeze">Squeeze Handle Firmly</string>
+
+    <string name="extinguisher_sweep_prompt">Sweep side to side (%1$d of %2$d passes completed)</string>
+    <string name="extinguisher_action_sweep_pass">Sweep Nozzle Side-to-Side</string>
+
+    <string name="extinguisher_step_progress">Step: %1$s</string>
+    <string name="extinguisher_step_name_briefing">Briefing</string>
+    <string name="extinguisher_step_name_place">Place Model</string>
+    <string name="extinguisher_step_name_inspect">Inspect Gauge</string>
+    <string name="extinguisher_step_name_pull">Pull Pin (P)</string>
+    <string name="extinguisher_step_name_aim">Aim Base (A)</string>
+    <string name="extinguisher_step_name_squeeze">Squeeze (S)</string>
+    <string name="extinguisher_step_name_sweep">Sweep (S)</string>
+    <string name="extinguisher_step_name_complete">Complete</string>
+
+    <string name="extinguisher_feedback_inspect_title">Inspect Pressure Gauge</string>
+    <string name="extinguisher_feedback_inspect_body">Before using any extinguisher, check that the pressure gauge needle is in the green zone so you know it is fully charged.</string>
+    <string name="extinguisher_feedback_gauge_correct_title">Gauge Verified</string>
+    <string name="extinguisher_feedback_gauge_correct_body">Good check! The needle is in the green zone, indicating optimal pressure.</string>
+    <string name="extinguisher_feedback_gauge_wrong_title">Pressure Check Failed</string>
+    <string name="extinguisher_feedback_gauge_wrong_body">A red-zone gauge indicates low pressure or discharge. Always inspect the gauge before relying on an extinguisher.</string>
+
+    <string name="extinguisher_feedback_pin_correct_title">Pin Removed!</string>
+    <string name="extinguisher_feedback_pin_correct_body">Safety pin pulled and tamper seal broken. The handle is now unlocked and ready to discharge.</string>
+
+    <string name="extinguisher_feedback_aim_correct_title">Correct Aim!</string>
+    <string name="extinguisher_feedback_aim_correct_body">Aiming at the base of the fire targets the burning fuel directly to stop combustion.</string>
+    <string name="extinguisher_feedback_aim_wrong_title">Incorrect Aim</string>
+    <string name="extinguisher_feedback_aim_wrong_body">Aiming at the top of flames wastes extinguishing agent. Always aim low at the fuel source at the base of the fire.</string>
+
+    <string name="extinguisher_feedback_squeeze_correct_title">Discharging Agent!</string>
+    <string name="extinguisher_feedback_squeeze_correct_body">Firm pressure on the handle opens the internal valve and releases the extinguishing agent.</string>
+
+    <string name="extinguisher_feedback_complete_title">Fire Extinguished!</string>
+    <string name="extinguisher_feedback_complete_body">Great job! You successfully mastered the PASS method: Pull, Aim, Squeeze, and Sweep!</string>
+
+    <string name="extinguisher_results_passed_advice">You demonstrated full mastery of the PASS method (Pull, Aim, Squeeze, Sweep). Remember to inspect equipment regularly before entering high-risk areas.</string>
+    <string name="extinguisher_results_failed_advice">Review the PASS steps and try again. Always pull the pin first, aim at the base of the fire, squeeze the handle, and sweep across the flames.</string>
+
     <!-- Fallback tracking modes -->
     <string name="tracking_full_ar">Full AR</string>
     <string name="tracking_marker">Marker AR — point at the printed marker</string>

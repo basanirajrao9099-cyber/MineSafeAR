@@ -31,6 +31,7 @@ import com.minesafear.R
 @Composable
 fun TrainingModulesScreen(
     onStartFireModule: () -> Unit,
+    onStartExtinguisherModule: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -50,6 +51,14 @@ fun TrainingModulesScreen(
             titleRes = R.string.fire_module_title,
             summaryRes = R.string.fire_module_card_summary,
             onStart = onStartFireModule,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        ModuleCard(
+            titleRes = R.string.extinguisher_module_title,
+            summaryRes = R.string.extinguisher_module_summary,
+            onStart = onStartExtinguisherModule,
         )
 
         Spacer(modifier = Modifier.height(24.dp))

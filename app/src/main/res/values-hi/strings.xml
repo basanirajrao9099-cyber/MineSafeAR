@@ -215,4 +215,12 @@
     <string name="verify_cancelled">स्कैन रद्द किया गया।</string>
     <string name="verify_scanned_details">स्कैन किया गया विवरण</string>
     <string name="verify_no_local_record">इस डिवाइस पर जारी नहीं हुआ</string>
+
+    <!-- Extinguisher PASS Training Hindi -->
+    <string name="extinguisher_module_title">अग्निशामक संचालन (PASS विधि)</string>
+    <string name="extinguisher_module_summary">अग्निशामक यंत्र का सही संचालन सीखें: पिन खींचें, आधार पर निशाना साधें, हैंडल दबाएं और झाड़ू की तरह घुमाएं।</string>
+    <string name="extinguisher_briefing_title">अग्निशामक PASS प्रशिक्षण</string>
+    <string name="extinguisher_briefing_1">आग बुझाते समय हमेशा PASS नियम याद रखें: पिन खींचें, आग के आधार पर निशाना साधें, हैंडल दबाएं और दोनों तरफ घुमाएं।</string>
+    <string name="extinguisher_briefing_2">संचालन से पहले जांचें कि दबाव गेज की सुई हरे क्षेत्र (GREEN zone) में हो।</string>
+    <string name="extinguisher_briefing_3">इस मॉड्यूल में आप एआर में अग्निशामक यंत्र रखकर हर चरण का अभ्यास करेंगे।</string>
 </resources>

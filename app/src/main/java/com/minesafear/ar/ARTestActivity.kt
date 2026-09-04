@@ -84,6 +84,7 @@ private data class ArModelOption(
 
 private val modelOptions = listOf(
     ArModelOption("Cube", ArModels.PLACEHOLDER_CUBE, ArModels.DEFAULT_SCALE_METRES),
+    ArModelOption("Realistic Extinguisher", ArModels.EXTINGUISHER_REALISTIC, ArModels.EXTINGUISHER_SCALE_METRES),
     ArModelOption("CO₂ Extinguisher", ArModels.EXTINGUISHER_CO2, ArModels.EXTINGUISHER_SCALE_METRES),
     ArModelOption("Foam Extinguisher", ArModels.EXTINGUISHER_FOAM, ArModels.EXTINGUISHER_SCALE_METRES),
     ArModelOption("Water Extinguisher", ArModels.EXTINGUISHER_WATER, ArModels.EXTINGUISHER_SCALE_METRES),
