@@ -22,6 +22,7 @@ fun NavGraphBuilder.addManagementGraph(
     composable(MineSafeArDestination.HOME.route) {
         HomeScreen(
             onOpenPassport = { navController.navigate("passport") },
+            onOpenAnalytics = { navController.navigate("analytics") },
             modifier = insetModifier,
         )
     }
@@ -38,7 +39,10 @@ fun NavGraphBuilder.addManagementGraph(
         )
     }
     composable(MineSafeArDestination.SETTINGS.route) {
-        SettingsScreen(modifier = insetModifier)
+        SettingsScreen(
+            onOpenDirectives = { navController.navigate("directives") },
+            modifier = insetModifier,
+        )
     }
 
     // --- Certificates -------------------------------------------------
@@ -62,6 +66,20 @@ fun NavGraphBuilder.addManagementGraph(
 
     composable("passport") {
         com.minesafear.ui.home.WorkerPassportScreen(
+            onBack = { navController.popBackStack() },
+            modifier = insetModifier,
+        )
+    }
+
+    composable("analytics") {
+        com.minesafear.ui.home.SafetyAnalyticsScreen(
+            onBack = { navController.popBackStack() },
+            modifier = insetModifier,
+        )
+    }
+
+    composable("directives") {
+        com.minesafear.ui.settings.SafetyDirectivesScreen(
             onBack = { navController.popBackStack() },
             modifier = insetModifier,
         )

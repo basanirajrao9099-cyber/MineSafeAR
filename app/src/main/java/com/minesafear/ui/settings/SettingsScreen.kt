@@ -53,7 +53,10 @@ import com.minesafear.localization.AppLocaleManager
  * confirm the choice took.
  */
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
+fun SettingsScreen(
+    onOpenDirectives: () -> Unit = {},
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     // Read once per composition of the screen: after a language change this whole
     // activity is recreated, so there is nothing to observe.
@@ -140,6 +143,14 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(top = 4.dp),
         )
+
+        Text(
+            text = stringResource(R.string.sync_analyzer_status_ok),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(top = 2.dp),
+        )
+
         Spacer(modifier = Modifier.height(12.dp))
         androidx.compose.material3.OutlinedButton(
             onClick = { com.minesafear.sync.SyncScheduler.requestSyncNow(context) },
@@ -161,6 +172,18 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
 
         // Offline Database Backup
         DatabaseBackupSection(context = context, repository = repository)
+
+        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Mine Safety Directives Button
+        androidx.compose.material3.Button(
+            onClick = onOpenDirectives,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(R.string.directives_open_button))
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()

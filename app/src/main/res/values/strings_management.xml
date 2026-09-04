@@ -104,6 +104,34 @@
     <string name="settings_admin_clear_cache">Clear Synced Local Cache</string>
     <string name="settings_admin_clear_success">Synced local cache cleared successfully.</string>
 
+    <!-- Site Safety Analytics -->
+    <string name="analytics_title">Site Safety Analytics</string>
+    <string name="analytics_subtitle">Underground Competency &amp; Hazard Weakness Analysis</string>
+    <string name="analytics_pass_rate">Certification Pass Rate</string>
+    <string name="analytics_avg_score">Average Assessment Score</string>
+    <string name="analytics_total_miners">Total Enrolled Miners</string>
+    <string name="analytics_top_hazards">Top Missed Safety Hazards</string>
+    <string name="analytics_no_hazards">No hazard weaknesses detected yet.</string>
+    <string name="analytics_open_button">View Site Safety Analytics</string>
+
+    <!-- Safety Directives & Regulations -->
+    <string name="directives_title">Mine Safety Directives</string>
+    <string name="directives_subtitle">Official DGMS Statutory &amp; Emergency Directives</string>
+    <string name="directives_mark_read">Acknowledge Directive</string>
+    <string name="directives_acknowledged">Acknowledged</string>
+    <string name="directives_open_button">View Safety Directives</string>
+
+    <!-- Safety Compliance PDF Report -->
+    <string name="compliance_pdf_title">Safety Compliance Report</string>
+    <string name="compliance_pdf_button">Export Compliance PDF Report</string>
+    <string name="compliance_pdf_saved">Compliance report exported to Downloads/MineSafeAR_Compliance_Report.pdf</string>
+    <string name="compliance_pdf_failed">Failed to export PDF compliance report.</string>
+
+    <!-- Sync Diagnostics Analyzer -->
+    <string name="sync_analyzer_heading">Sync Diagnostics &amp; Network Queue Analyzer</string>
+    <string name="sync_analyzer_desc">Inspect WorkManager offline queue status and transport retry policy diagnostics.</string>
+    <string name="sync_analyzer_status_ok">Transport Queue: Healthy &amp; Ready</string>
+
     <!-- Settings & Language -->
     <string name="settings_language_heading">Language</string>
     <string name="settings_language_description">Instructions, safety warnings and certificate labels all follow this choice.</string>

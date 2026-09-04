@@ -18,7 +18,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -130,6 +132,60 @@ fun WorkerPassportScreen(
                         text = "Mine Site: ${w.siteId}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                var pdfExportSuccess by remember { mutableStateOf<Boolean?>(null) }
+                androidx.compose.material3.OutlinedButton(
+                    onClick = {
+                        try {
+                            val pdfDocument = android.graphics.pdf.PdfDocument()
+                            val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 842, 1).create()
+                            val page = pdfDocument.startPage(pageInfo)
+                            val canvas = page.canvas
+                            val paint = android.graphics.Paint()
+                            paint.color = android.graphics.Color.BLACK
+                            paint.textSize = 16f
+
+                            canvas.drawText("MineSafeAR Official Safety Compliance Report", 40f, 50f, paint)
+                            canvas.drawText("Worker: ${worker?.fullName ?: "Local Worker"}", 40f, 90f, paint)
+                            canvas.drawText("Badge Code: ${worker?.employeeCode ?: "EMP-LOCAL"}", 40f, 120f, paint)
+                            canvas.drawText("Certification Status: ${if (isCertified) "CERTIFIED" else "TRAINING IN PROGRESS"}", 40f, 150f, paint)
+                            canvas.drawText("Practical Drills Completed: ${moduleResults.size}", 40f, 180f, paint)
+                            canvas.drawText("Written Assessments Taken: ${assessmentResults.size}", 40f, 210f, paint)
+
+                            pdfDocument.finishPage(page)
+
+                            val file = java.io.File(
+                                context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS),
+                                "MineSafeAR_Compliance_Report.pdf",
+                            )
+                            val outputStream = java.io.FileOutputStream(file)
+                            pdfDocument.writeTo(outputStream)
+                            pdfDocument.close()
+                            outputStream.close()
+
+                            pdfExportSuccess = true
+                        } catch (_: Exception) {
+                            pdfExportSuccess = false
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(text = stringResource(R.string.compliance_pdf_button))
+                }
+
+                pdfExportSuccess?.let { success ->
+                    Text(
+                        text = stringResource(
+                            if (success) R.string.compliance_pdf_saved
+                            else R.string.compliance_pdf_failed,
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold,
                     )
                 }
             }

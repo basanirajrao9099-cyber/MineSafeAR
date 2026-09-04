@@ -57,6 +57,7 @@ import java.util.UUID
 @Composable
 fun HomeScreen(
     onOpenPassport: () -> Unit = {},
+    onOpenAnalytics: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -131,6 +132,13 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(text = "Sync Now")
+                }
+
+                Button(
+                    onClick = onOpenAnalytics,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(text = stringResource(R.string.analytics_open_button))
                 }
             }
         }
