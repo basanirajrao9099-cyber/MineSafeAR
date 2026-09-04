@@ -199,6 +199,24 @@ private fun CertificateQrContent(
                         ?.also { savedUri = it }
                     snackbarHostState.showSnackbar(
                         context.getString(
+                            if (uri != null) R.string.certificate_card_saved
+                            else R.string.certificate_card_failed,
+                        ),
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.certificate_card_export_button))
+        }
+
+        Button(
+            onClick = {
+                scope.launch {
+                    val uri = savedUri ?: saveCertificateImage(context, certificate)
+                        ?.also { savedUri = it }
+                    snackbarHostState.showSnackbar(
+                        context.getString(
                             if (uri != null) R.string.certificate_qr_saved
                             else R.string.certificate_qr_save_failed,
                         ),

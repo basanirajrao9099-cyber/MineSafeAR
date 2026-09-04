@@ -259,6 +259,66 @@ private fun ScannedDetails(
                 label = stringResource(R.string.certificate_id_label),
                 value = payload.certId,
             )
+
+            val context = LocalContext.current
+            var clearanceMsg by remember { mutableStateOf<String?>(null) }
+
+            Button(
+                onClick = {
+                    try {
+                        val pdfDocument = android.graphics.pdf.PdfDocument()
+                        val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 420, 1).create()
+                        val page = pdfDocument.startPage(pageInfo)
+                        val canvas = page.canvas
+                        val paint = android.graphics.Paint()
+
+                        paint.color = android.graphics.Color.BLACK
+                        paint.textSize = 16f
+                        paint.isFakeBoldText = true
+
+                        canvas.drawText("MINESAFEAR SAFETY INSPECTION CLEARANCE SLIP", 30f, 40f, paint)
+
+                        paint.textSize = 12f
+                        paint.isFakeBoldText = false
+                        val dateStr = java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", java.util.Locale.US).format(java.util.Date())
+                        canvas.drawText("Inspection Date: $dateStr", 30f, 65f, paint)
+
+                        canvas.drawLine(30f, 75f, 565f, 75f, paint)
+
+                        canvas.drawText("Holder: ${localRecord?.userName ?: "Verified Miner"}", 30f, 100f, paint)
+                        canvas.drawText("Certificate ID: ${payload.certId}", 30f, 125f, paint)
+                        canvas.drawText("Competency Score: ${payload.score}%", 30f, 150f, paint)
+                        canvas.drawText("Verification Verdict: VALIDATED & CLEARED", 30f, 175f, paint)
+
+                        pdfDocument.finishPage(page)
+
+                        val file = java.io.File(
+                            context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS),
+                            "MineSafeAR_Inspection_Clearance.pdf",
+                        )
+                        val outputStream = java.io.FileOutputStream(file)
+                        pdfDocument.writeTo(outputStream)
+                        pdfDocument.close()
+                        outputStream.close()
+
+                        clearanceMsg = "Clearance slip exported to Downloads/MineSafeAR_Inspection_Clearance.pdf"
+                    } catch (_: Exception) {
+                        clearanceMsg = "Failed to export clearance slip."
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+            ) {
+                Text(text = stringResource(R.string.clearance_slip_button))
+            }
+
+            clearanceMsg?.let { msg ->
+                Text(
+                    text = msg,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
         }
     }
 }

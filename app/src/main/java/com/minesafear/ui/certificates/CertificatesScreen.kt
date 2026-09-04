@@ -20,7 +20,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -79,6 +81,24 @@ fun CertificatesScreen(
         latestCert?.let { ((it.expiryDate - now) / (1000 * 60 * 60 * 24)).toInt() }
     }
 
+    var searchQuery by remember { mutableStateOf("") }
+    var selectedFilter by remember { mutableStateOf("All") }
+
+    val filteredCertificates = remember(certificates, searchQuery, selectedFilter, now) {
+        certificates.filter { cert ->
+            val matchesQuery = searchQuery.isBlank() ||
+                cert.userName.contains(searchQuery, ignoreCase = true) ||
+                cert.certId.contains(searchQuery, ignoreCase = true)
+            val isExpired = cert.isExpiredAt(now)
+            val matchesFilter = when (selectedFilter) {
+                "Valid" -> !isExpired
+                "Expired" -> isExpired
+                else -> true
+            }
+            matchesQuery && matchesFilter
+        }
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -110,13 +130,7 @@ fun CertificatesScreen(
                             snapshot = snapshot,
                             nowMillis = System.currentTimeMillis(),
                         )
-                        // Null means ineligible or a failed write; the list simply
-                        // does not gain a row, and no id is handed to navigation
-                        // that has nothing behind it.
                         if (certificate != null) {
-                            // Queued from here rather than from CertificateIssuer,
-                            // which takes no Context. Waits on its network
-                            // constraint, so it is safe to call underground.
                             SyncScheduler.requestSyncNow(context)
                             onOpenCertificate(certificate.certId)
                         }
@@ -126,7 +140,44 @@ fun CertificatesScreen(
             )
         }
 
-        if (certificates.isEmpty()) {
+        if (certificates.isNotEmpty()) {
+            item {
+                androidx.compose.material3.OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text(stringResource(R.string.certificates_search_hint)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+
+            item {
+                androidx.compose.foundation.lazy.LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    val options = listOf("All", "Valid", "Expired")
+                    items(options.size) { index ->
+                        val option = options[index]
+                        val isSel = option == selectedFilter
+                        androidx.compose.material3.FilterChip(
+                            selected = isSel,
+                            onClick = { selectedFilter = option },
+                            label = {
+                                Text(
+                                    when (option) {
+                                        "Valid" -> stringResource(R.string.certificates_filter_valid)
+                                        "Expired" -> stringResource(R.string.certificates_filter_expired)
+                                        else -> stringResource(R.string.certificates_filter_all)
+                                    },
+                                )
+                            },
+                        )
+                    }
+                }
+            }
+        }
+
+        if (filteredCertificates.isEmpty()) {
             item {
                 Text(
                     text = stringResource(R.string.certificates_empty),
@@ -136,7 +187,7 @@ fun CertificatesScreen(
                 )
             }
         } else {
-            items(items = certificates, key = { it.certId }) { certificate ->
+            items(items = filteredCertificates, key = { it.certId }) { certificate ->
                 CertificateCard(
                     certificate = certificate,
                     nowMillis = now,

@@ -123,12 +123,54 @@ fun HomeScreen(
             CertExpiryHomeBanner(daysRemaining = daysUntilExpiry)
         }
 
+        var showUrgentModal by remember(daysUntilExpiry) {
+            mutableStateOf((daysUntilExpiry != null) && (daysUntilExpiry in 0..7))
+        }
+
+        if (showUrgentModal && (daysUntilExpiry != null)) {
+            AlertDialog(
+                onDismissRequest = { showUrgentModal = false },
+                title = {
+                    Text(
+                        text = stringResource(R.string.urgent_renewal_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                },
+                text = {
+                    Text(
+                        text = stringResource(R.string.urgent_renewal_msg, daysUntilExpiry),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            showUrgentModal = false
+                            onOpenPassport()
+                        },
+                    ) {
+                        Text(text = stringResource(R.string.urgent_renewal_action))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showUrgentModal = false }) {
+                        Text(text = stringResource(R.string.urgent_renewal_dismiss))
+                    }
+                },
+            )
+        }
+
         // Safety Competency Card
         CompetencyCard(
             repository = repository,
             workerId = activeWorkerId,
             onOpenPassport = onOpenPassport,
         )
+
+        // Shift Retraining Calendar Card
+        ShiftRetrainingCalendarCard()
 
         // Sync Status & Trigger
         Card(
@@ -248,6 +290,13 @@ private fun ActiveWorkerCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+
+                Text(
+                    text = stringResource(R.string.worker_language_label, w.preferredLanguage.uppercase()),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                )
             }
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -554,6 +603,39 @@ private fun CertExpiryHomeBanner(daysRemaining: Int) {
                 } else {
                     MaterialTheme.colorScheme.onTertiaryContainer
                 },
+            )
+        }
+    }
+}
+
+@Composable
+private fun ShiftRetrainingCalendarCard() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+        ),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.calendar_heading),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+            )
+            Text(
+                text = stringResource(R.string.calendar_next_session),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+            )
+            Text(
+                text = stringResource(R.string.calendar_date_due),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

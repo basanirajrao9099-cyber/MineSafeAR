@@ -220,6 +220,7 @@ fun AssessmentScreen(modifier: Modifier = Modifier) {
                     ResultView(
                         score = score,
                         missedTags = missedTags,
+                        selectedAnswers = selectedAnswers,
                         onRetake = ::startAssessment,
                     )
                 }
@@ -377,72 +378,141 @@ private fun QuestionView(
 private fun ResultView(
     score: AssessmentScore,
     missedTags: List<String>,
+    selectedAnswers: Map<String, String>,
     onRetake: () -> Unit,
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            // Status Chip
-            Surface(
-                color = if (score.passed) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
-                shape = MaterialTheme.shapes.medium,
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = stringResource(if (score.passed) R.string.assessment_passed else R.string.assessment_failed),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = if (score.passed) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                )
-            }
-
-            Text(
-                text = stringResource(
-                    R.string.assessment_score_summary,
-                    score.scorePercent,
-                    score.correctAnswers,
-                    score.totalQuestions,
-                ),
-                style = MaterialTheme.typography.titleMedium,
-            )
-
-            Text(
-                text = stringResource(if (score.passed) R.string.assessment_passed_desc else R.string.assessment_failed_desc),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            if (missedTags.isNotEmpty()) {
-                HorizontalDivider()
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                // Status Chip
+                Surface(
+                    color = if (score.passed) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer,
+                    shape = MaterialTheme.shapes.medium,
                 ) {
                     Text(
-                        text = stringResource(R.string.assessment_missed_hazards),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.error,
+                        text = stringResource(if (score.passed) R.string.assessment_passed else R.string.assessment_failed),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = if (score.passed) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onErrorContainer,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     )
-                    missedTags.forEach { tag ->
+                }
+
+                Text(
+                    text = stringResource(
+                        R.string.assessment_score_summary,
+                        score.scorePercent,
+                        score.correctAnswers,
+                        score.totalQuestions,
+                    ),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+
+                Text(
+                    text = stringResource(if (score.passed) R.string.assessment_passed_desc else R.string.assessment_failed_desc),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+
+                if (missedTags.isNotEmpty()) {
+                    HorizontalDivider()
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
                         Text(
-                            text = "• $tag",
+                            text = stringResource(R.string.assessment_missed_hazards),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                        missedTags.forEach { tag ->
+                            Text(
+                                text = "• $tag",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = onRetake,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(stringResource(R.string.assessment_retry_button))
+                }
+            }
+        }
+
+        // Detailed Question & Answer Breakdown Section
+        Text(
+            text = stringResource(R.string.assessment_review_title),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+        )
+
+        sampleQuestions.forEachIndexed { index, q ->
+            val userSelId = selectedAnswers[q.id]
+            val userOption = q.options.firstOrNull { it.id == userSelId }?.text ?: "No Answer"
+            val correctOption = q.options.firstOrNull { it.id == q.correctOptionId }?.text ?: ""
+            val isCorrect = userSelId == q.correctOptionId
+
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = "Q${index + 1}: ${q.hazardTag ?: ""}",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Text(
+                            text = if (isCorrect) "CORRECT" else "INCORRECT",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isCorrect) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                        )
+                    }
+
+                    Text(
+                        text = q.prompt,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+
+                    Text(
+                        text = stringResource(R.string.assessment_review_your_answer, userOption),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = if (isCorrect) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                    )
+
+                    if (!isCorrect) {
+                        Text(
+                            text = stringResource(R.string.assessment_review_correct_answer, correctOption),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = onRetake,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(stringResource(R.string.assessment_retry_button))
             }
         }
     }

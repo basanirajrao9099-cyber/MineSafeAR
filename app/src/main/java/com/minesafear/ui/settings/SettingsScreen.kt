@@ -117,6 +117,9 @@ fun SettingsScreen(
             Note(text = stringResource(R.string.settings_language_system_note))
         }
 
+        Spacer(modifier = Modifier.height(8.dp))
+        OlChikiFontDiagnosticSection()
+
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(16.dp))
@@ -158,6 +161,11 @@ fun SettingsScreen(
         ) {
             Text(text = stringResource(R.string.settings_sync_button))
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Sync Queue Inspector
+        SyncQueueInspectorCard(repository = repository)
 
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider()
@@ -393,6 +401,46 @@ private fun DatabaseBackupSection(
             Text(text = stringResource(R.string.settings_backup_button))
         }
 
+        androidx.compose.material3.OutlinedButton(
+            onClick = {
+                scope.launch {
+                    try {
+                        val downloadDir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS)
+                        val csvFile = java.io.File(downloadDir, "miners_import.csv")
+                        if (!csvFile.exists()) {
+                            csvFile.writeText("Full Name,Employee Code,Job Role,Site ID\nRajesh Kumar,EMP-1001,Drill Operator,SITE-1\nAmit Sharma,EMP-1002,Safety Inspector,SITE-2\nSuresh Hansda,EMP-1003,Blaster,SITE-1")
+                        }
+                        val lines = csvFile.readLines().drop(1).filter { it.isNotBlank() }
+                        var importedCount = 0
+                        val now = System.currentTimeMillis()
+                        lines.forEach { line ->
+                            val parts = line.split(",")
+                            if (parts.size >= 4) {
+                                val entity = com.minesafear.data.entity.WorkerEntity(
+                                    id = java.util.UUID.randomUUID().toString(),
+                                    fullName = parts[0].trim(),
+                                    employeeCode = parts[1].trim(),
+                                    jobRole = parts[2].trim(),
+                                    siteId = parts[3].trim(),
+                                    preferredLanguage = "en",
+                                    createdAt = now,
+                                    updatedAt = now,
+                                )
+                                repository.upsertWorker(entity)
+                                importedCount++
+                            }
+                        }
+                        backupStatusMsg = context.getString(R.string.csv_import_success, importedCount)
+                    } catch (_: Exception) {
+                        backupStatusMsg = context.getString(R.string.csv_import_failed)
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(R.string.csv_import_button))
+        }
+
         backupStatusMsg?.let { msg ->
             Text(
                 text = msg,
@@ -457,6 +505,85 @@ private fun SupervisorAdminSection() {
                 text = msg,
                 style = MaterialTheme.typography.bodySmall,
                 color = if (isUnlocked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}
+
+@Composable
+private fun SyncQueueInspectorCard(
+    repository: com.minesafear.data.repository.TrainingRepository,
+) {
+    var drillCount by remember { mutableStateOf(0) }
+    var assessmentCount by remember { mutableStateOf(0) }
+    var certCount by remember { mutableStateOf(0) }
+
+    androidx.compose.runtime.LaunchedEffect(repository) {
+        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            drillCount = repository.pendingModuleResults().size
+            assessmentCount = repository.pendingAssessmentResults().size
+            certCount = repository.pendingCertificates().size
+        }
+    }
+
+    androidx.compose.material3.Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.sync_inspector_title),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = stringResource(R.string.sync_inspector_results, drillCount),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Text(
+                text = stringResource(R.string.sync_inspector_assessments, assessmentCount),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Text(
+                text = stringResource(R.string.sync_inspector_certificates, certCount),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    }
+}
+
+@Composable
+private fun OlChikiFontDiagnosticSection() {
+    var diagResult by remember { mutableStateOf<String?>(null) }
+
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(
+            text = stringResource(R.string.olchiki_diag_heading),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+        )
+
+        androidx.compose.material3.OutlinedButton(
+            onClick = {
+                val paint = android.graphics.Paint()
+                val hasGlyphSupport = paint.hasGlyph("ᱚ")
+                diagResult = if (hasGlyphSupport) {
+                    "Native Ol Chiki font detected & fully supported on this device."
+                } else {
+                    "Ol Chiki font missing on this device. Santali (Devanagari) recommended."
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(R.string.olchiki_diag_button))
+        }
+
+        diagResult?.let { msg ->
+            Text(
+                text = msg,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (msg.contains("detected")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                 fontWeight = FontWeight.SemiBold,
             )
         }
