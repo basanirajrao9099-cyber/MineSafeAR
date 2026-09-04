@@ -11,17 +11,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.rememberCoroutineScope
 import com.minesafear.R
 import com.minesafear.certificate.CertificateIssuer
 import com.minesafear.data.DatabaseProvider
@@ -42,14 +45,6 @@ import kotlinx.coroutines.launch
 /**
  * Every certificate held on this device, newest first, with valid/expired legible
  * without opening anything.
- *
- * ## Why the issue button lives here
- *
- * "Generate certificate" belongs on an Assessment Summary screen, next to the
- * per-module breakdown that justifies it. That screen needs `AssessmentEngine`,
- * which does not exist yet, so the button sits here for now and calls the same
- * [CertificateIssuer] entry point it will call from there — moving it later is a
- * matter of deleting this card, not rewriting the issue path.
  */
 @Composable
 fun CertificatesScreen(
@@ -73,8 +68,6 @@ fun CertificatesScreen(
     val holderName = worker?.fullName?.takeIf { it.isNotBlank() }
         ?: stringResource(R.string.certificate_unknown_holder)
 
-    // Sampled once per data change rather than per frame: expiry is a date, so a
-    // ticking clock would buy nothing and cost a recomposition a second.
     val now = remember(certificates) { System.currentTimeMillis() }
     val latestCert = remember(certificates) { certificates.maxByOrNull { it.issuedDate } }
     val daysRemaining = remember(latestCert, now) {
@@ -112,6 +105,42 @@ fun CertificatesScreen(
             )
         }
 
+        // Always-visible Search Bar & Filter Chips at top
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text(stringResource(R.string.certificates_search_hint)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    val options = listOf("All", "Valid", "Expired")
+                    items(options.size) { index ->
+                        val option = options[index]
+                        val isSel = option == selectedFilter
+                        FilterChip(
+                            selected = isSel,
+                            onClick = { selectedFilter = option },
+                            label = {
+                                Text(
+                                    when (option) {
+                                        "Valid" -> stringResource(R.string.certificates_filter_valid)
+                                        "Expired" -> stringResource(R.string.certificates_filter_expired)
+                                        else -> stringResource(R.string.certificates_filter_all)
+                                    },
+                                )
+                            },
+                        )
+                    }
+                }
+            }
+        }
+
         if ((latestCert != null) && (daysRemaining != null) && (daysRemaining <= 30)) {
             item {
                 ExpiryAlertBanner(daysRemaining = daysRemaining)
@@ -140,47 +169,14 @@ fun CertificatesScreen(
             )
         }
 
-        if (certificates.isNotEmpty()) {
-            item {
-                androidx.compose.material3.OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    placeholder = { Text(stringResource(R.string.certificates_search_hint)) },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-
-            item {
-                androidx.compose.foundation.lazy.LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    val options = listOf("All", "Valid", "Expired")
-                    items(options.size) { index ->
-                        val option = options[index]
-                        val isSel = option == selectedFilter
-                        androidx.compose.material3.FilterChip(
-                            selected = isSel,
-                            onClick = { selectedFilter = option },
-                            label = {
-                                Text(
-                                    when (option) {
-                                        "Valid" -> stringResource(R.string.certificates_filter_valid)
-                                        "Expired" -> stringResource(R.string.certificates_filter_expired)
-                                        else -> stringResource(R.string.certificates_filter_all)
-                                    },
-                                )
-                            },
-                        )
-                    }
-                }
-            }
-        }
-
         if (filteredCertificates.isEmpty()) {
             item {
                 Text(
-                    text = stringResource(R.string.certificates_empty),
+                    text = if (searchQuery.isNotBlank() || selectedFilter != "All") {
+                        "No certificates match '$searchQuery' ($selectedFilter)."
+                    } else {
+                        stringResource(R.string.certificates_empty)
+                    },
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 8.dp),

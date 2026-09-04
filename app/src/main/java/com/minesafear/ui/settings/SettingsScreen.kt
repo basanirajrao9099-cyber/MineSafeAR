@@ -557,35 +557,59 @@ private fun SyncQueueInspectorCard(
 private fun OlChikiFontDiagnosticSection() {
     var diagResult by remember { mutableStateOf<String?>(null) }
 
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(
-            text = stringResource(R.string.olchiki_diag_heading),
-            style = MaterialTheme.typography.titleSmall,
-            fontWeight = FontWeight.Bold,
-        )
-
-        androidx.compose.material3.OutlinedButton(
-            onClick = {
-                val paint = android.graphics.Paint()
-                val hasGlyphSupport = paint.hasGlyph("ᱚ")
-                diagResult = if (hasGlyphSupport) {
-                    "Native Ol Chiki font detected & fully supported on this device."
-                } else {
-                    "Ol Chiki font missing on this device. Santali (Devanagari) recommended."
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
+    androidx.compose.material3.Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Text(text = stringResource(R.string.olchiki_diag_button))
-        }
-
-        diagResult?.let { msg ->
             Text(
-                text = msg,
-                style = MaterialTheme.typography.bodySmall,
-                color = if (msg.contains("detected")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
-                fontWeight = FontWeight.SemiBold,
+                text = stringResource(R.string.olchiki_diag_heading),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
             )
+
+            Text(
+                text = "Sample Ol Chiki Text:",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            androidx.compose.material3.Surface(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = MaterialTheme.shapes.small,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = "ᱚ ᱛ ᱜ ᱝ ᱞ ᱟ ᱠ ᱡ ᱢ ᱣ ᱤ ᱥ",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(12.dp),
+                )
+            }
+
+            androidx.compose.material3.OutlinedButton(
+                onClick = {
+                    val paint = android.graphics.Paint()
+                    val hasGlyphSupport = paint.hasGlyph("ᱚ")
+                    diagResult = if (hasGlyphSupport) {
+                        "✅ Native Ol Chiki font detected & fully supported on this device."
+                    } else {
+                        "❌ Ol Chiki font missing/unsupported on this device. Recommendation: Switch to Santali (Devanagari)."
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(text = stringResource(R.string.olchiki_diag_button))
+            }
+
+            diagResult?.let { msg ->
+                Text(
+                    text = msg,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (msg.startsWith("✅")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         }
     }
 }
